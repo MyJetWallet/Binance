@@ -3,14 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageId>Binance</PackageId>
-    <Authors>sonvister</Authors>
-    <Company></Company>
     <Product>MyJetWallet.Binance</Product>
     <Description>A full-featured .NET API library (a.k.a. wrapper) for the official Binance web API.</Description>
     <RepositoryUrl>https://github.com/MyJetWallet/MyJetWallet.Binance</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageIconUrl>https://github.com/MyJetWallet/Binance/blob/master/images/logo.png?raw=true</PackageIconUrl>
+    <PackageIconUrl>https://github.com/MyJetWallet/MyJetWallet.Binance/blob/master/images/logo.png?raw=true</PackageIconUrl>
     <PackageProjectUrl>https://github.com/MyJetWallet/MyJetWallet.Binance</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
