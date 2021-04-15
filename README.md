@@ -37,10 +37,10 @@ To use the private (*authenticated*) API methods you must have an account with B
 ### Installation
 Using [Nuget](https://www.nuget.org/packages/Binance/) Package Manager:
 ```
-PM> Install-Package Binance
+PM> Install-Package MyJetWallet.Binance
 ```
-[![](https://img.shields.io/nuget/v/Binance.svg)](https://www.nuget.org/packages/Binance)\
-[![](https://img.shields.io/nuget/dt/Binance.svg)](https://www.nuget.org/packages/Binance)
+[![](https://img.shields.io/nuget/v/Binance.svg)](https://www.nuget.org/packages/MyJetWallet.Binance)\
+[![](https://img.shields.io/nuget/dt/Binance.svg)](https://www.nuget.org/packages/MyJetWallet.Binance)
 
 ### Example Usage
 #### REST API
