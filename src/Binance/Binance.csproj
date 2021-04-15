@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>MyJetWallet.Binance</PackageId>
     <Product>MyJetWallet.Binance</Product>
     <Description>A full-featured .NET API library (a.k.a. wrapper) for the official Binance web API.</Description>
     <RepositoryUrl>https://github.com/MyJetWallet/MyJetWallet.Binance</RepositoryUrl>
