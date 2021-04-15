@@ -482,6 +482,68 @@ namespace Binance
 
         #endregion Market Data
 
+        #region Margin
+
+        public static async Task<string> PlaceMarginOrderAsync(this IBinanceHttpClient client, IBinanceApiUser user, 
+            string symbol, OrderSide side, OrderType type, decimal quantity, decimal price, bool useBorrow = false, string newClientOrderId = null, 
+            TimeInForce? timeInForce = null, decimal stopPrice = 0, decimal icebergQty = 0, long recvWindow = default,
+            bool isTestOnly = false, PlaceOrderResponseType newOrderRespType = PlaceOrderResponseType.Result, CancellationToken token = default)
+        {
+            Throw.IfNull(client, nameof(client));
+            Throw.IfNull(user, nameof(user));
+            Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
+
+            if (quantity <= 0)
+                throw new ArgumentException("Order quantity must be greater than 0.", nameof(quantity));
+
+            if (recvWindow == default)
+                recvWindow = client.DefaultRecvWindow;
+
+            if (user.RateLimiter != null)
+            {
+                await user.RateLimiter.DelayAsync(token: token)
+                    .ConfigureAwait(false);
+            }
+
+            var request = new BinanceHttpRequest($"/sapi/v1/margin/order{(isTestOnly ? "/test" : string.Empty)}")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            request.AddParameter("symbol", symbol.FormatSymbol());
+            request.AddParameter("side", side.ToString().ToUpperInvariant());
+            request.AddParameter("type", type.AsString());
+            request.AddParameter("newOrderRespType", newOrderRespType.ToString().ToUpperInvariant());
+            request.AddParameter("quantity", quantity);
+
+            if (price > 0)
+                request.AddParameter("price", price);
+
+            if (!string.IsNullOrWhiteSpace(newClientOrderId))
+                request.AddParameter("newClientOrderId", newClientOrderId);
+
+            if (icebergQty > 0)
+            {
+                request.AddParameter("icebergQty", icebergQty);
+            }
+
+            if (useBorrow)
+            {
+                request.AddParameter("sideEffectType", "MARGIN_BUY");
+            }
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            await client.SignAsync(request, user, token)
+                .ConfigureAwait(false);
+
+            return await client.PostAsync(request, token)
+                .ConfigureAwait(false);
+        }
+
+        #endregion
+
         #region Account
 
         /// <summary>

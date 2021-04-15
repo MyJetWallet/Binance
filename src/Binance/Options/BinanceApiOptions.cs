@@ -22,6 +22,10 @@ namespace Binance
         public static readonly string EndpointUrl_binance_com = "https://api.binance.com";
         public static readonly string EndpointUrl_binance_us = "https://api.binance.us";
 
+        public static readonly string EndpointUrl_testnet_binance_com = "https://testnet.binance.vision";
+
+        public static string BinancEndpointUrl { get; set; } = EndpointUrl_binance_com;
+
         #endregion Public Constants
 
         #region Public Properties
@@ -29,7 +33,7 @@ namespace Binance
         /// <summary>
         /// Get or set the HTTP client endpoint URL.
         /// </summary>
-        public string EndpointUrl { get; set; } = EndpointUrl_binance_com;
+        public string EndpointUrl { get; set; } = BinancEndpointUrl;
 
         /// <summary>
         /// Get or set the service point manager connection lease timeout.

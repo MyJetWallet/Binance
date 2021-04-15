@@ -49,6 +49,10 @@ namespace Binance
             Locked = locked;
         }
 
+        public AccountBalance()
+        {
+        }
+
         #endregion Constructors
     }
 }

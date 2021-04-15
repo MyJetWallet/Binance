@@ -42,7 +42,7 @@ namespace Binance.Client
         {
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
 
-            return limit > 0 ? $"{symbol.ToLowerInvariant()}@depth{limit}" : $"{symbol.ToLowerInvariant()}@depth";
+            return limit > 0 ? $"{symbol.ToLowerInvariant()}@depth{limit}" : $"{symbol.ToLowerInvariant()}@depth@100ms";
         }
 
         public virtual IDepthClient Subscribe(string symbol, int limit, Action<DepthUpdateEventArgs> callback)

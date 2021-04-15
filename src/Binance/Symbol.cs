@@ -724,6 +724,8 @@ namespace Binance
         /// </summary>
         public bool IsIcebergAllowed { get; }
 
+        public bool IsMarginTradingAllowed { get; }
+
         #endregion Public Properties
 
         #region Private Fields
@@ -1386,7 +1388,9 @@ namespace Binance
         /// <param name="notionalMinimumValue">The minimum notional value.</param>
         /// <param name="isIcebergAllowed">The flag indicating if iceberg orders are allowed.</param>
         /// <param name="orderTypes">The list of allowed order types.</param>
-        public Symbol(SymbolStatus status, Asset baseAsset, Asset quoteAsset, InclusiveRange quantity, InclusiveRange price, decimal notionalMinimumValue, bool isIcebergAllowed, IEnumerable<OrderType> orderTypes)
+        public Symbol(SymbolStatus status, Asset baseAsset, Asset quoteAsset, InclusiveRange quantity, InclusiveRange price, 
+            decimal notionalMinimumValue, bool isIcebergAllowed, IEnumerable<OrderType> orderTypes,
+            bool isMarginTradingAllowed = false)
         {
             Throw.IfNull(baseAsset, nameof(baseAsset));
             Throw.IfNull(quoteAsset, nameof(quoteAsset));
@@ -1407,6 +1411,8 @@ namespace Binance
             OrderTypes = orderTypes;
 
             _symbol = string.Intern($"{baseAsset}{quoteAsset}");
+
+            IsMarginTradingAllowed = isMarginTradingAllowed;
         }
 
         #endregion Constructors

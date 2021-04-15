@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Binance;
 using Binance.Serialization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Binance.Api;
+using Newtonsoft.Json;
 
 // ReSharper disable once CheckNamespace
 namespace Binance
@@ -69,7 +72,8 @@ namespace Binance
         /// </summary>
         public BinanceApi()
             : this(BinanceHttpClient.Instance)
-        { }
+        {
+        }
 
         /// <summary>
         /// Constructor.
@@ -205,31 +209,40 @@ namespace Binance
 
         #region Market Data
 
-        public virtual async Task<OrderBook> GetOrderBookAsync(string symbol, int limit = default, CancellationToken token = default)
+        public virtual async Task<OrderBook> GetOrderBookAsync(string symbol, int limit = default,
+            CancellationToken token = default)
         {
             var json = await HttpClient.GetOrderBookAsync(symbol, limit, token)
                 .ConfigureAwait(false);
 
-            try { return _orderBookSerializer.Deserialize(OrderBookJsonConverter.InsertSymbol(json, symbol)); }
+            try
+            {
+                return _orderBookSerializer.Deserialize(OrderBookJsonConverter.InsertSymbol(json, symbol));
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrderBookAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<Trade>> GetTradesAsync(string symbol, int limit = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Trade>> GetTradesAsync(string symbol, int limit = default,
+            CancellationToken token = default)
         {
             var json = await HttpClient.GetTradesAsync(symbol, limit, token)
                 .ConfigureAwait(false);
 
-            try { return _tradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _tradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetTradesAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<Trade>> GetTradesFromAsync(string apiKey, string symbol, long fromId, int limit = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Trade>> GetTradesFromAsync(string apiKey, string symbol, long fromId,
+            int limit = default, CancellationToken token = default)
         {
             if (fromId < 0)
                 throw new ArgumentException($"ID ({nameof(fromId)}) must not be less than 0.", nameof(fromId));
@@ -237,26 +250,34 @@ namespace Binance
             var json = await HttpClient.GetTradesAsync(apiKey, symbol, fromId, limit, token)
                 .ConfigureAwait(false);
 
-            try { return _tradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _tradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetTradesFromAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(string symbol, int limit = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(string symbol,
+            int limit = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetAggregateTradesAsync(symbol, NullId, limit, token: token)
                 .ConfigureAwait(false);
 
-            try { return _aggregateTradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _aggregateTradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAggregateTradesAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<AggregateTrade>> GetAggregateTradesFromAsync(string symbol, long fromId, int limit = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<AggregateTrade>> GetAggregateTradesFromAsync(string symbol, long fromId,
+            int limit = default, CancellationToken token = default)
         {
             if (fromId < 0)
                 throw new ArgumentException($"ID ({nameof(fromId)}) must not be less than 0.", nameof(fromId));
@@ -264,58 +285,78 @@ namespace Binance
             var json = await HttpClient.GetAggregateTradesAsync(symbol, fromId, limit, token: token)
                 .ConfigureAwait(false);
 
-            try { return _aggregateTradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _aggregateTradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAggregateTradesFromAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(string symbol, DateTime startTime, DateTime endTime, CancellationToken token = default)
+        public virtual async Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(string symbol,
+            DateTime startTime, DateTime endTime, CancellationToken token = default)
         {
             // NOTE: Limit does not apply when using start and end time.
             var json = await HttpClient.GetAggregateTradesAsync(symbol, NullId, default, startTime, endTime, token)
                 .ConfigureAwait(false);
 
-            try { return _aggregateTradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _aggregateTradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAggregateTradesAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<Candlestick>> GetCandlesticksAsync(string symbol, CandlestickInterval interval, int limit = default, DateTime startTime = default, DateTime endTime = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Candlestick>> GetCandlesticksAsync(string symbol,
+            CandlestickInterval interval, int limit = default, DateTime startTime = default, DateTime endTime = default,
+            CancellationToken token = default)
         {
             var json = await HttpClient.GetCandlesticksAsync(symbol, interval, limit, startTime, endTime, token)
                 .ConfigureAwait(false);
 
-            try { return _candlestickSerializer.DeserializeMany(json, symbol, interval); }
+            try
+            {
+                return _candlestickSerializer.DeserializeMany(json, symbol, interval);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetCandlesticksAsync), json, e);
             }
         }
 
-        public virtual async Task<SymbolStatistics> Get24HourStatisticsAsync(string symbol, CancellationToken token = default)
+        public virtual async Task<SymbolStatistics> Get24HourStatisticsAsync(string symbol,
+            CancellationToken token = default)
         {
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
 
             var json = await HttpClient.Get24HourStatisticsAsync(symbol, token)
                 .ConfigureAwait(false);
 
-            try { return _symbolStatisticsSerializer.Deserialize(json); }
+            try
+            {
+                return _symbolStatisticsSerializer.Deserialize(json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(Get24HourStatisticsAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<SymbolStatistics>> Get24HourStatisticsAsync(CancellationToken token = default)
+        public virtual async Task<IEnumerable<SymbolStatistics>> Get24HourStatisticsAsync(
+            CancellationToken token = default)
         {
             var json = await HttpClient.Get24HourStatisticsAsync(token: token)
                 .ConfigureAwait(false);
 
-            try { return _symbolStatisticsSerializer.DeserializeMany(json); }
+            try
+            {
+                return _symbolStatisticsSerializer.DeserializeMany(json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(Get24HourStatisticsAsync), json, e);
@@ -329,7 +370,10 @@ namespace Binance
             var json = await HttpClient.GetPriceAsync(symbol, token)
                 .ConfigureAwait(false);
 
-            try { return _symbolPriceSerializer.Deserialize(json); }
+            try
+            {
+                return _symbolPriceSerializer.Deserialize(json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetPriceAsync), json, e);
@@ -343,7 +387,10 @@ namespace Binance
             var json = await HttpClient.GetAvgPriceAsync(symbol, token)
                 .ConfigureAwait(false);
 
-            try { return _symbolAveragePriceSerializer.Deserialize(symbol, json); }
+            try
+            {
+                return _symbolAveragePriceSerializer.Deserialize(symbol, json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAvgPriceAsync), json, e);
@@ -355,7 +402,10 @@ namespace Binance
             var json = await HttpClient.GetPriceAsync(token: token)
                 .ConfigureAwait(false);
 
-            try { return _symbolPriceSerializer.DeserializeMany(json); }
+            try
+            {
+                return _symbolPriceSerializer.DeserializeMany(json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetPricesAsync), json, e);
@@ -367,7 +417,10 @@ namespace Binance
             var json = await HttpClient.GetOrderBookTopAsync(symbol, token)
                 .ConfigureAwait(false);
 
-            try { return _orderBookTopSerializer.Deserialize(json); }
+            try
+            {
+                return _orderBookTopSerializer.Deserialize(json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrderBookTopAsync), json, e);
@@ -379,7 +432,10 @@ namespace Binance
             var json = await HttpClient.GetOrderBookTopsAsync(token)
                 .ConfigureAwait(false);
 
-            try { return _orderBookTopSerializer.DeserializeMany(json); }
+            try
+            {
+                return _orderBookTopSerializer.DeserializeMany(json);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrderBookTopsAsync), json, e);
@@ -408,8 +464,10 @@ namespace Binance
                             var icebergAllowed = jToken["icebergAllowed"].Value<bool>();
 
                             // HACK: Support inconsistent precision naming and possible future changes.
-                            var baseAssetPrecision = jToken["baseAssetPrecision"]?.Value<int>() ?? jToken["basePrecision"]?.Value<int>() ?? 0;
-                            var quoteAssetPrecision = jToken["quoteAssetPrecision"]?.Value<int>() ?? jToken["quotePrecision"]?.Value<int>() ?? 0;
+                            var baseAssetPrecision = jToken["baseAssetPrecision"]?.Value<int>() ??
+                                                     jToken["basePrecision"]?.Value<int>() ?? 0;
+                            var quoteAssetPrecision = jToken["quoteAssetPrecision"]?.Value<int>() ??
+                                                      jToken["quotePrecision"]?.Value<int>() ?? 0;
 
                             var baseAsset = new Asset(jToken["baseAsset"].Value<string>(), baseAssetPrecision);
                             var quoteAsset = new Asset(jToken["quoteAsset"].Value<string>(), quoteAssetPrecision);
@@ -421,14 +479,16 @@ namespace Binance
                             var filters = jToken["filters"];
 
                             decimal quoteIncrement = 0;
-                            var priceFilter = filters.FirstOrDefault(f => f["filterType"].Value<string>() == "PRICE_FILTER");
+                            var priceFilter =
+                                filters.FirstOrDefault(f => f["filterType"].Value<string>() == "PRICE_FILTER");
                             if (priceFilter != null)
                             {
                                 quoteIncrement = priceFilter["tickSize"].Value<decimal>();
                             }
-                            
+
                             decimal multiplierUp = 0, multiplierDown = 0;
-                            var percentFilter = filters.FirstOrDefault(f => f["filterType"].Value<string>() == "PERCENT_PRICE");
+                            var percentFilter =
+                                filters.FirstOrDefault(f => f["filterType"].Value<string>() == "PERCENT_PRICE");
                             if (percentFilter != null)
                             {
                                 multiplierUp = percentFilter["multiplierUp"].Value<decimal>();
@@ -436,7 +496,8 @@ namespace Binance
                             }
 
                             decimal baseMinQty = 0, baseMaxQty = 0, baseIncrement = 0;
-                            var quantityFilter = filters.FirstOrDefault(f => f["filterType"].Value<string>() == "LOT_SIZE");
+                            var quantityFilter =
+                                filters.FirstOrDefault(f => f["filterType"].Value<string>() == "LOT_SIZE");
                             if (quantityFilter != null)
                             {
                                 baseMinQty = quantityFilter["minQty"].Value<decimal>();
@@ -445,18 +506,28 @@ namespace Binance
                             }
 
                             decimal minNotional = 0;
-                            var minNotionalFilter = filters.FirstOrDefault(f => f["filterType"].Value<string>() == "MIN_NOTIONAL");
+                            var minNotionalFilter =
+                                filters.FirstOrDefault(f => f["filterType"].Value<string>() == "MIN_NOTIONAL");
                             if (minNotionalFilter != null)
                             {
                                 minNotional = minNotionalFilter["minNotional"].Value<decimal>();
                             }
 
-                            var symbol = new Symbol(status, baseAsset, quoteAsset, (baseMinQty, baseMaxQty, baseIncrement), new PriceRange(this, jToken["symbol"].Value<string>(), multiplierUp, multiplierDown, quoteIncrement), minNotional, icebergAllowed, orderTypes);
+                            var isMarginTradingAllowed = jToken["isMarginTradingAllowed"].Value<bool>();
+
+
+                            var symbol = new Symbol(status, baseAsset, quoteAsset,
+                                (baseMinQty, baseMaxQty, baseIncrement),
+                                new PriceRange(this, jToken["symbol"].Value<string>(), multiplierUp, multiplierDown,
+                                    quoteIncrement),
+                                minNotional, icebergAllowed, orderTypes,
+                                isMarginTradingAllowed);
 
                             if (symbol.ToString() == jToken["symbol"].Value<string>())
                                 return symbol;
 
-                            _logger?.LogDebug($"Symbol does not match trading pair assets ({jToken["symbol"].Value<string>()} != {symbol}).");
+                            _logger?.LogDebug(
+                                $"Symbol does not match trading pair assets ({jToken["symbol"].Value<string>()} != {symbol}).");
                             return null; // invalid symbol (e.g. 'ETC').
                         }));
                 }
@@ -474,7 +545,8 @@ namespace Binance
 
         #region Account
 
-        public virtual async Task<Order> PlaceAsync(ClientOrder clientOrder, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<Order> PlaceAsync(ClientOrder clientOrder, long recvWindow = default,
+            CancellationToken token = default)
         {
             Throw.IfNull(clientOrder, nameof(clientOrder));
             Throw.IfNull(clientOrder.Side, nameof(clientOrder.Side));
@@ -494,9 +566,12 @@ namespace Binance
             };
 
             // Place the order.
-            var json = await HttpClient.PlaceOrderAsync(clientOrder.User, clientOrder.Symbol, clientOrder.Side.Value, clientOrder.Type,
-                clientOrder.Quantity, limitOrder?.Price ?? 0, clientOrder.Id, clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
-                stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0, recvWindow, false, PlaceOrderResponseType.Full, token);
+            var json = await HttpClient.PlaceOrderAsync(clientOrder.User, clientOrder.Symbol, clientOrder.Side.Value,
+                clientOrder.Type,
+                clientOrder.Quantity, limitOrder?.Price ?? 0, clientOrder.Id,
+                clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
+                stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0, recvWindow, false,
+                PlaceOrderResponseType.Full, token);
 
             try
             {
@@ -514,7 +589,8 @@ namespace Binance
             return order;
         }
 
-        public virtual async Task TestPlaceAsync(ClientOrder clientOrder, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task TestPlaceAsync(ClientOrder clientOrder, long recvWindow = default,
+            CancellationToken token = default)
         {
             Throw.IfNull(clientOrder, nameof(clientOrder));
             Throw.IfNull(clientOrder.Side, nameof(clientOrder.Side));
@@ -523,45 +599,58 @@ namespace Binance
             var stopOrder = clientOrder as IStopOrder;
 
             // Place the TEST order.
-            var json = await HttpClient.PlaceOrderAsync(clientOrder.User, clientOrder.Symbol, clientOrder.Side.Value, clientOrder.Type,
-                clientOrder.Quantity, limitOrder?.Price ?? 0, clientOrder.Id, clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
-                stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0, recvWindow, true, PlaceOrderResponseType.Ack, token);
+            var json = await HttpClient.PlaceOrderAsync(clientOrder.User, clientOrder.Symbol, clientOrder.Side.Value,
+                clientOrder.Type,
+                clientOrder.Quantity, limitOrder?.Price ?? 0, clientOrder.Id,
+                clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
+                stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0, recvWindow, true,
+                PlaceOrderResponseType.Ack, token);
 
             if (json != BinanceHttpClient.SuccessfulTestResponse)
             {
-                var message = $"{nameof(BinanceApi)}.{nameof(TestPlaceAsync)}: failed order placement test.";
+                var message =
+                    $"{nameof(BinanceApi)}.{nameof(TestPlaceAsync)}: failed order placement test. Result: {json}";
                 _logger?.LogError(message);
                 throw new BinanceApiException(message);
             }
         }
 
-        public virtual async Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, long orderId, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, long orderId,
+            long recvWindow = default, CancellationToken token = default)
         {
             // Get order using order ID.
             var json = await HttpClient.GetOrderAsync(user, symbol, orderId, null, recvWindow, token)
                 .ConfigureAwait(false);
 
-            try { return _orderSerializer.Deserialize(json, user); }
+            try
+            {
+                return _orderSerializer.Deserialize(json, user);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrderAsync), json, e);
             }
         }
 
-        public virtual async Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId,
+            long recvWindow = default, CancellationToken token = default)
         {
             // Get order using original client order ID.
             var json = await HttpClient.GetOrderAsync(user, symbol, NullId, origClientOrderId, recvWindow, token)
                 .ConfigureAwait(false);
 
-            try { return _orderSerializer.Deserialize(json, user); }
+            try
+            {
+                return _orderSerializer.Deserialize(json, user);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrderAsync), json, e);
             }
         }
 
-        public virtual async Task<Order> GetAsync(Order order, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<Order> GetAsync(Order order, long recvWindow = default,
+            CancellationToken token = default)
         {
             Throw.IfNull(order, nameof(order));
 
@@ -570,30 +659,40 @@ namespace Binance
                 .ConfigureAwait(false);
 
             // Update existing order properties.
-            try { return _orderSerializer.Deserialize(json, order); }
+            try
+            {
+                return _orderSerializer.Deserialize(json, order);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException($"{nameof(GetAsync)}({nameof(Order)})", json, e);
             }
         }
 
-        public virtual async Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, long orderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, long orderId,
+            string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
         {
             if (orderId < 0)
                 throw new ArgumentException("ID must not be less than 0.", nameof(orderId));
 
             // Cancel order using order ID.
-            var json = await HttpClient.CancelOrderAsync(user, symbol, orderId, null, newClientOrderId, recvWindow, token)
+            var json = await HttpClient
+                .CancelOrderAsync(user, symbol, orderId, null, newClientOrderId, recvWindow, token)
                 .ConfigureAwait(false);
 
-            try { return JObject.Parse(json)["clientOrderId"].Value<string>(); }
+            try
+            {
+                return JObject.Parse(json)["clientOrderId"].Value<string>();
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(CancelOrderAsync), json, e);
             }
         }
 
-        public virtual async Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol,
+            string origClientOrderId, string newClientOrderId = null, long recvWindow = default,
+            CancellationToken token = default)
         {
             Throw.IfNullOrWhiteSpace(origClientOrderId, nameof(origClientOrderId));
 
@@ -602,50 +701,68 @@ namespace Binance
                 .CancelOrderAsync(user, symbol, NullId, origClientOrderId, newClientOrderId, recvWindow, token)
                 .ConfigureAwait(false);
 
-            try { return JObject.Parse(json)["clientOrderId"].Value<string>(); }
+            try
+            {
+                return JObject.Parse(json)["clientOrderId"].Value<string>();
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(CancelOrderAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<Order>> GetOpenOrdersAsync(IBinanceApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Order>> GetOpenOrdersAsync(IBinanceApiUser user, string symbol = null,
+            long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetOpenOrdersAsync(user, symbol, recvWindow, token)
                 .ConfigureAwait(false);
 
-            try { return _orderSerializer.DeserializeMany(json, user); }
+            try
+            {
+                return _orderSerializer.DeserializeMany(json, user);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOpenOrdersAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<Order>> GetOrdersAsync(IBinanceApiUser user, string symbol, long orderId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Order>> GetOrdersAsync(IBinanceApiUser user, string symbol,
+            long orderId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetOrdersAsync(user, symbol, orderId, limit, recvWindow: recvWindow, token: token)
+            var json = await HttpClient
+                .GetOrdersAsync(user, symbol, orderId, limit, recvWindow: recvWindow, token: token)
                 .ConfigureAwait(false);
 
-            try { return _orderSerializer.DeserializeMany(json, user); }
+            try
+            {
+                return _orderSerializer.DeserializeMany(json, user);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrdersAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<Order>> GetOrdersAsync(IBinanceApiUser user, string symbol, DateTime startTime, DateTime endTime, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Order>> GetOrdersAsync(IBinanceApiUser user, string symbol,
+            DateTime startTime, DateTime endTime, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetOrdersAsync(user, symbol, startTime: startTime, endTime: endTime, recvWindow: recvWindow, token: token)
+            var json = await HttpClient.GetOrdersAsync(user, symbol, startTime: startTime, endTime: endTime,
+                    recvWindow: recvWindow, token: token)
                 .ConfigureAwait(false);
 
-            try { return _orderSerializer.DeserializeMany(json, user); }
+            try
+            {
+                return _orderSerializer.DeserializeMany(json, user);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetOrdersAsync), json, e);
             }
         }
 
-        public virtual async Task<AccountInfo> GetAccountInfoAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<AccountInfo> GetAccountInfoAsync(IBinanceApiUser user, long recvWindow = default,
+            CancellationToken token = default)
         {
             var json = await HttpClient.GetAccountInfoAsync(user, recvWindow, token)
                 .ConfigureAwait(false);
@@ -672,7 +789,8 @@ namespace Binance
                         entry["locked"].Value<decimal>()))
                     .ToArray();
 
-                return new AccountInfo(user, commissions, status, jObject["updateTime"].Value<long>().ToDateTime(), balances);
+                return new AccountInfo(user, commissions, status, jObject["updateTime"].Value<long>().ToDateTime(),
+                    balances);
             }
             catch (Exception e)
             {
@@ -680,35 +798,48 @@ namespace Binance
             }
         }
 
-        public virtual async Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol, long fromId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol,
+            long fromId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetAccountTradesAsync(user, symbol, fromId, limit, recvWindow: recvWindow, token: token)
+            var json = await HttpClient
+                .GetAccountTradesAsync(user, symbol, fromId, limit, recvWindow: recvWindow, token: token)
                 .ConfigureAwait(false);
 
-            try { return _accountTradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _accountTradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAccountTradesAsync), json, e);
             }
         }
 
-        public virtual async Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol, DateTime startTime, DateTime endTime, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol,
+            DateTime startTime, DateTime endTime, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetAccountTradesAsync(user, symbol, startTime: startTime, endTime: endTime, recvWindow: recvWindow, token: token)
+            var json = await HttpClient.GetAccountTradesAsync(user, symbol, startTime: startTime, endTime: endTime,
+                    recvWindow: recvWindow, token: token)
                 .ConfigureAwait(false);
 
-            try { return _accountTradeSerializer.DeserializeMany(json, symbol); }
+            try
+            {
+                return _accountTradeSerializer.DeserializeMany(json, symbol);
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAccountTradesAsync), json, e);
             }
         }
 
-        public virtual async Task<string> WithdrawAsync(WithdrawRequest withdrawRequest, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<string> WithdrawAsync(WithdrawRequest withdrawRequest, long recvWindow = default,
+            CancellationToken token = default)
         {
             Throw.IfNull(withdrawRequest, nameof(withdrawRequest));
 
-            var json = await HttpClient.WithdrawAsync(withdrawRequest.User, withdrawRequest.Asset, withdrawRequest.Address, withdrawRequest.AddressTag, withdrawRequest.Amount, withdrawRequest.Name, recvWindow, token)
+            var json = await HttpClient.WithdrawAsync(withdrawRequest.User, withdrawRequest.Asset,
+                    withdrawRequest.Address, withdrawRequest.AddressTag, withdrawRequest.Amount, withdrawRequest.Name,
+                    recvWindow, token)
                 .ConfigureAwait(false);
 
             bool success;
@@ -735,7 +866,9 @@ namespace Binance
             return withdrawRequest.Id;
         }
 
-        public async Task<IEnumerable<Deposit>> GetDepositsAsync(IBinanceApiUser user, string asset = null, DepositStatus? status = null, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
+        public async Task<IEnumerable<Deposit>> GetDepositsAsync(IBinanceApiUser user, string asset = null,
+            DepositStatus? status = null, DateTime startTime = default, DateTime endTime = default,
+            long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetDepositsAsync(user, asset, status, startTime, endTime, recvWindow, token)
                 .ConfigureAwait(false);
@@ -760,7 +893,7 @@ namespace Binance
                                 jToken["asset"].Value<string>(),
                                 jToken["amount"].Value<decimal>(),
                                 jToken["insertTime"].Value<long>().ToDateTime(),
-                                (DepositStatus)jToken["status"].Value<int>(),
+                                (DepositStatus) jToken["status"].Value<int>(),
                                 jToken["address"]?.Value<string>(),
                                 jToken["addressTag"]?.Value<string>(),
                                 jToken["txId"]?.Value<string>())));
@@ -781,7 +914,9 @@ namespace Binance
             return deposits;
         }
 
-        public virtual async Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IBinanceApiUser user, string asset = null, WithdrawalStatus? status = null, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IBinanceApiUser user,
+            string asset = null, WithdrawalStatus? status = null, DateTime startTime = default,
+            DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetWithdrawalsAsync(user, asset, status, startTime, endTime, recvWindow, token)
                 .ConfigureAwait(false);
@@ -807,7 +942,7 @@ namespace Binance
                                 jToken["asset"].Value<string>(),
                                 jToken["amount"].Value<decimal>(),
                                 jToken["applyTime"].Value<long>().ToDateTime(),
-                                (WithdrawalStatus)jToken["status"].Value<int>(),
+                                (WithdrawalStatus) jToken["status"].Value<int>(),
                                 jToken["address"].Value<string>(),
                                 jToken["addressTag"]?.Value<string>(),
                                 jToken["txId"]?.Value<string>())));
@@ -828,7 +963,8 @@ namespace Binance
             return withdrawals;
         }
 
-        public virtual async Task<DepositAddress> GetDepositAddressAsync(IBinanceApiUser user, string asset, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<DepositAddress> GetDepositAddressAsync(IBinanceApiUser user, string asset,
+            long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetDepositAddressAsync(user, asset, recvWindow, token)
                 .ConfigureAwait(false);
@@ -864,7 +1000,8 @@ namespace Binance
             return depositAddress;
         }
 
-        public virtual async Task<decimal> GetWithdrawFeeAsync(IBinanceApiUser user, string asset, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<decimal> GetWithdrawFeeAsync(IBinanceApiUser user, string asset,
+            long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetWithdrawFeeAsync(user, asset, recvWindow, token)
                 .ConfigureAwait(false);
@@ -895,13 +1032,17 @@ namespace Binance
 
             return 0;
         }
-        
-        public virtual async Task<string> GetAccountStatusAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default)
+
+        public virtual async Task<string> GetAccountStatusAsync(IBinanceApiUser user, long recvWindow = default,
+            CancellationToken token = default)
         {
             var json = await HttpClient.GetAccountStatusAsync(user, recvWindow, token)
                 .ConfigureAwait(false);
 
-            try { return JObject.Parse(json)["msg"].Value<string>(); }
+            try
+            {
+                return JObject.Parse(json)["msg"].Value<string>();
+            }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetAccountStatusAsync), json, e);
@@ -909,6 +1050,115 @@ namespace Binance
         }
 
         #endregion Account
+
+        #region Margin
+
+        public virtual async Task<PlaceOrderConformation> PlaceMarginMarketAsync(ClientOrder clientOrder,
+            bool useBorrow = false, long recvWindow = default,
+            CancellationToken token = default)
+        {
+            Throw.IfNull(clientOrder, nameof(clientOrder));
+            Throw.IfNull(clientOrder.Side, nameof(clientOrder.Side));
+
+            var limitOrder = clientOrder as LimitOrder;
+            var stopOrder = clientOrder as IStopOrder;
+
+            // Place the TEST order.
+            var json = await HttpClient.PlaceMarginOrderAsync(
+                clientOrder.User,
+                clientOrder.Symbol,
+                clientOrder.Side.Value,
+                clientOrder.Type,
+                clientOrder.Quantity,
+                limitOrder?.Price ?? 0,
+                useBorrow,
+                clientOrder.Id,
+                clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
+                stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0,
+                recvWindow,
+                false,
+                PlaceOrderResponseType.Ack,
+                token);
+
+            var conformation = PlaceOrderConformation.Parce(json);
+
+            return conformation;
+        }
+
+        public virtual async Task<double> GetMaxBorrowAsync(IBinanceApiUser user, string asset,
+            string isolatedSymbol = default, long recvWindow = default, CancellationToken token = default)
+        {
+            Throw.IfNull(asset, nameof(asset));
+
+            var request = new BinanceHttpRequest($"/sapi/v1/margin/maxBorrowable")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            request.AddParameter("asset", asset);
+
+            if (!string.IsNullOrEmpty(isolatedSymbol))
+            {
+                request.AddParameter("isolatedSymbol", isolatedSymbol);
+            }
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            await HttpClient.SignAsync(request, user, token);
+
+            var json = await HttpClient.GetAsync(request, token);
+
+            var resp = JObject.Parse(json);
+            var amount = resp.GetValue("amount")?.Value<double>() ?? 0;
+
+            return amount;
+        }
+
+        public virtual async Task<List<MarginAccountBalance>> GetMarginBalancesAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default)
+        {
+            var request = new BinanceHttpRequest($"/sapi/v1/margin/account")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            await HttpClient.SignAsync(request, user, token);
+
+            var json = await HttpClient.GetAsync(request, token);
+
+            var resp = JsonConvert.DeserializeObject<ResponseDto>(json);
+
+            return resp?.userAssets ?? new List<MarginAccountBalance>();
+        }
+
+        private class ResponseDto
+        {
+            public List<MarginAccountBalance> userAssets { get; set; }
+        }
+
+        public virtual async Task<List<MarginPair>> GetMarginPairsAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default)
+        {
+            var request = new BinanceHttpRequest($"/sapi/v1/margin/allPairs")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            await HttpClient.SignAsync(request, user, token);
+
+            var json = await HttpClient.GetAsync(request, token);
+
+            var data = JsonConvert.DeserializeObject<List<MarginPair>>(json);
+
+            return data;
+        }
+
+        #endregion
 
         #region User Data Stream
 
@@ -1002,7 +1252,8 @@ namespace Binance
                     }
                     catch (Exception e)
                     {
-                        _logger?.LogError(e, $"{nameof(BinanceApi)}.{methodName} failed to parse server error response: \"{error}\"");
+                        _logger?.LogError(e,
+                            $"{nameof(BinanceApi)}.{methodName} failed to parse server error response: \"{error}\"");
                         throw;
                     }
                 }
@@ -1012,7 +1263,8 @@ namespace Binance
                 }
             }
 
-            var message = $"{nameof(BinanceApi)}.{methodName}: Failed (asset: \"{asset}\") - \"{errorMessage}\"{(errorCode != 0 ? $" ({errorCode})" : " [NO CODE]")}";
+            var message =
+                $"{nameof(BinanceApi)}.{methodName}: Failed (asset: \"{asset}\") - \"{errorMessage}\"{(errorCode != 0 ? $" ({errorCode})" : " [NO CODE]")}";
             _logger?.LogError(message);
             return new BinanceApiException(message);
         }

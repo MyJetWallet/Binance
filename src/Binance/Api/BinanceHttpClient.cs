@@ -48,6 +48,9 @@ namespace Binance.Api
         internal static Lazy<BinanceHttpClient> Initializer
             = new Lazy<BinanceHttpClient>(() => new BinanceHttpClient(), true);
 
+        internal static Lazy<BinanceHttpClient> InitializerTestNet
+            = new Lazy<BinanceHttpClient>(() => new BinanceHttpClient(), true);
+
         #endregion Internal
 
         #region Private Fields
@@ -130,7 +133,7 @@ namespace Binance.Api
 
                 var versionString = $"{version.Major}.{version.Minor}.{version.Build}{(version.Revision > 0 ? $".{version.Revision}" : string.Empty)}";
 
-                _httpClient.DefaultRequestHeaders.Add("User-Agent", $"Binance/{versionString} (.NET; +https://github.com/sonvister/Binance)");
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", $".NET JetWallet/{versionString}");
             }
             catch (Exception e)
             {
