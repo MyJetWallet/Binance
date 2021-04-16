@@ -1182,6 +1182,28 @@ namespace Binance
             return data;
         }
 
+        public async Task<MarginTrade> GetMarginOrderByIdAsync(IBinanceApiUser user, string symbol, long orderId, long recvWindow = default, CancellationToken token = default)
+        {
+            var request = new BinanceHttpRequest($"/sapi/v1/margin/order")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            request.AddParameter("orderId", orderId);
+            request.AddParameter("symbol", symbol);
+
+            await HttpClient.SignAsync(request, user, token);
+
+            var json = await HttpClient.GetAsync(request, token);
+
+            var data = JsonConvert.DeserializeObject<MarginTrade>(json);
+
+            return data;
+        }
+
         #endregion
 
         #region User Data Stream

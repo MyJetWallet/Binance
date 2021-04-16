@@ -39,6 +39,8 @@ namespace Binance
         /// </summary>
         public IEnumerable<OrderBookPriceLevel> Asks { get; private set; }
 
+        public DateTime Timestamp { get; private set; }
+
         #endregion Public Properties
 
         #region Private Fields
@@ -57,7 +59,7 @@ namespace Binance
         /// <param name="lastUpdateId">The last updated ID.</param>
         /// <param name="bids">The bids (price and aggregate quantity) in any sequence.</param>
         /// <param name="asks">The asks (price and aggregate quantity) in any sequence.</param>
-        public OrderBook(string symbol, long lastUpdateId, IEnumerable<(decimal, decimal)> bids, IEnumerable<(decimal, decimal)> asks)
+        public OrderBook(string symbol, long lastUpdateId, IEnumerable<(decimal, decimal)> bids, IEnumerable<(decimal, decimal)> asks, DateTime timestamp)
         {
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
             Throw.IfNull(bids, nameof(bids));
@@ -86,6 +88,8 @@ namespace Binance
             Asks = _asks.Values.ToArray();
 
             Top = Bids.Any() && Asks.Any() ? new OrderBookTop(this) : null;
+
+            Timestamp = timestamp;
         }
 
         #endregion Constructors
@@ -137,7 +141,7 @@ namespace Binance
         /// <param name="lastUpdateId"></param>
         /// <param name="bids"></param>
         /// <param name="asks"></param>
-        internal void Modify(long lastUpdateId, IEnumerable<(decimal, decimal)> bids, IEnumerable<(decimal, decimal)> asks)
+        internal void Modify(long lastUpdateId, IEnumerable<(decimal, decimal)> bids, IEnumerable<(decimal, decimal)> asks, DateTime timestamp)
         {
             if (lastUpdateId <= LastUpdateId)
                 throw new ArgumentException($"{nameof(OrderBook)}.{nameof(Modify)}: new ID must be greater than previous ID.");
@@ -179,6 +183,7 @@ namespace Binance
 
             // Set the order book last update ID.
             LastUpdateId = lastUpdateId;
+            Timestamp = timestamp;
         }
 
         #endregion Internal Methods
@@ -191,7 +196,7 @@ namespace Binance
         /// <returns></returns>
         public OrderBook Clone()
         {
-            return new OrderBook(Symbol, LastUpdateId, _bids.Select(_ => (_.Key, _.Value.Quantity)), _asks.Select(_ => (_.Key, _.Value.Quantity)));
+            return new OrderBook(Symbol, LastUpdateId, _bids.Select(_ => (_.Key, _.Value.Quantity)), _asks.Select(_ => (_.Key, _.Value.Quantity)), Timestamp);
         }
 
         /// <summary>
@@ -202,7 +207,7 @@ namespace Binance
         {
             if (limit <= 0) throw new ArgumentOutOfRangeException(nameof(limit));
 
-            return new OrderBook(Symbol, LastUpdateId, _bids.Take(limit).Select(_ => (_.Key, _.Value.Quantity)), _asks.Take(limit).Select(_ => (_.Key, _.Value.Quantity)));
+            return new OrderBook(Symbol, LastUpdateId, _bids.Take(limit).Select(_ => (_.Key, _.Value.Quantity)), _asks.Take(limit).Select(_ => (_.Key, _.Value.Quantity)), Timestamp);
         }
 
         /// <summary>

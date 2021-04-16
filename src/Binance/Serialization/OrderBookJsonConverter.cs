@@ -38,7 +38,7 @@ namespace Binance.Serialization
                 .Select(_ => (_[0].Value<decimal>(), _[1].Value<decimal>()))
                 .ToArray();
 
-            return new OrderBook(symbol, lastUpdateId, bids, asks);
+            return new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

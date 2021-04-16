@@ -122,7 +122,7 @@ namespace Binance
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/depth");
+            var request = new BinanceHttpRequest("/api/v3/depth");
 
             request.AddParameter("symbol", symbol.FormatSymbol());
 

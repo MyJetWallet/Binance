@@ -14,9 +14,9 @@ namespace TestApp
     {
         static async Task Main(string[] args)
         {
-            await RestAPI();
+            //await RestAPI();
 
-            //WebSocket();
+            WebSocket();
         }
 
         private static void WebSocket()
@@ -33,7 +33,9 @@ namespace TestApp
             //webSocketCacheEth.Subscribe(Symbol.ETH_BTC, ReceiveOrderBook);
 
             webSocketCacheXlm.Subscribe(Symbol.XLM_USDT);
-            webSocketCacheEth.Subscribe(Symbol.ETH_BTC);
+            //webSocketCacheEth.Subscribe(Symbol.ETH_BTC);
+
+            Console.WriteLine("started");
 
             var cmd = Console.ReadLine();
             while (cmd != "exit")
@@ -67,19 +69,28 @@ namespace TestApp
 
         private static void PrintOrderBook(OrderBook orderBook)
         {
+            if (orderBook == null)
+            {
+                Console.WriteLine("NULL");
+                return;
+            }
+
             var symbol = Symbol.Cache.Get(orderBook.Symbol);
 
             var minBidPrice = orderBook.Bids.Last().Price;
             var maxAskPrice = orderBook.Asks.Last().Price;
 
             // Handle order book update events.
-            Console.Write($"Bid Quantity: {orderBook.Depth(minBidPrice)} {symbol.BaseAsset} - " +
-                          $"Ask Quantity: {orderBook.Depth(maxAskPrice)} {symbol.BaseAsset}");
+
+            Console.Write($"{orderBook.Timestamp:HH:mm:ss}  ");
+
+            Console.Write($"Bid-Q: {orderBook.Depth(minBidPrice)} {symbol.BaseAsset} - " +
+                          $"Ask-Q: {orderBook.Depth(maxAskPrice)} {symbol.BaseAsset}");
 
             var bid = orderBook.Bids.First().Price;
             var ask = orderBook.Asks.First().Price;
 
-            Console.WriteLine($"    bid: {bid}[{orderBook.Bids.Count()}]  ask: {ask}[{orderBook.Asks.Count()}]");
+            Console.WriteLine($" || bid: {bid}[{orderBook.Bids.Count()}]  ask: {ask}[{orderBook.Asks.Count()}]");
         }
 
         private static async Task RestAPI()
@@ -113,18 +124,19 @@ namespace TestApp
 
             try
             {
-                var clientOrder = new MarketOrder(user)
-                {
-                    Symbol = Symbol.XLM_USDT,
-                    Side = OrderSide.Sell,
-                    Quantity = 90m,
-                    Id = "my_" //+ Guid.NewGuid().ToString("N")
-                };
-                var conf = await api.PlaceMarginMarketAsync(clientOrder, true);
-                Console.WriteLine(JsonConvert.SerializeObject(conf, Formatting.Indented));
+                var clientOrderId = "my_2";
+
+                //var clientOrder = new MarketOrder(user)
+                //{
+                //    Symbol = Symbol.XLM_USDT,
+                //    Side = OrderSide.Sell,
+                //    Quantity = 90m,
+                //    Id = clientOrderId
+                //};
+                //var conf = await api.PlaceMarginMarketAsync(clientOrder, true);
+                //Console.WriteLine(JsonConvert.SerializeObject(conf, Formatting.Indented));
 
 
-                var clientOrderId = "my_";
                 var order = await api.GetMarginOrderByClientIdAsync(user, Symbol.XLM_USDT, clientOrderId);
 
                 Console.WriteLine(JsonConvert.SerializeObject(order, Formatting.Indented));

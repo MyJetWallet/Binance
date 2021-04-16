@@ -20,7 +20,7 @@ namespace Binance.Tests.Cache.Events
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             var args = new OrderBookCacheEventArgs(orderBook);
 

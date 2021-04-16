@@ -15,14 +15,14 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            Assert.Throws<ArgumentNullException>("symbol", () => new OrderBook(null, lastUpdateId, bids, asks));
-            Assert.Throws<ArgumentNullException>("symbol", () => new OrderBook("", lastUpdateId, bids, asks));
+            Assert.Throws<ArgumentNullException>("symbol", () => new OrderBook(null, lastUpdateId, bids, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentNullException>("symbol", () => new OrderBook("", lastUpdateId, bids, asks, DateTime.UtcNow));
 
-            Assert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, -1, bids, asks));
-            Assert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, 0, bids, asks));
+            Assert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, -1, bids, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, 0, bids, asks, DateTime.UtcNow));
 
-            Assert.Throws<ArgumentNullException>("bids", () => new OrderBook(symbol, lastUpdateId, null, asks));
-            Assert.Throws<ArgumentNullException>("asks", () => new OrderBook(symbol, lastUpdateId, bids, null));
+            Assert.Throws<ArgumentNullException>("bids", () => new OrderBook(symbol, lastUpdateId, null, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentNullException>("asks", () => new OrderBook(symbol, lastUpdateId, bids, null, DateTime.UtcNow));
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             Assert.Equal(symbol, orderBook.Symbol);
             Assert.Equal(lastUpdateId, orderBook.LastUpdateId);
@@ -56,7 +56,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new OrderBookJsonConverter());
@@ -86,7 +86,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             var clone = orderBook.Clone();
 
@@ -116,7 +116,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             foreach (var level in bids)
                 Assert.Equal(level.Item2, orderBook.Quantity(level.Item1));
@@ -136,7 +136,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             Assert.Equal(3.5m, orderBook.MidMarketPrice());
         }
@@ -149,7 +149,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             Assert.Equal(0, orderBook.Depth(3.5m));
             Assert.Equal(50, orderBook.Depth(1.5m));
@@ -164,7 +164,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             Assert.Equal(0, orderBook.Volume(3.5m));
             Assert.Equal(130, orderBook.Volume(1.5m)); // 3 * 30 + 2 * 20
@@ -179,7 +179,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             Assert.Equal(3, orderBook.Bids.PriceAt(15));
             Assert.Equal(2, orderBook.Bids.PriceAt(40));
@@ -195,7 +195,7 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks);
+            var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             Assert.Equal(4, orderBook.Asks.PriceAt(20));
             Assert.Equal(5, orderBook.Asks.PriceAt(65));

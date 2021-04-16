@@ -156,7 +156,7 @@ namespace Binance.Cache
 
                 // Top <limit> bids and asks, pushed every second.
                 // NOTE: LastUpdateId is not contiguous between events when using partial depth stream.
-                _orderBookClone = new OrderBook(_symbol, @event.LastUpdateId, @event.Bids, @event.Asks);
+                _orderBookClone = new OrderBook(_symbol, @event.LastUpdateId, @event.Bids, @event.Asks, @event.Time);
             }
             else
             {
@@ -182,7 +182,7 @@ namespace Binance.Cache
 
                 Logger?.LogTrace($"{GetType().Name} ({_symbol}): Updating order book (last update ID: {_orderBook.LastUpdateId} => {@event.LastUpdateId}).  [thread: {Thread.CurrentThread.ManagedThreadId}]");
 
-                _orderBook.Modify(@event.LastUpdateId, @event.Bids, @event.Asks);
+                _orderBook.Modify(@event.LastUpdateId, @event.Bids, @event.Asks, @event.Time);
 
                 _orderBookClone = _orderBook.Clone();
             }
