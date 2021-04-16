@@ -22,8 +22,8 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/}
 
-#    - name: Test
-#      run: dotnet test --no-build --configuration Release
+    - name: Test
+      run: dotnet test --no-build --configuration Release
 
     - name: Create the package
       run: dotnet pack --configuration Release src/Binance /p:Version=${GITHUB_REF#refs/tags/}
