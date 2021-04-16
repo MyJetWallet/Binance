@@ -16,7 +16,7 @@ namespace TestApp
         {
             await RestAPI();
 
-            WebSocket();
+            //WebSocket();
         }
 
         private static void WebSocket()
@@ -102,39 +102,45 @@ namespace TestApp
             using var user = new BinanceApiUser(apiKey, apiSecret);
 
 
-            await Symbol.UpdateCacheAsync(api);
+            //await Symbol.UpdateCacheAsync(api);
 
 
-            Console.WriteLine(Symbol.Cache.GetAll().Count());
-            Console.WriteLine(Symbol.Cache.Get("BTCUSD"));
-            Console.WriteLine(Symbol.Cache.Get("BTCEUR"));
-            Console.WriteLine($"{Symbol.Cache.Get("BTCUSDT")}  {Symbol.Cache.Get("BTCUSDT")?.IsMarginTradingAllowed}");
+            //Console.WriteLine(Symbol.Cache.GetAll().Count());
+            //Console.WriteLine(Symbol.Cache.Get("BTCUSD"));
+            //Console.WriteLine(Symbol.Cache.Get("BTCEUR"));
+            //Console.WriteLine($"{Symbol.Cache.Get("BTCUSDT")}  {Symbol.Cache.Get("BTCUSDT")?.IsMarginTradingAllowed}");
 
 
             try
             {
-                //var clientOrder = new MarketOrder(user)
-                //{
-                //    Symbol = Symbol.XLM_USDT,
-                //    Side = OrderSide.Sell,
-                //    Quantity = 100m
-                //};
-                //var conf = await api.PlaceMarginMarketAsync(clientOrder, true);
-                //Console.WriteLine(JsonConvert.SerializeObject(conf));
+                var clientOrder = new MarketOrder(user)
+                {
+                    Symbol = Symbol.XLM_USDT,
+                    Side = OrderSide.Sell,
+                    Quantity = 90m,
+                    Id = "my_" //+ Guid.NewGuid().ToString("N")
+                };
+                var conf = await api.PlaceMarginMarketAsync(clientOrder, true);
+                Console.WriteLine(JsonConvert.SerializeObject(conf, Formatting.Indented));
 
 
-                var xlmMaxBorrow = api.GetMaxBorrowAsync(user, "XLM");
-                var usdMaxBorrow = api.GetMaxBorrowAsync(user, "USDT");
-                var btcMaxBorrow = api.GetMaxBorrowAsync(user, "BTC");
-                await Task.WhenAll(new[] {xlmMaxBorrow, usdMaxBorrow, btcMaxBorrow});
+                var clientOrderId = "my_";
+                var order = await api.GetMarginOrderByClientIdAsync(user, Symbol.XLM_USDT, clientOrderId);
 
-                Console.WriteLine($"Xlm: {xlmMaxBorrow.Result}");
-                Console.WriteLine($"usd: {usdMaxBorrow.Result}");
-                Console.WriteLine($"usd: {btcMaxBorrow.Result}");
+                Console.WriteLine(JsonConvert.SerializeObject(order, Formatting.Indented));
+
+                //var xlmMaxBorrow = api.GetMaxBorrowAsync(user, "XLM");
+                //var usdMaxBorrow = api.GetMaxBorrowAsync(user, "USDT");
+                //var btcMaxBorrow = api.GetMaxBorrowAsync(user, "BTC");
+                //await Task.WhenAll(new[] {xlmMaxBorrow, usdMaxBorrow, btcMaxBorrow});
+
+                //Console.WriteLine($"Xlm: {xlmMaxBorrow.Result}");
+                //Console.WriteLine($"usd: {usdMaxBorrow.Result}");
+                //Console.WriteLine($"usd: {btcMaxBorrow.Result}");
 
 
-                var pairs = await api.GetMarginPairsAsync(user);
-                Console.WriteLine(JsonConvert.SerializeObject(pairs, Formatting.Indented));
+                //var pairs = await api.GetMarginPairsAsync(user);
+                //Console.WriteLine(JsonConvert.SerializeObject(pairs, Formatting.Indented));
             }
             catch (BinanceRequestRateLimitExceededException ex)
             {
