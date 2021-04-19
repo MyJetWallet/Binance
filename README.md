@@ -165,16 +165,3 @@ REST/WebSocket questions: [Binance Official API Telegram](https://t.me/binance_a
 The master branch is *currently* used for development and may differ from the latest release.\
 To get the source code for a particular release, first select the corresponding **Tag**.
 
-### Build Environment
-[Microsoft Visual Studio Community 2017](https://www.visualstudio.com/vs/community/)
-
-![Build status](https://travis-ci.org/sonvister/Binance.svg?branch=master)
-
-## Donate
-**Decred (DCR)**: Dsd7amDBfC7n6G93NJzbaJjUdiSeN5D3tmR
-
-Thank you.
-
-Follow [@sonvister](https://twitter.com/sonvister)
-
-[![Donate NIM](https://www.nimiq.com/accept-donations/img/donationBtnImg/orange-small.svg)](https://safe.nimiq.com/#_request/NQ13481VT3VVKRENJJL39B5J7DJMHF4CRCVL_)
