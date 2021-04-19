@@ -1,8 +1,7 @@
 # JetWallet.Binance
 A .NET API library (a.k.a. wrapper) for the **[official Binance web API](https://github.com/binance-exchange/binance-official-api-docs)**.
 
-Compatible with **.NET Standard 2.0** and **.NET Framework 4.7.1**
-
+Compatible with **.NET 5.0**
 Built using [TAP (Task-based Asynchronous Pattern)](https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap).
 
 ## Features
