@@ -32,7 +32,7 @@ namespace TestApp
             //webSocketCacheXlm.Subscribe(Symbol.XLM_USDT, ReceiveOrderBook);
             //webSocketCacheEth.Subscribe(Symbol.ETH_BTC, ReceiveOrderBook);
 
-            webSocketCacheXlm.Subscribe(Symbol.XLM_USDT);
+            webSocketCacheXlm.Subscribe(Symbol.XLM_USDT, 100);
             //webSocketCacheEth.Subscribe(Symbol.ETH_BTC);
 
             Console.WriteLine("started");

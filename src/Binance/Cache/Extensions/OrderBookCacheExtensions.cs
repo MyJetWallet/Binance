@@ -34,8 +34,8 @@ namespace Binance.Cache
         /// <param name="symbol"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public static void Subscribe<TClient>(this IOrderBookCache<TClient> cache, string symbol, Action<OrderBookCacheEventArgs> callback)
+        public static void Subscribe<TClient>(this IOrderBookCache<TClient> cache, string symbol, Action<OrderBookCacheEventArgs> callback, int limit = default)
             where TClient : IDepthClient
-            => cache.Subscribe(symbol, default, callback);
+            => cache.Subscribe(symbol, limit, callback);
     }
 }
