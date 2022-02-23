@@ -18,5 +18,9 @@ namespace Binance
 
         [JsonProperty("netAsset")]
         public decimal NetAsset { get; set; }
+        
+        [JsonProperty("borrowed")]
+        public decimal Borrowed { get; set; }
+        
     }
 }
