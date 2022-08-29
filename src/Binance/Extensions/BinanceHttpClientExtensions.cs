@@ -485,8 +485,17 @@ namespace Binance
         #region Margin
 
         public static async Task<string> PlaceMarginOrderAsync(this IBinanceHttpClient client, IBinanceApiUser user, 
-            string symbol, OrderSide side, OrderType type, decimal quantity, decimal price, bool useBorrow = false, string newClientOrderId = null, 
-            TimeInForce? timeInForce = null, decimal stopPrice = 0, decimal icebergQty = 0, long recvWindow = default,
+            string symbol,
+            OrderSide side,
+            OrderType type,
+            decimal quantity,
+            decimal price,
+            bool useBorrow = false,
+            string newClientOrderId = null, 
+            TimeInForce? timeInForce = null,
+            decimal stopPrice = 0,
+            decimal icebergQty = 0,
+            long recvWindow = default,
             bool isTestOnly = false, PlaceOrderResponseType newOrderRespType = PlaceOrderResponseType.Result, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
@@ -534,6 +543,11 @@ namespace Binance
 
             if (recvWindow > 0)
                 request.AddParameter("recvWindow", recvWindow);
+
+            if (timeInForce != null)
+            {
+                request.AddParameter("timeInForce", timeInForce.ToString().ToUpperInvariant());
+            }
 
             await client.SignAsync(request, user, token)
                 .ConfigureAwait(false);

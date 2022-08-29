@@ -1063,7 +1063,7 @@ namespace Binance
             var limitOrder = clientOrder as LimitOrder;
             var stopOrder = clientOrder as IStopOrder;
 
-            // Place the TEST order.
+            var timeInForce = clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce;
             var json = await HttpClient.PlaceMarginOrderAsync(
                 clientOrder.User,
                 clientOrder.Symbol,
@@ -1073,7 +1073,7 @@ namespace Binance
                 limitOrder?.Price ?? 0,
                 useBorrow,
                 clientOrder.Id,
-                clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
+                timeInForce,
                 stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0,
                 recvWindow,
                 false,
