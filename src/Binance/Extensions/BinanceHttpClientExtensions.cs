@@ -493,10 +493,13 @@ namespace Binance
             bool useBorrow = false,
             string newClientOrderId = null, 
             TimeInForce? timeInForce = null,
+            SideEffect? sideEffect = null,
             decimal stopPrice = 0,
             decimal icebergQty = 0,
             long recvWindow = default,
-            bool isTestOnly = false, PlaceOrderResponseType newOrderRespType = PlaceOrderResponseType.Result, CancellationToken token = default)
+            bool isTestOnly = false, 
+            PlaceOrderResponseType newOrderRespType = PlaceOrderResponseType.Result, 
+            CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -547,6 +550,11 @@ namespace Binance
             if (timeInForce != null)
             {
                 request.AddParameter("timeInForce", timeInForce.ToString().ToUpperInvariant());
+            }
+            
+            if (sideEffect != null)
+            {
+                request.AddParameter("sideEffect", sideEffect.ToRequestString().ToUpperInvariant());
             }
 
             await client.SignAsync(request, user, token)

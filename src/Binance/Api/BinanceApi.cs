@@ -1074,6 +1074,7 @@ namespace Binance
                 useBorrow,
                 clientOrder.Id,
                 timeInForce,
+                limitOrder?.SideEffect,
                 stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0,
                 recvWindow,
                 false,

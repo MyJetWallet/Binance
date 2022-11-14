@@ -178,7 +178,18 @@ namespace Binance
                     throw new Exception($"Failed to convert time in force: \"{timeInForce}\"");
             }
         }
-
+        
+        internal static SideEffect ConvertSideEffect(this string sideEffect)
+        {
+            switch (sideEffect)
+            {
+                case "NO_SIDE_EFFECT": return SideEffect.NoSideEffect;
+                case "MARGIN_BUY": return SideEffect.MarginBuy;
+                case "AUTO_REPAY": return SideEffect.AutoRepay;
+                default:
+                    throw new Exception($"Failed to convert side effect: \"{sideEffect}\"");
+            }
+        }
         #endregion Internal Extensions
     }
 }
