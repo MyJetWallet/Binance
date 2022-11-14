@@ -22,6 +22,11 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release /p:AssemblyVersion=${GITHUB_REF#refs/tags/}
 
+    - name: Setup .NET Core 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.*
+        
     - name: Test
       run: dotnet test --no-build --configuration Release
 
