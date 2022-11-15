@@ -555,6 +555,8 @@ namespace Binance
                 request.AddParameter("timeInForce", timeInForce.ToString().ToUpperInvariant());
             }
 
+            Console.WriteLine(request.Body);
+            
             await client.SignAsync(request, user, token)
                 .ConfigureAwait(false);
 
@@ -983,6 +985,87 @@ namespace Binance
             if (recvWindow > 0)
                 request.AddParameter("recvWindow", recvWindow);
 
+            await client.SignAsync(request, user, token)
+                .ConfigureAwait(false);
+
+            return await client.GetAsync(request, token)
+                .ConfigureAwait(false);
+        }
+        
+        
+        /// <param name="client"></param>
+        /// <param name="user"></param>
+        /// <param name="symbol"></param>
+        /// <param name="fromId">TradeId to fetch from. Default gets most recent trades.</param>
+        /// <param name="limit">Default 500; max 500.</param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="recvWindow"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task<string> GetMarginTradesAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol, long orderId = BinanceApi.NullId, long fromId = BinanceApi.NullId, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, CancellationToken token = default, bool isIsolated = false)
+        {
+            Throw.IfNull(client, nameof(client));
+            Throw.IfNull(user, nameof(user));
+            Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
+
+            if (recvWindow == default)
+                recvWindow = client.DefaultRecvWindow;
+
+            if (client.RateLimiter != null)
+            {
+                await client.RateLimiter.DelayAsync(5, token)
+                    .ConfigureAwait(false);
+            }
+
+            var request = new BinanceHttpRequest("/sapi/v1/margin/myTrades")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            request.AddParameter("symbol", symbol.FormatSymbol());
+
+            if (orderId >= 0)
+                request.AddParameter("orderId", orderId);
+            
+            if (fromId >= 0)
+                request.AddParameter("fromId", fromId);
+
+            if (startTime != default)
+            {
+                if (startTime.Kind != DateTimeKind.Utc)
+                    throw new ArgumentException("Date/Time must be UTC.", nameof(startTime));
+
+                request.AddParameter("startTime", startTime.ToTimestamp());
+            }
+
+            if (endTime != default)
+            {
+                if (endTime.Kind != DateTimeKind.Utc)
+                    throw new ArgumentException("Date/Time must be UTC.", nameof(endTime));
+
+                request.AddParameter("endTime", endTime.ToTimestamp());
+            }
+
+            if (startTime == default || endTime == default)
+            {
+                if (limit > 0)
+                {
+                    request.AddParameter("limit", limit);
+                }
+            }
+            else
+            {
+                if (endTime < startTime)
+                    throw new ArgumentException($"Time ({nameof(endTime)}) must not be less than {nameof(startTime)} ({startTime}).", nameof(endTime));
+            }
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            if (isIsolated)
+                request.AddParameter("isIsolated", "TRUE");
+            
             await client.SignAsync(request, user, token)
                 .ConfigureAwait(false);
 

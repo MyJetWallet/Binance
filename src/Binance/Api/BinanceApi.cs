@@ -831,6 +831,23 @@ namespace Binance
                 throw NewFailedToParseJsonException(nameof(GetAccountTradesAsync), json, e);
             }
         }
+        
+        public virtual async Task<IEnumerable<AccountTrade>> GetMarginTradesAsync(IBinanceApiUser user, string symbol, long orderId = NullId,
+            long fromId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        {
+            var json = await HttpClient
+                .GetMarginTradesAsync(user, symbol, orderId, fromId, limit, recvWindow: recvWindow, token: token)
+                .ConfigureAwait(false);
+
+            try
+            {
+                return _accountTradeSerializer.DeserializeMany(json, symbol);
+            }
+            catch (Exception e)
+            {
+                throw NewFailedToParseJsonException(nameof(GetAccountTradesAsync), json, e);
+            }
+        }
 
         public virtual async Task<string> WithdrawAsync(WithdrawRequest withdrawRequest, long recvWindow = default,
             CancellationToken token = default)

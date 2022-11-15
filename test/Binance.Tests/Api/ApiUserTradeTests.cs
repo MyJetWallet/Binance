@@ -33,7 +33,7 @@ public class ApiUserTradeTests
 
     }
         
-    //[Fact]
+    [Fact]
     public async Task MakeTrade()
     {
         var user = new BinanceApiUser(ApiKey, ApiSecret);
@@ -42,7 +42,7 @@ public class ApiUserTradeTests
         var request = new MarketOrder(user)
         {
             Symbol = "BUSD_USDT",
-            Side = OrderSide.Buy,
+            Side = OrderSide.Sell,
             Quantity = 15,
             Id = Guid.NewGuid().ToString()
         };
@@ -51,6 +51,21 @@ public class ApiUserTradeTests
 
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(resp));
 
+
+        var orderId = resp.OrderId;
+
+        var resp2 = await api.GetMarginTradesAsync(user, "BUSD_USDT", orderId: orderId);
+        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(resp2));
+    }
+    
+    [Fact]
+    public async Task GetTrades()
+    {
+        var user = new BinanceApiUser(ApiKey, ApiSecret);
+        var api = new BinanceApi();
+
+        var resp2 = await api.GetMarginTradesAsync(user, "ADA_BUSD", limit:10);
+        _testOutputHelper.WriteLine(JsonConvert.SerializeObject(resp2, Formatting.Indented));
     }
     
     //[Fact]
@@ -72,6 +87,5 @@ public class ApiUserTradeTests
         var resp = await api.PlaceMarginMarketAsync(request, useBorrow: true);
 
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(resp));
-
     }
 }

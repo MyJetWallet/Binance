@@ -328,6 +328,7 @@ namespace Binance
         /// <returns></returns>
         Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol, DateTime startTime, DateTime endTime, long recvWindow = default, CancellationToken token = default);
 
+        Task<IEnumerable<AccountTrade>> GetMarginTradesAsync(IBinanceApiUser user, string symbol, long orderId = BinanceApi.NullId, long fromId = BinanceApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default);
         /// <summary>
         /// Submit a withdraw request.
         /// </summary>
@@ -393,7 +394,7 @@ namespace Binance
         /// <param name="token"></param>
         /// <returns></returns>
         Task<string> GetAccountStatusAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default);
-
+        
         #endregion Account
 
         #region User Stream
