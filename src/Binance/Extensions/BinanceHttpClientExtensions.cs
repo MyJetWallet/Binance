@@ -489,11 +489,11 @@ namespace Binance
             OrderSide side,
             OrderType type,
             decimal quantity,
+            decimal quantityQuote,
             decimal price,
             bool useBorrow = false,
             string newClientOrderId = null, 
             TimeInForce? timeInForce = null,
-            SideEffect? sideEffect = null,
             decimal stopPrice = 0,
             decimal icebergQty = 0,
             long recvWindow = default,
@@ -505,7 +505,7 @@ namespace Binance
             Throw.IfNull(user, nameof(user));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
 
-            if (quantity <= 0)
+            if (quantity <= 0 && quantityQuote <=0)
                 throw new ArgumentException("Order quantity must be greater than 0.", nameof(quantity));
 
             if (recvWindow == default)
@@ -526,7 +526,10 @@ namespace Binance
             request.AddParameter("side", side.ToString().ToUpperInvariant());
             request.AddParameter("type", type.AsString());
             request.AddParameter("newOrderRespType", newOrderRespType.ToString().ToUpperInvariant());
-            request.AddParameter("quantity", quantity);
+            if (quantity > 0)
+                request.AddParameter("quantity", quantity);
+            if (quantityQuote > 0)
+                request.AddParameter("quoteOrderQty", quantityQuote);
 
             if (price > 0)
                 request.AddParameter("price", price);
@@ -550,11 +553,6 @@ namespace Binance
             if (timeInForce != null)
             {
                 request.AddParameter("timeInForce", timeInForce.ToString().ToUpperInvariant());
-            }
-            
-            if (sideEffect != null)
-            {
-                request.AddParameter("sideEffect", sideEffect.ToRequestString().ToUpperInvariant());
             }
 
             await client.SignAsync(request, user, token)

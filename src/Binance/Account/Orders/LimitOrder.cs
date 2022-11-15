@@ -24,8 +24,6 @@ namespace Binance
         /// Get or set the time-in-force.
         /// </summary>
         public virtual TimeInForce TimeInForce { get; set; }
-        
-        public virtual SideEffect? SideEffect { get; set; }
 
         #endregion Public Properties
 

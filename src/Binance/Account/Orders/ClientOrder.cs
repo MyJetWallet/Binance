@@ -29,6 +29,8 @@ namespace Binance
         /// Get or set the quantity.
         /// </summary>
         public virtual decimal Quantity { get; set; }
+        
+        public virtual decimal QuoteOrderQty { get; set; }
 
         /// <summary>
         /// Get or set the client order ID (newClientOrderId).
