@@ -394,6 +394,18 @@ namespace Binance
         /// <param name="token"></param>
         /// <returns></returns>
         Task<string> GetAccountStatusAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default);
+
+        /// <summary>
+        /// Repays borrowed funds
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="asset"></param>
+        /// <param name="amount"></param>
+        /// <param name="recvWindow"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        Task<long> MarginAccountRepayAsync(IBinanceApiUser user, string asset, decimal amount,
+            long recvWindow = default, CancellationToken token = default);
         
         #endregion Account
 

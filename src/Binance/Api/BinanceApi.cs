@@ -1223,6 +1223,29 @@ namespace Binance
             return data;
         }
 
+        
+        public async Task<long> MarginAccountRepayAsync(IBinanceApiUser user, string asset, decimal amount, long recvWindow = default, CancellationToken token = default)
+        {
+            var request = new BinanceHttpRequest($"/sapi/v1/margin/repay")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            request.AddParameter("asset", asset);
+            request.AddParameter("amount", amount);
+
+            await HttpClient.SignAsync(request, user, token);
+
+            var json = await HttpClient.PostAsync(request, token);
+
+            var resp = JObject.Parse(json);
+            var txId = resp.GetValue("tranId")?.Value<long>() ?? 0;
+            
+            return txId;
+        }
         #endregion
 
         #region User Data Stream
