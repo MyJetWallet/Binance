@@ -10,7 +10,7 @@
     <PackageIconUrl>https://github.com/MyJetWallet/MyJetWallet.Binance/blob/master/images/logo.png?raw=true</PackageIconUrl>
     <PackageProjectUrl>https://github.com/MyJetWallet/MyJetWallet.Binance</PackageProjectUrl>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
