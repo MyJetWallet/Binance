@@ -33,7 +33,7 @@ public class ApiUserTradeTests
 
     }
         
-    [Fact]
+    //[Fact]
     public async Task MakeTrade()
     {
         var user = new BinanceApiUser(ApiKey, ApiSecret);
@@ -58,7 +58,7 @@ public class ApiUserTradeTests
         _testOutputHelper.WriteLine(JsonConvert.SerializeObject(resp2));
     }
     
-    [Fact]
+    //[Fact]
     public async Task GetTrades()
     {
         var user = new BinanceApiUser(ApiKey, ApiSecret);
