@@ -15,27 +15,27 @@ namespace Binance.Tests.Account
 
             var status = new AccountStatus(canTrade, canWithdraw, canDeposit);
 
-            Assert.Equal(canTrade, status.CanTrade);
-            Assert.Equal(canWithdraw, status.CanWithdraw);
-            Assert.Equal(canDeposit, status.CanDeposit);
+            ClassicAssert.Equal(canTrade, status.CanTrade);
+            ClassicAssert.Equal(canWithdraw, status.CanWithdraw);
+            ClassicAssert.Equal(canDeposit, status.CanDeposit);
 
             canTrade = false;
             canWithdraw = true;
 
             status = new AccountStatus(canTrade, canWithdraw, canDeposit);
 
-            Assert.Equal(canTrade, status.CanTrade);
-            Assert.Equal(canWithdraw, status.CanWithdraw);
-            Assert.Equal(canDeposit, status.CanDeposit);
+            ClassicAssert.Equal(canTrade, status.CanTrade);
+            ClassicAssert.Equal(canWithdraw, status.CanWithdraw);
+            ClassicAssert.Equal(canDeposit, status.CanDeposit);
 
             canWithdraw = false;
             canDeposit = true;
 
             status = new AccountStatus(canTrade, canWithdraw, canDeposit);
 
-            Assert.Equal(canTrade, status.CanTrade);
-            Assert.Equal(canWithdraw, status.CanWithdraw);
-            Assert.Equal(canDeposit, status.CanDeposit);
+            ClassicAssert.Equal(canTrade, status.CanTrade);
+            ClassicAssert.Equal(canWithdraw, status.CanWithdraw);
+            ClassicAssert.Equal(canDeposit, status.CanDeposit);
         }
     }
 }

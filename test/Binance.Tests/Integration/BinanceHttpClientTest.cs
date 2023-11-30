@@ -28,7 +28,7 @@ namespace Binance.Tests.Integration
         [Fact]
         public async Task Ping()
         {
-            Assert.Equal(BinanceHttpClient.SuccessfulTestResponse, await _api.PingAsync());
+            ClassicAssert.Equal(BinanceHttpClient.SuccessfulTestResponse, await _api.PingAsync());
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Binance.Tests.Integration
         {
             var json = await _api.GetServerTimeAsync();
 
-            Assert.True(IsJsonObject(json));
+            ClassicAssert.True(IsJsonObject(json));
         }
 
         #endregion Connectivity
@@ -48,7 +48,7 @@ namespace Binance.Tests.Integration
         {
             var json = await _api.GetOrderBookAsync(Symbol.BTC_USDT, 5);
 
-            Assert.True(IsJsonObject(json));
+            ClassicAssert.True(IsJsonObject(json));
         }
 
         [Fact]
@@ -58,11 +58,11 @@ namespace Binance.Tests.Integration
 
             var json = await _api.GetAggregateTradesAsync(Symbol.BTC_USDT, 0, 1);
 
-            Assert.True(IsJsonArray(json));
+            ClassicAssert.True(IsJsonArray(json));
 
             json = await _api.GetAggregateTradesAsync(Symbol.BTC_USDT, startTime: now.AddMinutes(-1), endTime: now);
 
-            Assert.True(IsJsonArray(json));
+            ClassicAssert.True(IsJsonArray(json));
         }
 
         [Fact]
@@ -72,11 +72,11 @@ namespace Binance.Tests.Integration
 
             var json = await _api.GetCandlesticksAsync(Symbol.BTC_USDT, CandlestickInterval.Hour, 1);
 
-            Assert.True(IsJsonArray(json));
+            ClassicAssert.True(IsJsonArray(json));
 
             json = await _api.GetCandlesticksAsync(Symbol.BTC_USDT, CandlestickInterval.Minute, startTime: now.AddMinutes(-1), endTime: now);
 
-            Assert.True(IsJsonArray(json));
+            ClassicAssert.True(IsJsonArray(json));
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace Binance.Tests.Integration
         {
             var json = await _api.Get24HourStatisticsAsync(Symbol.BTC_USDT);
 
-            Assert.True(IsJsonObject(json));
+            ClassicAssert.True(IsJsonObject(json));
         }
 
         [Fact]
@@ -92,11 +92,11 @@ namespace Binance.Tests.Integration
         {
             var json = await _api.GetPriceAsync();
 
-            Assert.True(IsJsonArray(json));
+            ClassicAssert.True(IsJsonArray(json));
 
             json = await _api.GetPriceAsync(Symbol.BTC_USDT);
 
-            Assert.True(IsJsonObject(json));
+            ClassicAssert.True(IsJsonObject(json));
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace Binance.Tests.Integration
         {
             var json = await _api.GetOrderBookTopsAsync();
 
-            Assert.True(IsJsonArray(json));
+            ClassicAssert.True(IsJsonArray(json));
         }
 
         #endregion Market Data

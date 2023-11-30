@@ -10,7 +10,7 @@ namespace Binance.Tests.Api
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("apiKey", () => new BinanceApiUser(null));
+            ClassicAssert.Throws<ArgumentNullException>("apiKey", () => new BinanceApiUser(null));
         }
 
         [Fact]
@@ -20,8 +20,8 @@ namespace Binance.Tests.Api
 
             var user = new BinanceApiUser(apiKey);
 
-            Assert.Throws<ArgumentNullException>("totalParams", () => user.Sign(null));
-            Assert.Throws<InvalidOperationException>(() => user.Sign("valid-string"));
+            ClassicAssert.Throws<ArgumentNullException>("totalParams", () => user.Sign(null));
+            ClassicAssert.Throws<InvalidOperationException>(() => user.Sign("valid-string"));
         }
 
         [Fact]
@@ -32,8 +32,8 @@ namespace Binance.Tests.Api
 
             var user = new BinanceApiUser(apiKey, null, rateLimiter);
 
-            Assert.Equal(apiKey, user.ApiKey);
-            Assert.Equal(rateLimiter, user.RateLimiter);
+            ClassicAssert.Equal(apiKey, user.ApiKey);
+            ClassicAssert.Equal(rateLimiter, user.RateLimiter);
         }
     }
 }

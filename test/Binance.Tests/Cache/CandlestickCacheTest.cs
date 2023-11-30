@@ -19,12 +19,12 @@ namespace Binance.Tests.Cache
 
             var cache = new CandlestickCache(api, client);
 
-            Assert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(null, CandlestickInterval.Day));
-            Assert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(string.Empty, CandlestickInterval.Day));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(null, CandlestickInterval.Day));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(string.Empty, CandlestickInterval.Day));
 
             cache.Subscribe(symbol, interval);
 
-            Assert.Throws<InvalidOperationException>(() => cache.Subscribe(symbol, interval));
+            ClassicAssert.Throws<InvalidOperationException>(() => cache.Subscribe(symbol, interval));
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Binance.Tests.Cache
             client2.Subscribe(symbol1, interval);
 
             var clientSubscribeStreams = client2.SubscribedStreams.ToArray();
-            Assert.Equal(CandlestickClient.GetStreamName(symbol1, interval), clientSubscribeStreams.Single());
+            ClassicAssert.Equal(CandlestickClient.GetStreamName(symbol1, interval), clientSubscribeStreams.Single());
 
             var cache = new CandlestickCache(api, client1)
             {
@@ -61,7 +61,7 @@ namespace Binance.Tests.Cache
             };
 
             // Client subscribed streams are unchanged after link to unsubscribed cache.
-            Assert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
+            ClassicAssert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
 
             cache.Client = client1; // unlink client.
 
@@ -69,13 +69,13 @@ namespace Binance.Tests.Cache
             cache.Subscribe(symbol2, interval);
 
             // Cache is subscribed to symbol.
-            Assert.Equal(CandlestickClient.GetStreamName(symbol2, interval), cache.SubscribedStreams.Single());
+            ClassicAssert.Equal(CandlestickClient.GetStreamName(symbol2, interval), cache.SubscribedStreams.Single());
 
             cache.Client = client2; // link to client.
 
             // Client has second subscribed stream from cache.
-            Assert.True(client2.SubscribedStreams.Count() == 2);
-            Assert.Contains(CandlestickClient.GetStreamName(symbol2, interval), client2.SubscribedStreams);
+            ClassicAssert.True(client2.SubscribedStreams.Count() == 2);
+            ClassicAssert.Contains(CandlestickClient.GetStreamName(symbol2, interval), client2.SubscribedStreams);
         }
     }
 }

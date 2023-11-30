@@ -19,13 +19,13 @@ namespace Binance.Tests.Cache
 
             var cache = new AccountInfoCache(api, client);
 
-            Assert.Throws<ArgumentNullException>("listenKey", () => cache.Subscribe(null, user));
-            Assert.Throws<ArgumentNullException>("listenKey", () => cache.Subscribe(string.Empty, user));
-            Assert.Throws<ArgumentNullException>("user", () => cache.Subscribe(listenKey, null));
+            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => cache.Subscribe(null, user));
+            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => cache.Subscribe(string.Empty, user));
+            ClassicAssert.Throws<ArgumentNullException>("user", () => cache.Subscribe(listenKey, null));
 
             cache.Subscribe(listenKey, user);
 
-            Assert.Throws<InvalidOperationException>(() => cache.Subscribe(listenKey, user));
+            ClassicAssert.Throws<InvalidOperationException>(() => cache.Subscribe(listenKey, user));
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace Binance.Tests.Cache
             client2.Subscribe(listenKey1, user1);
 
             var clientSubscribeStreams = client2.SubscribedStreams.ToArray();
-            Assert.Equal(listenKey1, clientSubscribeStreams.Single());
+            ClassicAssert.Equal(listenKey1, clientSubscribeStreams.Single());
 
             var cache = new AccountInfoCache(api, client1)
             {
@@ -63,7 +63,7 @@ namespace Binance.Tests.Cache
             };
 
             // Client subscribed streams are unchanged after link to unsubscribed cache.
-            Assert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
+            ClassicAssert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
 
             cache.Client = client1; // unlink client.
 
@@ -71,13 +71,13 @@ namespace Binance.Tests.Cache
             cache.Subscribe(listenKey2, user2);
 
             // Cache is subscribed to listen key.
-            Assert.Equal(listenKey2, cache.SubscribedStreams.Single());
+            ClassicAssert.Equal(listenKey2, cache.SubscribedStreams.Single());
 
             cache.Client = client2; // link to client.
 
             // Client has second subscribed stream from cache.
-            Assert.True(client2.SubscribedStreams.Count() == 2);
-            Assert.Contains(listenKey2, client2.SubscribedStreams);
+            ClassicAssert.True(client2.SubscribedStreams.Count() == 2);
+            ClassicAssert.Contains(listenKey2, client2.SubscribedStreams);
         }
     }
 }

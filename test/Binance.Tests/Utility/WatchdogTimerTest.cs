@@ -12,7 +12,7 @@ namespace Binance.Tests.Utility
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("onTimeout", () => new WatchdogTimer(null));
+            ClassicAssert.Throws<ArgumentNullException>("onTimeout", () => new WatchdogTimer(null));
         }
 
         [Fact]
@@ -27,8 +27,8 @@ namespace Binance.Tests.Utility
                 IsEnabled = isEnabled
             };
 
-            Assert.Equal(interval, watchdog.Interval);
-            Assert.Equal(isEnabled, watchdog.IsEnabled);
+            ClassicAssert.Equal(interval, watchdog.Interval);
+            ClassicAssert.Equal(isEnabled, watchdog.IsEnabled);
         }
 
         [Fact]
@@ -48,8 +48,8 @@ namespace Binance.Tests.Utility
 
             await Task.Delay(1000);
 
-            Assert.True(stopwatch.ElapsedMilliseconds <= interval.TotalMilliseconds + 200);
-            Assert.True(stopwatch.ElapsedMilliseconds >= interval.TotalMilliseconds - 200);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds <= interval.TotalMilliseconds + 200);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds >= interval.TotalMilliseconds - 200);
         }
 
         [Fact]
@@ -73,11 +73,11 @@ namespace Binance.Tests.Utility
                 await Task.Delay(delay);
             }
 
-            Assert.True(watchdog.IsEnabled);
+            ClassicAssert.True(watchdog.IsEnabled);
             // ReSharper disable once ArrangeRedundantParentheses
-            Assert.True(stopwatch.ElapsedMilliseconds <= (count * delay) + 200);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds <= (count * delay) + 200);
             // ReSharper disable once ArrangeRedundantParentheses
-            Assert.True(stopwatch.ElapsedMilliseconds >= (count * delay) - 200);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds >= (count * delay) - 200);
         }
     }
 }

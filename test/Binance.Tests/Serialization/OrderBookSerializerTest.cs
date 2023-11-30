@@ -22,7 +22,7 @@ namespace Binance.Tests.Serialization
 
             var other = serializer.Deserialize(json);
 
-            Assert.True(orderBook.Equals(other));
+            ClassicAssert.True(orderBook.Equals(other));
         }
     }
 }

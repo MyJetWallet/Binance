@@ -17,11 +17,11 @@ namespace Binance.Tests.Client
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe((string)null));
-            Assert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe(string.Empty));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe((string)null));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe(string.Empty));
 
-            Assert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe((string)null));
-            Assert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe(string.Empty));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe((string)null));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe(string.Empty));
         }
 
         [Fact]
@@ -30,21 +30,21 @@ namespace Binance.Tests.Client
             var symbol1 = Symbol.BTC_USDT;
             var symbol2 = Symbol.LTC_BTC;
 
-            Assert.Empty(_client.SubscribedStreams);
+            ClassicAssert.Empty(_client.SubscribedStreams);
 
             // Subscribe to symbol.
             _client.Subscribe(symbol1);
-            Assert.Equal(DepthClient.GetStreamName(symbol1), _client.SubscribedStreams.Single());
+            ClassicAssert.Equal(DepthClient.GetStreamName(symbol1), _client.SubscribedStreams.Single());
 
             // Re-Subscribe to same symbol doesn't fail.
             _client.Subscribe(symbol1);
-            Assert.Equal(DepthClient.GetStreamName(symbol1), _client.SubscribedStreams.Single());
+            ClassicAssert.Equal(DepthClient.GetStreamName(symbol1), _client.SubscribedStreams.Single());
 
             // Subscribe to a different symbol.
             _client.Subscribe(symbol2);
-            Assert.True(_client.SubscribedStreams.Count() == 2);
-            Assert.Contains(DepthClient.GetStreamName(symbol1), _client.SubscribedStreams);
-            Assert.Contains(DepthClient.GetStreamName(symbol2), _client.SubscribedStreams);
+            ClassicAssert.True(_client.SubscribedStreams.Count() == 2);
+            ClassicAssert.Contains(DepthClient.GetStreamName(symbol1), _client.SubscribedStreams);
+            ClassicAssert.Contains(DepthClient.GetStreamName(symbol2), _client.SubscribedStreams);
         }
 
         [Fact]
@@ -52,16 +52,16 @@ namespace Binance.Tests.Client
         {
             var symbol = Symbol.BTC_USDT;
 
-            Assert.Empty(_client.SubscribedStreams);
+            ClassicAssert.Empty(_client.SubscribedStreams);
 
             // Unsubscribe non-subscribed symbol doesn't fail.
             _client.Unsubscribe(symbol);
-            Assert.Empty(_client.SubscribedStreams);
+            ClassicAssert.Empty(_client.SubscribedStreams);
 
             // Subscribe and unsubscribe symbol.
             _client.Subscribe(symbol).Unsubscribe(symbol);
 
-            Assert.Empty(_client.SubscribedStreams);
+            ClassicAssert.Empty(_client.SubscribedStreams);
         }
 
         [Fact]
@@ -74,12 +74,12 @@ namespace Binance.Tests.Client
 
             // Subscribe to multiple symbols.
             _client.Subscribe(symbols);
-            Assert.True(_client.SubscribedStreams.Count() == symbols.Length);
+            ClassicAssert.True(_client.SubscribedStreams.Count() == symbols.Length);
 
             // Unsubscribe all.
             _client.Unsubscribe();
 
-            Assert.Empty(_client.SubscribedStreams);
+            ClassicAssert.Empty(_client.SubscribedStreams);
         }
     }
 }

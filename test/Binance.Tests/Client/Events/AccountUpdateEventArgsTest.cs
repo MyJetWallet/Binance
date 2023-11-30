@@ -11,7 +11,7 @@ namespace Binance.Tests.Client.Events
         {
             var time = DateTimeOffset.FromUnixTimeMilliseconds(DateTime.UtcNow.ToTimestamp()).UtcDateTime;
 
-            Assert.Throws<ArgumentNullException>("accountInfo", () => new AccountUpdateEventArgs(time, null));
+            ClassicAssert.Throws<ArgumentNullException>("accountInfo", () => new AccountUpdateEventArgs(time, null));
         }
 
         [Fact]
@@ -27,8 +27,8 @@ namespace Binance.Tests.Client.Events
 
             var args = new AccountUpdateEventArgs(time, account);
 
-            Assert.Equal(time, args.Time);
-            Assert.Equal(account, args.AccountInfo);
+            ClassicAssert.Equal(time, args.Time);
+            ClassicAssert.Equal(account, args.AccountInfo);
         }
     }
 }

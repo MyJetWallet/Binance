@@ -11,8 +11,8 @@ namespace Binance.Tests.Account
             var asset = Asset.BTC;
             const string address = "1234567890";
 
-            Assert.Throws<ArgumentNullException>("asset", () => new DepositAddress(null, address));
-            Assert.Throws<ArgumentNullException>("address", () => new DepositAddress(asset, null));
+            ClassicAssert.Throws<ArgumentNullException>("asset", () => new DepositAddress(null, address));
+            ClassicAssert.Throws<ArgumentNullException>("address", () => new DepositAddress(asset, null));
         }
 
         [Fact]
@@ -24,9 +24,9 @@ namespace Binance.Tests.Account
 
             var depositAddress = new DepositAddress(asset, address, addressTag);
 
-            Assert.Equal(asset, depositAddress.Asset);
-            Assert.Equal(address, depositAddress.Address);
-            Assert.Equal(addressTag, depositAddress.AddressTag);
+            ClassicAssert.Equal(asset, depositAddress.Asset);
+            ClassicAssert.Equal(address, depositAddress.Address);
+            ClassicAssert.Equal(addressTag, depositAddress.AddressTag);
         }
     }
 }

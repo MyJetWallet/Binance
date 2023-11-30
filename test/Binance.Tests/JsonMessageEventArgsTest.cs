@@ -8,8 +8,8 @@ namespace Binance.Tests
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("json", () => new JsonMessageEventArgs(null));
-            Assert.Throws<ArgumentNullException>("json", () => new JsonMessageEventArgs(string.Empty));
+            ClassicAssert.Throws<ArgumentNullException>("json", () => new JsonMessageEventArgs(null));
+            ClassicAssert.Throws<ArgumentNullException>("json", () => new JsonMessageEventArgs(string.Empty));
         }
 
         [Fact]
@@ -20,8 +20,8 @@ namespace Binance.Tests
 
             var args = new JsonMessageEventArgs(json, subject);
 
-            Assert.Equal(json, args.Json);
-            Assert.Equal(subject, args.Subject);
+            ClassicAssert.Equal(json, args.Json);
+            ClassicAssert.Equal(subject, args.Subject);
         }
     }
 }

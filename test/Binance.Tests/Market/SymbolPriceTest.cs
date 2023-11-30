@@ -12,8 +12,8 @@ namespace Binance.Tests.Market
             var symbol = Symbol.BTC_USDT;
             const decimal value = 1.2345m;
 
-            Assert.Throws<ArgumentNullException>("symbol", () => new SymbolPrice(null, value));
-            Assert.Throws<ArgumentException>("value", () => new SymbolPrice(symbol, -1));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new SymbolPrice(null, value));
+            ClassicAssert.Throws<ArgumentException>("value", () => new SymbolPrice(symbol, -1));
         }
 
         [Fact]
@@ -24,8 +24,8 @@ namespace Binance.Tests.Market
 
             var price = new SymbolPrice(symbol, value);
 
-            Assert.Equal(symbol, price.Symbol);
-            Assert.Equal(value, price.Value);
+            ClassicAssert.Equal(symbol, price.Symbol);
+            ClassicAssert.Equal(value, price.Value);
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace Binance.Tests.Market
 
             price = JsonConvert.DeserializeObject<SymbolPrice>(json);
 
-            Assert.Equal(symbol, price.Symbol);
-            Assert.Equal(value, price.Value);
+            ClassicAssert.Equal(symbol, price.Symbol);
+            ClassicAssert.Equal(value, price.Value);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new MarketOrder(user);
 
-            Assert.Equal(OrderType.Market, clientOrder.Type);
+            ClassicAssert.Equal(OrderType.Market, clientOrder.Type);
         }
     }
 }

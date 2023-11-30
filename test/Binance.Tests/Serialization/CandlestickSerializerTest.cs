@@ -31,7 +31,7 @@ namespace Binance.Tests.Serialization
 
             var other = serializer.Deserialize(json);
 
-            Assert.True(candlestick.Equals(other));
+            ClassicAssert.True(candlestick.Equals(other));
         }
     }
 }

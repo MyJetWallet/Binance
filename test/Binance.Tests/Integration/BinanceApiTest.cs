@@ -31,7 +31,7 @@ namespace Binance.Tests.Integration
         [Fact]
         public async Task Ping()
         {
-            Assert.True(await _api.PingAsync());
+            ClassicAssert.True(await _api.PingAsync());
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace Binance.Tests.Integration
         {
             var timestamp = await _api.GetTimestampAsync();
 
-            Assert.True(timestamp > DateTimeOffset.UtcNow.AddSeconds(-30).ToUnixTimeMilliseconds());
+            ClassicAssert.True(timestamp > DateTimeOffset.UtcNow.AddSeconds(-30).ToUnixTimeMilliseconds());
         }
 
         [Fact]
@@ -47,8 +47,8 @@ namespace Binance.Tests.Integration
         {
             var time = await _api.GetTimeAsync();
 
-            Assert.True(time > DateTime.UtcNow.AddSeconds(-30));
-            Assert.Equal(DateTimeKind.Utc, time.Kind);
+            ClassicAssert.True(time > DateTime.UtcNow.AddSeconds(-30));
+            ClassicAssert.Equal(DateTimeKind.Utc, time.Kind);
         }
 
         [Fact]
@@ -56,8 +56,8 @@ namespace Binance.Tests.Integration
         {
             var rateLimits = await _api.GetRateLimitInfoAsync();
 
-            Assert.NotNull(rateLimits);
-            Assert.NotEmpty(rateLimits);
+            ClassicAssert.NotNull(rateLimits);
+            ClassicAssert.NotEmpty(rateLimits);
         }
 
         #endregion Connectivity
@@ -71,11 +71,11 @@ namespace Binance.Tests.Integration
 
             var orderBook = await _api.GetOrderBookAsync(Symbol.BTC_USDT, limit);
 
-            Assert.NotNull(orderBook);
-            Assert.NotEmpty(orderBook.Bids);
-            Assert.NotEmpty(orderBook.Asks);
-            Assert.True(orderBook.Bids.Count() == limit);
-            Assert.True(orderBook.Asks.Count() == limit);
+            ClassicAssert.NotNull(orderBook);
+            ClassicAssert.NotEmpty(orderBook.Bids);
+            ClassicAssert.NotEmpty(orderBook.Asks);
+            ClassicAssert.True(orderBook.Bids.Count() == limit);
+            ClassicAssert.True(orderBook.Asks.Count() == limit);
         }
 
         [Fact]
@@ -85,9 +85,9 @@ namespace Binance.Tests.Integration
 
             var trades = await _api.GetAggregateTradesAsync(Symbol.BTC_USDT, limit);
 
-            Assert.NotNull(trades);
-            Assert.NotEmpty(trades);
-            Assert.True(trades.Count() == limit);
+            ClassicAssert.NotNull(trades);
+            ClassicAssert.NotEmpty(trades);
+            ClassicAssert.True(trades.Count() == limit);
         }
 
         [Fact]
@@ -98,10 +98,10 @@ namespace Binance.Tests.Integration
 
             var trades = await _api.GetAggregateTradesFromAsync(Symbol.BTC_USDT, fromId, limit);
 
-            Assert.NotNull(trades);
-            Assert.NotEmpty(trades);
-            Assert.True(trades.Count() == limit);
-            Assert.True(trades.First().Id == fromId);
+            ClassicAssert.NotNull(trades);
+            ClassicAssert.NotEmpty(trades);
+            ClassicAssert.True(trades.Count() == limit);
+            ClassicAssert.True(trades.First().Id == fromId);
         }
 
         [Fact]
@@ -116,10 +116,10 @@ namespace Binance.Tests.Integration
 
             var trades = await _api.GetAggregateTradesAsync(Symbol.BTC_USDT, startTime, endTime);
 
-            Assert.NotNull(trades);
-            Assert.NotEmpty(trades);
-            Assert.True(trades.Count() >= limit);
-            Assert.All(limitTrades, t1 => trades.Single(t2 => t2.Id == t1.Id));
+            ClassicAssert.NotNull(trades);
+            ClassicAssert.NotEmpty(trades);
+            ClassicAssert.True(trades.Count() >= limit);
+            ClassicAssert.All(limitTrades, t1 => trades.Single(t2 => t2.Id == t1.Id));
         }
 
         [Fact]
@@ -129,9 +129,9 @@ namespace Binance.Tests.Integration
 
             var candlesticks = await _api.GetCandlesticksAsync(Symbol.BTC_USDT, CandlestickInterval.Hour, limit);
 
-            Assert.NotNull(candlesticks);
-            Assert.NotEmpty(candlesticks);
-            Assert.True(candlesticks.Count() == limit);
+            ClassicAssert.NotNull(candlesticks);
+            ClassicAssert.NotEmpty(candlesticks);
+            ClassicAssert.True(candlesticks.Count() == limit);
         }
 
         [Fact]
@@ -147,10 +147,10 @@ namespace Binance.Tests.Integration
 
             var candlesticks = await _api.GetCandlesticksAsync(Symbol.BTC_USDT, CandlestickInterval.Hour, startTime, endTime, newLimit);
 
-            Assert.NotNull(candlesticks);
-            Assert.NotEmpty(candlesticks);
-            Assert.True(candlesticks.Count() == newLimit);
-            Assert.All(candlesticks, c1 => limitCandlesticks.Single(c2 => c2.OpenTime == c1.OpenTime));
+            ClassicAssert.NotNull(candlesticks);
+            ClassicAssert.NotEmpty(candlesticks);
+            ClassicAssert.True(candlesticks.Count() == newLimit);
+            ClassicAssert.All(candlesticks, c1 => limitCandlesticks.Single(c2 => c2.OpenTime == c1.OpenTime));
         }
 
         [Fact]
@@ -158,7 +158,7 @@ namespace Binance.Tests.Integration
         {
             var stats = await _api.Get24HourStatisticsAsync(Symbol.BTC_USDT);
 
-            Assert.NotNull(stats);
+            ClassicAssert.NotNull(stats);
         }
 
         [Fact]
@@ -166,8 +166,8 @@ namespace Binance.Tests.Integration
         {
             var prices = await _api.GetPricesAsync();
 
-            Assert.NotNull(prices);
-            Assert.NotEmpty(prices);
+            ClassicAssert.NotNull(prices);
+            ClassicAssert.NotEmpty(prices);
         }
 
         [Fact]
@@ -175,8 +175,8 @@ namespace Binance.Tests.Integration
         {
             var tops = await _api.GetOrderBookTopsAsync();
 
-            Assert.NotNull(tops);
-            Assert.NotEmpty(tops);
+            ClassicAssert.NotNull(tops);
+            ClassicAssert.NotEmpty(tops);
         }
 
         #endregion Market Data

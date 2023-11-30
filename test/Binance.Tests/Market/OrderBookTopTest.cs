@@ -14,7 +14,7 @@ namespace Binance.Tests.Market
             const decimal bidQuantity = 0.987654321m;
             const decimal askQuantity = 1.987654321m;
 
-            Assert.Throws<ArgumentException>("Price", () => OrderBookTop.Create(symbol, bidPrice, bidQuantity, bidPrice - 0.1m, askQuantity));
+            ClassicAssert.Throws<ArgumentException>("Price", () => OrderBookTop.Create(symbol, bidPrice, bidQuantity, bidPrice - 0.1m, askQuantity));
         }
 
         [Fact]
@@ -28,11 +28,11 @@ namespace Binance.Tests.Market
 
             var top = OrderBookTop.Create(symbol, bidPrice, bidQuantity, askPrice, askQuantity);
 
-            Assert.Equal(bidPrice, top.Bid.Price);
-            Assert.Equal(bidQuantity, top.Bid.Quantity);
+            ClassicAssert.Equal(bidPrice, top.Bid.Price);
+            ClassicAssert.Equal(bidQuantity, top.Bid.Quantity);
 
-            Assert.Equal(askPrice, top.Ask.Price);
-            Assert.Equal(askQuantity, top.Ask.Quantity);
+            ClassicAssert.Equal(askPrice, top.Ask.Price);
+            ClassicAssert.Equal(askQuantity, top.Ask.Quantity);
         }
 
         [Fact]
@@ -50,11 +50,11 @@ namespace Binance.Tests.Market
 
             top = JsonConvert.DeserializeObject<OrderBookTop>(json);
 
-            Assert.Equal(bidPrice, top.Bid.Price);
-            Assert.Equal(bidQuantity, top.Bid.Quantity);
+            ClassicAssert.Equal(bidPrice, top.Bid.Price);
+            ClassicAssert.Equal(bidQuantity, top.Bid.Quantity);
 
-            Assert.Equal(askPrice, top.Ask.Price);
-            Assert.Equal(askQuantity, top.Ask.Quantity);
+            ClassicAssert.Equal(askPrice, top.Ask.Price);
+            ClassicAssert.Equal(askQuantity, top.Ask.Quantity);
         }
     }
 }

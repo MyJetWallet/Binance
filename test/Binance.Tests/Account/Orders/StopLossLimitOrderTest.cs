@@ -12,8 +12,8 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new StopLossLimitOrder(user);
 
-            Assert.Equal(OrderType.StopLossLimit, clientOrder.Type);
-            Assert.Equal(0, clientOrder.StopPrice);
+            ClassicAssert.Equal(OrderType.StopLossLimit, clientOrder.Type);
+            ClassicAssert.Equal(0, clientOrder.StopPrice);
         }
     }
 }

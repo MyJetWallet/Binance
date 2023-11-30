@@ -9,8 +9,8 @@ namespace Binance.Tests.Market
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentException>("price", () => new OrderBookPriceLevel(-1, 1));
-            Assert.Throws<ArgumentException>("quantity", () => new OrderBookPriceLevel(1, -1));
+            ClassicAssert.Throws<ArgumentException>("price", () => new OrderBookPriceLevel(-1, 1));
+            ClassicAssert.Throws<ArgumentException>("quantity", () => new OrderBookPriceLevel(1, -1));
         }
 
         [Fact]
@@ -21,8 +21,8 @@ namespace Binance.Tests.Market
 
             var level = new OrderBookPriceLevel(price, quantity);
 
-            Assert.Equal(price, level.Price);
-            Assert.Equal(quantity, level.Quantity);
+            ClassicAssert.Equal(price, level.Price);
+            ClassicAssert.Equal(quantity, level.Quantity);
         }
 
         [Fact]
@@ -33,8 +33,8 @@ namespace Binance.Tests.Market
 
             var level = new OrderBookPriceLevel(price, quantity);
 
-            Assert.Equal(price, level.Price);
-            Assert.Equal(quantity, level.Quantity);
+            ClassicAssert.Equal(price, level.Price);
+            ClassicAssert.Equal(quantity, level.Quantity);
         }
 
         [Fact]
@@ -49,8 +49,8 @@ namespace Binance.Tests.Market
 
             level = JsonConvert.DeserializeObject<OrderBookPriceLevel>(json);
 
-            Assert.Equal(price, level.Price);
-            Assert.Equal(quantity, level.Quantity);
+            ClassicAssert.Equal(price, level.Price);
+            ClassicAssert.Equal(quantity, level.Quantity);
         }
     }
 }

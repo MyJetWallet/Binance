@@ -15,11 +15,11 @@ namespace Binance.Tests.Account
             const DepositStatus status = DepositStatus.Success;
             const string address = "0x12345678901234567890";
 
-            Assert.Throws<ArgumentNullException>("asset", () => new Deposit(null, amount, time, status, address));
-            Assert.Throws<ArgumentException>("amount", () => new Deposit(asset, -1, time, status, address));
-            Assert.Throws<ArgumentException>("amount", () => new Deposit(asset, 0, time, status, address));
-            Assert.Throws<ArgumentNullException>("address", () => new Deposit(asset, amount, time, status, null));
-            Assert.Throws<ArgumentNullException>("address", () => new Deposit(asset, amount, time, status, string.Empty));
+            ClassicAssert.Throws<ArgumentNullException>("asset", () => new Deposit(null, amount, time, status, address));
+            ClassicAssert.Throws<ArgumentException>("amount", () => new Deposit(asset, -1, time, status, address));
+            ClassicAssert.Throws<ArgumentException>("amount", () => new Deposit(asset, 0, time, status, address));
+            ClassicAssert.Throws<ArgumentNullException>("address", () => new Deposit(asset, amount, time, status, null));
+            ClassicAssert.Throws<ArgumentNullException>("address", () => new Deposit(asset, amount, time, status, string.Empty));
         }
 
         [Fact]
@@ -35,13 +35,13 @@ namespace Binance.Tests.Account
 
             var deposit = new Deposit(asset, amount, time, status, address, addressTag, txId);
 
-            Assert.Equal(asset, deposit.Asset);
-            Assert.Equal(amount, deposit.Amount);
-            Assert.Equal(time, deposit.Time);
-            Assert.Equal(status, deposit.Status);
-            Assert.Equal(address, deposit.Address);
-            Assert.Equal(addressTag, deposit.AddressTag);
-            Assert.Equal(txId, deposit.TxId);
+            ClassicAssert.Equal(asset, deposit.Asset);
+            ClassicAssert.Equal(amount, deposit.Amount);
+            ClassicAssert.Equal(time, deposit.Time);
+            ClassicAssert.Equal(status, deposit.Status);
+            ClassicAssert.Equal(address, deposit.Address);
+            ClassicAssert.Equal(addressTag, deposit.AddressTag);
+            ClassicAssert.Equal(txId, deposit.TxId);
         }
 
         [Fact]
@@ -61,13 +61,13 @@ namespace Binance.Tests.Account
 
             deposit = JsonConvert.DeserializeObject<Deposit>(json);
 
-            Assert.Equal(asset, deposit.Asset);
-            Assert.Equal(amount, deposit.Amount);
-            Assert.Equal(time, deposit.Time);
-            Assert.Equal(status, deposit.Status);
-            Assert.Equal(address, deposit.Address);
-            Assert.Equal(addressTag, deposit.AddressTag);
-            Assert.Equal(txId, deposit.TxId);
+            ClassicAssert.Equal(asset, deposit.Asset);
+            ClassicAssert.Equal(amount, deposit.Amount);
+            ClassicAssert.Equal(time, deposit.Time);
+            ClassicAssert.Equal(status, deposit.Status);
+            ClassicAssert.Equal(address, deposit.Address);
+            ClassicAssert.Equal(addressTag, deposit.AddressTag);
+            ClassicAssert.Equal(txId, deposit.TxId);
         }
     }
 }

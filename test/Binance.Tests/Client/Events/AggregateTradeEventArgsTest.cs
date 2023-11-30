@@ -11,7 +11,7 @@ namespace Binance.Tests.Client.Events
         {
             var time = DateTimeOffset.FromUnixTimeMilliseconds(DateTime.UtcNow.ToTimestamp()).UtcDateTime;
 
-            Assert.Throws<ArgumentNullException>("trade", () => new AggregateTradeEventArgs(time, null));
+            ClassicAssert.Throws<ArgumentNullException>("trade", () => new AggregateTradeEventArgs(time, null));
         }
 
         [Fact]
@@ -32,8 +32,8 @@ namespace Binance.Tests.Client.Events
 
             var args = new AggregateTradeEventArgs(time, trade);
 
-            Assert.Equal(time, args.Time);
-            Assert.Equal(trade, args.Trade);
+            ClassicAssert.Equal(time, args.Time);
+            ClassicAssert.Equal(trade, args.Trade);
         }
     }
 }

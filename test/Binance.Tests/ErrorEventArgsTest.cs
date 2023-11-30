@@ -8,7 +8,7 @@ namespace Binance.Tests
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("exception", () => new ErrorEventArgs(null));
+            ClassicAssert.Throws<ArgumentNullException>("exception", () => new ErrorEventArgs(null));
         }
 
         [Fact]
@@ -18,7 +18,7 @@ namespace Binance.Tests
 
             var args = new ErrorEventArgs(exception);
 
-            Assert.Equal(exception, args.Exception);
+            ClassicAssert.Equal(exception, args.Exception);
         }
     }
 }

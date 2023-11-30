@@ -38,7 +38,7 @@ namespace Binance.Tests.Serialization
 
             var other = serializer.Deserialize(json, user);
 
-            Assert.True(order.Equals(other));
+            ClassicAssert.True(order.Equals(other));
         }
     }
 }

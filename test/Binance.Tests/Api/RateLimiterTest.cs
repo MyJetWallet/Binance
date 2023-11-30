@@ -14,8 +14,8 @@ namespace Binance.Tests.Api
         {
             var rateLimiter = new RateLimiter();
 
-            Assert.Throws<ArgumentException>(nameof(rateLimiter.Count), () => rateLimiter.Count = -1);
-            Assert.Throws<ArgumentException>(nameof(rateLimiter.Count), () => rateLimiter.Count = 0);
+            ClassicAssert.Throws<ArgumentException>(nameof(rateLimiter.Count), () => rateLimiter.Count = -1);
+            ClassicAssert.Throws<ArgumentException>(nameof(rateLimiter.Count), () => rateLimiter.Count = 0);
         }
 
         [Fact]
@@ -30,8 +30,8 @@ namespace Binance.Tests.Api
                 Duration = duration
             };
 
-            Assert.Equal(count, rateLimiter.Count);
-            Assert.Equal(duration, rateLimiter.Duration);
+            ClassicAssert.Equal(count, rateLimiter.Count);
+            ClassicAssert.Equal(duration, rateLimiter.Duration);
         }
 
         [Fact]
@@ -61,8 +61,8 @@ namespace Binance.Tests.Api
 
                 // Assume elapsed milliseconds is within +/- 60 msec of expected time (15 msec clock resolution).
                 // NOTE: Should account for errors in two timestamps, Task.Delay(), and Stopwatch.
-                Assert.True(stopwatch.ElapsedMilliseconds >= duration.TotalMilliseconds - 60);
-                Assert.False(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + 60);
+                ClassicAssert.True(stopwatch.ElapsedMilliseconds >= duration.TotalMilliseconds - 60);
+                ClassicAssert.False(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + 60);
             }
         }
     }

@@ -24,21 +24,21 @@ namespace Binance.Tests.Market
             const decimal takerBuyBaseAssetVolume = 4444;
             const decimal takerBuyQuoteAssetVolume = 333;
 
-            Assert.Throws<ArgumentNullException>("symbol", () => new Candlestick(null, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new Candlestick(null, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
 
-            Assert.Throws<ArgumentException>("open", () => new Candlestick(symbol, interval, openTime, -1, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
-            Assert.Throws<ArgumentException>("high", () => new Candlestick(symbol, interval, openTime, open, -1, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
-            Assert.Throws<ArgumentException>("low", () => new Candlestick(symbol, interval, openTime, open, high, -1, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
-            Assert.Throws<ArgumentException>("close", () => new Candlestick(symbol, interval, openTime, open, high, low, -1, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("open", () => new Candlestick(symbol, interval, openTime, -1, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("high", () => new Candlestick(symbol, interval, openTime, open, -1, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("low", () => new Candlestick(symbol, interval, openTime, open, high, -1, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("close", () => new Candlestick(symbol, interval, openTime, open, high, low, -1, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
 
             // HACK: https://api.binance.com/api/v1/klines?symbol=TRXBTC&interval=1M returns negative volume.
-            //Assert.Throws<ArgumentException>("volume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, -1, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            //ClassicAssert.Throws<ArgumentException>("volume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, -1, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
 
-            Assert.Throws<ArgumentException>("quoteAssetVolume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, -1, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
-            Assert.Throws<ArgumentException>("takerBuyBaseAssetVolume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, -1, takerBuyQuoteAssetVolume));
-            Assert.Throws<ArgumentException>("takerBuyQuoteAssetVolume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, -1));
+            ClassicAssert.Throws<ArgumentException>("quoteAssetVolume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, -1, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("takerBuyBaseAssetVolume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, -1, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("takerBuyQuoteAssetVolume", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, -1));
 
-            Assert.Throws<ArgumentException>("numberOfTrades", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, -1, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
+            ClassicAssert.Throws<ArgumentException>("numberOfTrades", () => new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, -1, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume));
         }
 
         [Fact]
@@ -60,19 +60,19 @@ namespace Binance.Tests.Market
 
             var candlestick = new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume);
 
-            Assert.Equal(symbol, candlestick.Symbol);
-            Assert.Equal(interval, candlestick.Interval);
-            Assert.Equal(openTime, candlestick.OpenTime);
-            Assert.Equal(open, candlestick.Open);
-            Assert.Equal(high, candlestick.High);
-            Assert.Equal(low, candlestick.Low);
-            Assert.Equal(close, candlestick.Close);
-            Assert.Equal(volume, candlestick.Volume);
-            Assert.Equal(closeTime, candlestick.CloseTime);
-            Assert.Equal(quoteAssetVolume, candlestick.QuoteAssetVolume);
-            Assert.Equal(numberOfTrades, candlestick.NumberOfTrades);
-            Assert.Equal(takerBuyBaseAssetVolume, candlestick.TakerBuyBaseAssetVolume);
-            Assert.Equal(takerBuyQuoteAssetVolume, candlestick.TakerBuyQuoteAssetVolume);
+            ClassicAssert.Equal(symbol, candlestick.Symbol);
+            ClassicAssert.Equal(interval, candlestick.Interval);
+            ClassicAssert.Equal(openTime, candlestick.OpenTime);
+            ClassicAssert.Equal(open, candlestick.Open);
+            ClassicAssert.Equal(high, candlestick.High);
+            ClassicAssert.Equal(low, candlestick.Low);
+            ClassicAssert.Equal(close, candlestick.Close);
+            ClassicAssert.Equal(volume, candlestick.Volume);
+            ClassicAssert.Equal(closeTime, candlestick.CloseTime);
+            ClassicAssert.Equal(quoteAssetVolume, candlestick.QuoteAssetVolume);
+            ClassicAssert.Equal(numberOfTrades, candlestick.NumberOfTrades);
+            ClassicAssert.Equal(takerBuyBaseAssetVolume, candlestick.TakerBuyBaseAssetVolume);
+            ClassicAssert.Equal(takerBuyQuoteAssetVolume, candlestick.TakerBuyQuoteAssetVolume);
         }
 
         [Fact]
@@ -101,19 +101,19 @@ namespace Binance.Tests.Market
 
             candlestick = JsonConvert.DeserializeObject<Candlestick>(json, settings);
 
-            Assert.Equal(symbol, candlestick.Symbol);
-            Assert.Equal(interval, candlestick.Interval);
-            Assert.Equal(openTime, candlestick.OpenTime);
-            Assert.Equal(open, candlestick.Open);
-            Assert.Equal(high, candlestick.High);
-            Assert.Equal(low, candlestick.Low);
-            Assert.Equal(close, candlestick.Close);
-            Assert.Equal(volume, candlestick.Volume);
-            Assert.Equal(closeTime, candlestick.CloseTime);
-            Assert.Equal(quoteAssetVolume, candlestick.QuoteAssetVolume);
-            Assert.Equal(numberOfTrades, candlestick.NumberOfTrades);
-            Assert.Equal(takerBuyBaseAssetVolume, candlestick.TakerBuyBaseAssetVolume);
-            Assert.Equal(takerBuyQuoteAssetVolume, candlestick.TakerBuyQuoteAssetVolume);
+            ClassicAssert.Equal(symbol, candlestick.Symbol);
+            ClassicAssert.Equal(interval, candlestick.Interval);
+            ClassicAssert.Equal(openTime, candlestick.OpenTime);
+            ClassicAssert.Equal(open, candlestick.Open);
+            ClassicAssert.Equal(high, candlestick.High);
+            ClassicAssert.Equal(low, candlestick.Low);
+            ClassicAssert.Equal(close, candlestick.Close);
+            ClassicAssert.Equal(volume, candlestick.Volume);
+            ClassicAssert.Equal(closeTime, candlestick.CloseTime);
+            ClassicAssert.Equal(quoteAssetVolume, candlestick.QuoteAssetVolume);
+            ClassicAssert.Equal(numberOfTrades, candlestick.NumberOfTrades);
+            ClassicAssert.Equal(takerBuyBaseAssetVolume, candlestick.TakerBuyBaseAssetVolume);
+            ClassicAssert.Equal(takerBuyQuoteAssetVolume, candlestick.TakerBuyQuoteAssetVolume);
         }
     }
 }

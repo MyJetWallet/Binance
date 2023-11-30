@@ -14,9 +14,9 @@ namespace Binance.Tests.Account
             var time = DateTimeOffset.FromUnixTimeMilliseconds(DateTime.UtcNow.ToTimestamp()).UtcDateTime;
             var status = new AccountStatus(true, true, true);
 
-            Assert.Throws<ArgumentNullException>("user", () => new AccountInfo(null, commissions, status, time));
-            Assert.Throws<ArgumentNullException>("commissions", () => new AccountInfo(user, null, status, time));
-            Assert.Throws<ArgumentNullException>("status", () => new AccountInfo(user, commissions, null, time));
+            ClassicAssert.Throws<ArgumentNullException>("user", () => new AccountInfo(null, commissions, status, time));
+            ClassicAssert.Throws<ArgumentNullException>("commissions", () => new AccountInfo(user, null, status, time));
+            ClassicAssert.Throws<ArgumentNullException>("status", () => new AccountInfo(user, commissions, null, time));
         }
 
         [Fact]
@@ -30,20 +30,20 @@ namespace Binance.Tests.Account
 
             var account = new AccountInfo(user, commissions, status, time);
 
-            Assert.Equal(commissions, account.Commissions);
-            Assert.Equal(status, account.Status);
-            Assert.Equal(time, account.Time);
-            Assert.NotNull(account.Balances);
-            Assert.Empty(account.Balances);
+            ClassicAssert.Equal(commissions, account.Commissions);
+            ClassicAssert.Equal(status, account.Status);
+            ClassicAssert.Equal(time, account.Time);
+            ClassicAssert.NotNull(account.Balances);
+            ClassicAssert.Empty(account.Balances);
 
             account = new AccountInfo(user, commissions, status, time, balances);
 
-            Assert.Equal(commissions, account.Commissions);
-            Assert.Equal(status, account.Status);
-            Assert.Equal(time, account.Time);
-            Assert.NotNull(account.Balances);
-            Assert.NotEmpty(account.Balances);
-            Assert.Equal(balances[0].Asset, account.Balances.First().Asset);
+            ClassicAssert.Equal(commissions, account.Commissions);
+            ClassicAssert.Equal(status, account.Status);
+            ClassicAssert.Equal(time, account.Time);
+            ClassicAssert.NotNull(account.Balances);
+            ClassicAssert.NotEmpty(account.Balances);
+            ClassicAssert.Equal(balances[0].Asset, account.Balances.First().Asset);
         }
     }
 }

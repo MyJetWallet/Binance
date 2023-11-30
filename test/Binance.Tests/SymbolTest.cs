@@ -19,11 +19,11 @@ namespace Binance.Tests
             const bool isIcebergAllowed = true;
             var orderTypes = new [] { OrderType.Limit, OrderType.Market };
 
-            Assert.Throws<ArgumentNullException>("baseAsset", () => new Symbol(status, null, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
-            Assert.Throws<ArgumentNullException>("quoteAsset", () => new Symbol(status, baseAsset, null, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
-            Assert.Throws<ArgumentNullException>("quantity", () => new Symbol(status, baseAsset, quoteAsset, null, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
-            Assert.Throws<ArgumentNullException>("price", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, null, minNotionalValue, isIcebergAllowed, orderTypes));
-            Assert.Throws<ArgumentNullException>("orderTypes", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, null));
+            ClassicAssert.Throws<ArgumentNullException>("baseAsset", () => new Symbol(status, null, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
+            ClassicAssert.Throws<ArgumentNullException>("quoteAsset", () => new Symbol(status, baseAsset, null, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
+            ClassicAssert.Throws<ArgumentNullException>("quantity", () => new Symbol(status, baseAsset, quoteAsset, null, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
+            ClassicAssert.Throws<ArgumentNullException>("price", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, null, minNotionalValue, isIcebergAllowed, orderTypes));
+            ClassicAssert.Throws<ArgumentNullException>("orderTypes", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, null));
         }
 
         [Fact]
@@ -33,12 +33,12 @@ namespace Binance.Tests
             var symbol2 = new Symbol(symbol1.Status, symbol1.BaseAsset, symbol1.QuoteAsset, symbol1.Quantity, symbol1.Price, symbol1.NotionalMinimumValue, symbol1.IsIcebergAllowed, symbol1.OrderTypes);
             var symbol3 = Symbol.XRP_USDT;
 
-            Assert.True(symbol1 == symbol2);
-            Assert.True(symbol1 != symbol3);
+            ClassicAssert.True(symbol1 == symbol2);
+            ClassicAssert.True(symbol1 != symbol3);
 
-            Assert.True(symbol1 == symbol1.ToString());
-            Assert.True(symbol1 == symbol2.ToString());
-            Assert.True(symbol1 != symbol3.ToString());
+            ClassicAssert.True(symbol1 == symbol1.ToString());
+            ClassicAssert.True(symbol1 == symbol2.ToString());
+            ClassicAssert.True(symbol1 != symbol3.ToString());
 
             var baseAsset = new Asset("TEST", 8);
             var quoteAsset = Asset.BTC;
@@ -50,7 +50,7 @@ namespace Binance.Tests
 
             var newSymbol = new Symbol(SymbolStatus.Trading, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes);
 
-            Assert.True(newSymbol == baseAsset.Symbol + quoteAsset.Symbol);
+            ClassicAssert.True(newSymbol == baseAsset.Symbol + quoteAsset.Symbol);
         }
 
         [Fact]
@@ -67,13 +67,13 @@ namespace Binance.Tests
 
             var symbol = new Symbol(status, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes);
 
-            Assert.Equal(status, symbol.Status);
-            Assert.Equal(baseAsset, symbol.BaseAsset);
-            Assert.Equal(quoteAsset, symbol.QuoteAsset);
-            Assert.Equal(quantityRange, symbol.Quantity);
-            Assert.Equal(priceRange, symbol.Price);
-            Assert.Equal(minNotionalValue, symbol.NotionalMinimumValue);
-            Assert.Equal(orderTypes, symbol.OrderTypes);
+            ClassicAssert.Equal(status, symbol.Status);
+            ClassicAssert.Equal(baseAsset, symbol.BaseAsset);
+            ClassicAssert.Equal(quoteAsset, symbol.QuoteAsset);
+            ClassicAssert.Equal(quantityRange, symbol.Quantity);
+            ClassicAssert.Equal(priceRange, symbol.Price);
+            ClassicAssert.Equal(minNotionalValue, symbol.NotionalMinimumValue);
+            ClassicAssert.Equal(orderTypes, symbol.OrderTypes);
         }
 
         [Fact]
@@ -90,8 +90,8 @@ namespace Binance.Tests
             var validSymbol = Symbol.BTC_USDT;
             var invalidSymbol = new Symbol(status, new Asset("...", 0), quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes);
 
-            Assert.True(Symbol.IsValid(validSymbol));
-            Assert.False(Symbol.IsValid(invalidSymbol));
+            ClassicAssert.True(Symbol.IsValid(validSymbol));
+            ClassicAssert.False(Symbol.IsValid(invalidSymbol));
         }
 
         [Fact]
@@ -99,9 +99,9 @@ namespace Binance.Tests
         {
             var symbol = Symbol.BTC_USDT;
 
-            Assert.Contains(OrderType.Limit, symbol.OrderTypes);
+            ClassicAssert.Contains(OrderType.Limit, symbol.OrderTypes);
 
-            Assert.True(symbol.IsSupported(OrderType.Limit));
+            ClassicAssert.True(symbol.IsSupported(OrderType.Limit));
         }
 
         [Fact]
@@ -110,9 +110,9 @@ namespace Binance.Tests
             var symbol = Symbol.BTC_USDT;
             var order = new LimitOrder(new Mock<IBinanceApiUser>().Object);
 
-            Assert.Contains(OrderType.Limit, symbol.OrderTypes);
+            ClassicAssert.Contains(OrderType.Limit, symbol.OrderTypes);
 
-            Assert.True(symbol.IsOrderTypeSupported(order));
+            ClassicAssert.True(symbol.IsOrderTypeSupported(order));
         }
 
         [Fact]
@@ -123,20 +123,20 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            Assert.Equal(8, symbol.BaseAsset.Precision);
-            Assert.Equal(8, symbol.QuoteAsset.Precision);
+            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
+            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
-            Assert.True(symbol.IsPriceQuantityValid(price, quantity));
+            ClassicAssert.True(symbol.IsPriceQuantityValid(price, quantity));
 
-            Assert.False(symbol.IsPriceQuantityValid(price, 0.000000001m));
-            Assert.False(symbol.IsPriceQuantityValid(0.000000001m, quantity));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(price, 0.000000001m));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(0.000000001m, quantity));
 
-            Assert.False(symbol.IsPriceQuantityValid(price, symbol.Quantity.Maximum + symbol.Quantity.Increment));
-            Assert.False(symbol.IsPriceQuantityValid(symbol.Price.Minimum - symbol.Price.Increment, quantity));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(price, symbol.Quantity.Maximum + symbol.Quantity.Increment));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(symbol.Price.Minimum - symbol.Price.Increment, quantity));
 
-            Assert.True(symbol.IsPriceQuantityValid(price, symbol.NotionalMinimumValue / price));
-            Assert.False(symbol.IsPriceQuantityValid(price, symbol.NotionalMinimumValue / price - symbol.Quantity.Increment));
+            ClassicAssert.True(symbol.IsPriceQuantityValid(price, symbol.NotionalMinimumValue / price));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(price, symbol.NotionalMinimumValue / price - symbol.Quantity.Increment));
 
             var order = new LimitOrder(user)
             {
@@ -144,31 +144,31 @@ namespace Binance.Tests
                 Quantity = quantity
             };
 
-            Assert.True(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.True(symbol.IsPriceQuantityValid(order));
 
             order.Price = price;
             order.Quantity = 0.000000001m;
-            Assert.False(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(order));
 
             order.Price = 0.000000001m;
             order.Quantity = quantity;
-            Assert.False(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(order));
 
             order.Price = price;
             order.Quantity = symbol.Quantity.Maximum + symbol.Quantity.Increment;
-            Assert.False(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(order));
 
             order.Price = symbol.Price.Minimum - symbol.Price.Increment;
             order.Quantity = quantity;
-            Assert.False(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(order));
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price;
-            Assert.True(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.True(symbol.IsPriceQuantityValid(order));
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price - symbol.Quantity.Increment;
-            Assert.False(symbol.IsPriceQuantityValid(order));
+            ClassicAssert.False(symbol.IsPriceQuantityValid(order));
             */
         }
 
@@ -180,22 +180,22 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            Assert.Equal(8, symbol.BaseAsset.Precision);
-            Assert.Equal(8, symbol.QuoteAsset.Precision);
+            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
+            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             var order = new LimitOrder(user);
 
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Price = price;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Quantity = quantity;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Symbol = symbol;
-            Assert.True(symbol.IsValid(order));
+            ClassicAssert.True(symbol.IsValid(order));
 
             var takeProfitLimitOrder = new TakeProfitLimitOrder(user)
             {
@@ -206,36 +206,36 @@ namespace Binance.Tests
 
             if (symbol.OrderTypes.Contains(OrderType.TakeProfitLimit))
             {
-                Assert.True(symbol.IsValid(takeProfitLimitOrder));
+                ClassicAssert.True(symbol.IsValid(takeProfitLimitOrder));
             }
             else
             {
-                Assert.False(symbol.IsValid(takeProfitLimitOrder));
+                ClassicAssert.False(symbol.IsValid(takeProfitLimitOrder));
             }
 
             order.Price = price;
             order.Quantity = 0.000000001m;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Price = 0.000000001m;
             order.Quantity = quantity;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Price = price;
             order.Quantity = symbol.Quantity.Maximum + symbol.Quantity.Increment;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Price = symbol.Price.Minimum - symbol.Price.Increment;
             order.Quantity = quantity;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price;
-            Assert.True(symbol.IsValid(order));
+            ClassicAssert.True(symbol.IsValid(order));
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price - symbol.Quantity.Increment;
-            Assert.False(symbol.IsValid(order));
+            ClassicAssert.False(symbol.IsValid(order));
             */
         }
 
@@ -245,7 +245,7 @@ namespace Binance.Tests
             var symbol = Symbol.BTC_USDT;
             var user = new Mock<IBinanceApiUser>().Object;
 
-            Assert.Contains(OrderType.Limit, symbol.OrderTypes);
+            ClassicAssert.Contains(OrderType.Limit, symbol.OrderTypes);
 
             symbol.Validate(OrderType.Limit);
 
@@ -261,7 +261,7 @@ namespace Binance.Tests
             }
             else
             {
-                Assert.Throws<ArgumentException>(nameof(takeProfitLimitOrder.Type), () => symbol.ValidateOrderType(takeProfitLimitOrder));
+                ClassicAssert.Throws<ArgumentException>(nameof(takeProfitLimitOrder.Type), () => symbol.ValidateOrderType(takeProfitLimitOrder));
             }
         }
 
@@ -273,20 +273,20 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            Assert.Equal(8, symbol.BaseAsset.Precision);
-            Assert.Equal(8, symbol.QuoteAsset.Precision);
+            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
+            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             symbol.ValidatePriceQuantity(price, quantity);
 
-            Assert.Throws<ArgumentOutOfRangeException>("quantity", () => symbol.ValidatePriceQuantity(price, 0.000000001m));
-            Assert.Throws<ArgumentOutOfRangeException>("price", () => symbol.ValidatePriceQuantity(0.000000001m, quantity));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("quantity", () => symbol.ValidatePriceQuantity(price, 0.000000001m));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("price", () => symbol.ValidatePriceQuantity(0.000000001m, quantity));
 
-            Assert.Throws<ArgumentOutOfRangeException>("quantity", () => symbol.ValidatePriceQuantity(price, symbol.Quantity.Maximum + symbol.Quantity.Increment));
-            Assert.Throws<ArgumentOutOfRangeException>("price", () => symbol.ValidatePriceQuantity(symbol.Price.Minimum - symbol.Price.Increment, quantity));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("quantity", () => symbol.ValidatePriceQuantity(price, symbol.Quantity.Maximum + symbol.Quantity.Increment));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("price", () => symbol.ValidatePriceQuantity(symbol.Price.Minimum - symbol.Price.Increment, quantity));
 
             symbol.IsPriceQuantityValid(price, symbol.NotionalMinimumValue / price);
-            Assert.Throws<ArgumentOutOfRangeException>("notionalValue", () => symbol.ValidatePriceQuantity(price, symbol.NotionalMinimumValue / price - symbol.Quantity.Increment));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("notionalValue", () => symbol.ValidatePriceQuantity(price, symbol.NotionalMinimumValue / price - symbol.Quantity.Increment));
 
             var order = new LimitOrder(user)
             {
@@ -298,19 +298,19 @@ namespace Binance.Tests
 
             order.Price = price;
             order.Quantity = 0.000000001m;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.ValidatePriceQuantity(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.ValidatePriceQuantity(order));
 
             order.Price = 0.000000001m;
             order.Quantity = quantity;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.ValidatePriceQuantity(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.ValidatePriceQuantity(order));
 
             order.Price = price;
             order.Quantity = symbol.Quantity.Maximum + symbol.Quantity.Increment;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.ValidatePriceQuantity(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.ValidatePriceQuantity(order));
 
             order.Price = symbol.Price.Minimum - symbol.Price.Increment;
             order.Quantity = quantity;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.ValidatePriceQuantity(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.ValidatePriceQuantity(order));
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price;
@@ -318,7 +318,7 @@ namespace Binance.Tests
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price - symbol.Quantity.Increment;
-            Assert.Throws<ArgumentOutOfRangeException>("notionalValue", () => symbol.ValidatePriceQuantity(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("notionalValue", () => symbol.ValidatePriceQuantity(order));
             */
         }
 
@@ -330,38 +330,38 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            Assert.Equal(8, symbol.BaseAsset.Precision);
-            Assert.Equal(8, symbol.QuoteAsset.Precision);
+            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
+            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             var order = new LimitOrder(user);
 
-            Assert.Throws<ArgumentException>("Symbol", () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentException>("Symbol", () => symbol.Validate(order));
 
             order.Symbol = symbol;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.Validate(order));
 
             order.Quantity = quantity;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.Validate(order));
 
             order.Price = price;
             symbol.Validate(order);
 
             order.Price = price;
             order.Quantity = 0.000000001m;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.Validate(order));
 
             order.Price = 0.000000001m;
             order.Quantity = quantity;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.Validate(order));
 
             order.Price = price;
             order.Quantity = symbol.Quantity.Maximum + symbol.Quantity.Increment;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Quantity), () => symbol.Validate(order));
 
             order.Price = symbol.Price.Minimum - symbol.Price.Increment;
             order.Quantity = quantity;
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>(nameof(order.Price), () => symbol.Validate(order));
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price;
@@ -369,7 +369,7 @@ namespace Binance.Tests
 
             order.Price = price;
             order.Quantity = symbol.NotionalMinimumValue / price - symbol.Quantity.Increment;
-            Assert.Throws<ArgumentOutOfRangeException>("notionalValue", () => symbol.Validate(order));
+            ClassicAssert.Throws<ArgumentOutOfRangeException>("notionalValue", () => symbol.Validate(order));
             */
         }
     }

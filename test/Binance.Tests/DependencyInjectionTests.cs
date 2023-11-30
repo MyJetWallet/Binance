@@ -20,7 +20,7 @@ namespace Binance.Tests
             serviceProvider.Dispose();
 
             // Verify static BinanceHttpClient singleton is disposed.
-            return Assert.ThrowsAsync<ObjectDisposedException>(() => httpClient.GetAsync("test"));
+            return ClassicAssert.ThrowsAsync<ObjectDisposedException>(() => httpClient.GetAsync("test"));
         }
 
         [Fact]

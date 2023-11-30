@@ -19,7 +19,7 @@ namespace Binance.Tests.Cache
 
             cache.Subscribe();
 
-            Assert.Throws<InvalidOperationException>(() => cache.Subscribe());
+            ClassicAssert.Throws<InvalidOperationException>(() => cache.Subscribe());
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Binance.Tests.Cache
             client2.Subscribe(symbol1);
 
             var clientSubscribeStreams = client2.SubscribedStreams.ToArray();
-            Assert.Equal(SymbolStatisticsClient.GetStreamName(symbol1), clientSubscribeStreams.Single());
+            ClassicAssert.Equal(SymbolStatisticsClient.GetStreamName(symbol1), clientSubscribeStreams.Single());
 
             var cache = new SymbolStatisticsCache(api, client1)
             {
@@ -55,7 +55,7 @@ namespace Binance.Tests.Cache
             };
 
             // Client subscribed streams are unchanged after link to unsubscribed cache.
-            Assert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
+            ClassicAssert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
 
             cache.Client = client1; // unlink client.
 
@@ -63,13 +63,13 @@ namespace Binance.Tests.Cache
             cache.Subscribe(symbol2);
 
             // Cache is subscribed to symbol.
-            Assert.Equal(SymbolStatisticsClient.GetStreamName(symbol2), cache.SubscribedStreams.Single());
+            ClassicAssert.Equal(SymbolStatisticsClient.GetStreamName(symbol2), cache.SubscribedStreams.Single());
 
             cache.Client = client2; // link to client.
 
             // Client has second subscribed stream from cache.
-            Assert.True(client2.SubscribedStreams.Count() == 2);
-            Assert.Contains(SymbolStatisticsClient.GetStreamName(symbol2), client2.SubscribedStreams);
+            ClassicAssert.True(client2.SubscribedStreams.Count() == 2);
+            ClassicAssert.Contains(SymbolStatisticsClient.GetStreamName(symbol2), client2.SubscribedStreams);
         }
     }
 }

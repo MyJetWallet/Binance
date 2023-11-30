@@ -9,7 +9,7 @@ namespace Binance.Tests.Cache.Events
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("trades", () => new TradeCacheEventArgs(null));
+            ClassicAssert.Throws<ArgumentNullException>("trades", () => new TradeCacheEventArgs(null));
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Binance.Tests.Cache.Events
 
             var args = new TradeCacheEventArgs(trades);
 
-            Assert.Equal(trades, args.Trades);
+            ClassicAssert.Equal(trades, args.Trades);
         }
     }
 }

@@ -9,17 +9,17 @@ namespace Binance.Tests.Account
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentException>("maker", () => new AccountCommissions(-10, 10, 10, 10));
-            Assert.Throws<ArgumentException>("maker", () => new AccountCommissions(10010, 10, 10, 10));
+            ClassicAssert.Throws<ArgumentException>("maker", () => new AccountCommissions(-10, 10, 10, 10));
+            ClassicAssert.Throws<ArgumentException>("maker", () => new AccountCommissions(10010, 10, 10, 10));
 
-            Assert.Throws<ArgumentException>("taker", () => new AccountCommissions(10, -10, 10, 10));
-            Assert.Throws<ArgumentException>("taker", () => new AccountCommissions(10, 10010, 10, 10));
+            ClassicAssert.Throws<ArgumentException>("taker", () => new AccountCommissions(10, -10, 10, 10));
+            ClassicAssert.Throws<ArgumentException>("taker", () => new AccountCommissions(10, 10010, 10, 10));
 
-            Assert.Throws<ArgumentException>("buyer", () => new AccountCommissions(10, 10, -10, 10));
-            Assert.Throws<ArgumentException>("buyer", () => new AccountCommissions(10, 10, 10010, 10));
+            ClassicAssert.Throws<ArgumentException>("buyer", () => new AccountCommissions(10, 10, -10, 10));
+            ClassicAssert.Throws<ArgumentException>("buyer", () => new AccountCommissions(10, 10, 10010, 10));
 
-            Assert.Throws<ArgumentException>("seller", () => new AccountCommissions(10, 10, 10, -10));
-            Assert.Throws<ArgumentException>("seller", () => new AccountCommissions(10, 10, 10, 10010));
+            ClassicAssert.Throws<ArgumentException>("seller", () => new AccountCommissions(10, 10, 10, -10));
+            ClassicAssert.Throws<ArgumentException>("seller", () => new AccountCommissions(10, 10, 10, 10010));
         }
 
         [Fact]
@@ -32,10 +32,10 @@ namespace Binance.Tests.Account
 
             var commissions = new AccountCommissions(maker, taker, buyer, seller);
 
-            Assert.Equal(maker, commissions.Maker);
-            Assert.Equal(taker, commissions.Taker);
-            Assert.Equal(buyer, commissions.Buyer);
-            Assert.Equal(seller, commissions.Seller);
+            ClassicAssert.Equal(maker, commissions.Maker);
+            ClassicAssert.Equal(taker, commissions.Taker);
+            ClassicAssert.Equal(buyer, commissions.Buyer);
+            ClassicAssert.Equal(seller, commissions.Seller);
         }
 
         [Fact]
@@ -52,10 +52,10 @@ namespace Binance.Tests.Account
 
             commissions = JsonConvert.DeserializeObject<AccountCommissions>(json);
 
-            Assert.Equal(maker, commissions.Maker);
-            Assert.Equal(taker, commissions.Taker);
-            Assert.Equal(buyer, commissions.Buyer);
-            Assert.Equal(seller, commissions.Seller);
+            ClassicAssert.Equal(maker, commissions.Maker);
+            ClassicAssert.Equal(taker, commissions.Taker);
+            ClassicAssert.Equal(buyer, commissions.Buyer);
+            ClassicAssert.Equal(seller, commissions.Seller);
         }
     }
 }

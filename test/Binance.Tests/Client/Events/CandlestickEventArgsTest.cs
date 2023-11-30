@@ -30,10 +30,10 @@ namespace Binance.Tests.Client.Events
 
             var candlestick = new Candlestick(symbol, interval, openTime, open, high, low, close, volume, closeTime, quoteAssetVolume, numberOfTrades, takerBuyBaseAssetVolume, takerBuyQuoteAssetVolume);
 
-            Assert.Throws<ArgumentNullException>("candlestick", () => new CandlestickEventArgs(time, null, firstTradeId, lastTradeId, isFinal));
-            Assert.Throws<ArgumentException>("firstTradeId", () => new CandlestickEventArgs(time, candlestick, -2, lastTradeId, isFinal));
-            Assert.Throws<ArgumentException>("lastTradeId", () => new CandlestickEventArgs(time, candlestick, firstTradeId, -2, isFinal));
-            Assert.Throws<ArgumentException>("lastTradeId", () => new CandlestickEventArgs(time, candlestick, firstTradeId, firstTradeId - 1, isFinal));
+            ClassicAssert.Throws<ArgumentNullException>("candlestick", () => new CandlestickEventArgs(time, null, firstTradeId, lastTradeId, isFinal));
+            ClassicAssert.Throws<ArgumentException>("firstTradeId", () => new CandlestickEventArgs(time, candlestick, -2, lastTradeId, isFinal));
+            ClassicAssert.Throws<ArgumentException>("lastTradeId", () => new CandlestickEventArgs(time, candlestick, firstTradeId, -2, isFinal));
+            ClassicAssert.Throws<ArgumentException>("lastTradeId", () => new CandlestickEventArgs(time, candlestick, firstTradeId, firstTradeId - 1, isFinal));
         }
 
         [Fact]
@@ -62,11 +62,11 @@ namespace Binance.Tests.Client.Events
 
             var args = new CandlestickEventArgs(time, candlestick, firstTradeId, lastTradeId, isFinal);
 
-            Assert.Equal(time, args.Time);
-            Assert.Equal(candlestick, args.Candlestick);
-            Assert.Equal(firstTradeId, args.FirstTradeId);
-            Assert.Equal(lastTradeId, args.LastTradeId);
-            Assert.Equal(isFinal, args.IsFinal);
+            ClassicAssert.Equal(time, args.Time);
+            ClassicAssert.Equal(candlestick, args.Candlestick);
+            ClassicAssert.Equal(firstTradeId, args.FirstTradeId);
+            ClassicAssert.Equal(lastTradeId, args.LastTradeId);
+            ClassicAssert.Equal(isFinal, args.IsFinal);
         }
     }
 }

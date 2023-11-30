@@ -14,7 +14,7 @@ namespace Binance.Tests.Api
         {
             var rateLimiter = new ApiRateLimiter();
 
-            Assert.Throws<ArgumentException>("count", () => rateLimiter.Configure(TimeSpan.FromSeconds(1), -1));
+            ClassicAssert.Throws<ArgumentException>("count", () => rateLimiter.Configure(TimeSpan.FromSeconds(1), -1));
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Binance.Tests.Api
                 IsEnabled = enabled
             };
 
-            Assert.Equal(enabled, rateLimiter.IsEnabled);
+            ClassicAssert.Equal(enabled, rateLimiter.IsEnabled);
         }
 
         [Fact]
@@ -51,8 +51,8 @@ namespace Binance.Tests.Api
 
             stopwatch.Stop();
 
-            Assert.True(stopwatch.ElapsedMilliseconds >= duration.TotalMilliseconds - 100);
-            Assert.False(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + 100);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds >= duration.TotalMilliseconds - 100);
+            ClassicAssert.False(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + 100);
         }
 
         [Fact]
@@ -76,8 +76,8 @@ namespace Binance.Tests.Api
 
             stopwatch.Stop();
 
-            Assert.True(stopwatch.ElapsedMilliseconds >= burstDuration.TotalMilliseconds - 100);
-            Assert.False(stopwatch.ElapsedMilliseconds > burstDuration.TotalMilliseconds + 100);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds >= burstDuration.TotalMilliseconds - 100);
+            ClassicAssert.False(stopwatch.ElapsedMilliseconds > burstDuration.TotalMilliseconds + 100);
         }
 
         [Fact]
@@ -101,8 +101,8 @@ namespace Binance.Tests.Api
 
             stopwatch.Stop();
 
-            Assert.True(stopwatch.ElapsedMilliseconds >= (burstDuration.TotalMilliseconds - 45) * 2 + 15);
-            Assert.False(stopwatch.ElapsedMilliseconds > (burstDuration.TotalMilliseconds + 45) * 2 + 15);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds >= (burstDuration.TotalMilliseconds - 45) * 2 + 15);
+            ClassicAssert.False(stopwatch.ElapsedMilliseconds > (burstDuration.TotalMilliseconds + 45) * 2 + 15);
         }
 
         [Fact]
@@ -126,8 +126,8 @@ namespace Binance.Tests.Api
 
             stopwatch.Stop();
 
-            Assert.True(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + burstDuration.TotalMilliseconds - 100);
-            Assert.False(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + burstDuration.TotalMilliseconds + 100);
+            ClassicAssert.True(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + burstDuration.TotalMilliseconds - 100);
+            ClassicAssert.False(stopwatch.ElapsedMilliseconds > duration.TotalMilliseconds + burstDuration.TotalMilliseconds + 100);
         }
     }
 }

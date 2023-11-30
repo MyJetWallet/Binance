@@ -9,7 +9,7 @@ namespace Binance.Tests.Account.Orders
         [Fact]
         public void Throws()
         {
-            Assert.Throws<ArgumentNullException>("user", () => new TestClientOrder(null));
+            ClassicAssert.Throws<ArgumentNullException>("user", () => new TestClientOrder(null));
         }
 
         [Fact]
@@ -19,12 +19,12 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new TestClientOrder(user);
 
-            Assert.Equal(user, clientOrder.User);
+            ClassicAssert.Equal(user, clientOrder.User);
 
-            Assert.Null(clientOrder.Id);
-            Assert.Null(clientOrder.Symbol);
-            Assert.Null(clientOrder.Side);
-            Assert.Equal(0, clientOrder.Quantity);
+            ClassicAssert.Null(clientOrder.Id);
+            ClassicAssert.Null(clientOrder.Symbol);
+            ClassicAssert.Null(clientOrder.Side);
+            ClassicAssert.Equal(0, clientOrder.Quantity);
         }
 
         private class TestClientOrder : ClientOrder

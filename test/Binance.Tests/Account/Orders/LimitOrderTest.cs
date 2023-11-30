@@ -12,10 +12,10 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new LimitOrder(user);
 
-            Assert.Equal(OrderType.Limit, clientOrder.Type);
-            Assert.Equal(0, clientOrder.Price);
-            Assert.Equal(0, clientOrder.IcebergQuantity);
-            Assert.Equal(TimeInForce.GTC, clientOrder.TimeInForce);
+            ClassicAssert.Equal(OrderType.Limit, clientOrder.Type);
+            ClassicAssert.Equal(0, clientOrder.Price);
+            ClassicAssert.Equal(0, clientOrder.IcebergQuantity);
+            ClassicAssert.Equal(TimeInForce.GTC, clientOrder.TimeInForce);
         }
     }
 }
