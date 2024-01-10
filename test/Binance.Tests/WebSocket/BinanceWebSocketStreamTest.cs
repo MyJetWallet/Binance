@@ -25,17 +25,17 @@ namespace Binance.Tests.WebSocket
         [Fact]
         public void Properties()
         {
-            ClassicAssert.NotNull(_stream.WebSocket);
-            ClassicAssert.Null(_stream.Uri);
+            Assert.NotNull(_stream.WebSocket);
+            Assert.Null(_stream.Uri);
 
             _stream.Uri = _uri;
             _stream.Uri = _uri; // can set to same URI.
 
-            ClassicAssert.Equal(_uri, _stream.Uri);
+            Assert.Equal(_uri, _stream.Uri);
 
             _stream.Uri = null; // can set to null.
 
-            ClassicAssert.Null(_stream.Uri);
+            Assert.Null(_stream.Uri);
         }
 
         [Fact]
@@ -45,15 +45,15 @@ namespace Binance.Tests.WebSocket
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
             {
-                ClassicAssert.False(_stream.IsStreaming);
+                Assert.False(_stream.IsStreaming);
 
                 var task = _stream.StreamAsync(cts.Token);
 
-                ClassicAssert.True(_stream.IsStreaming);
+                Assert.True(_stream.IsStreaming);
 
                 await task;
 
-                ClassicAssert.False(_stream.IsStreaming);
+                Assert.False(_stream.IsStreaming);
             }
         }
 
@@ -62,34 +62,34 @@ namespace Binance.Tests.WebSocket
         {
             var uri = BinanceWebSocketStream.CreateUri();
 
-            ClassicAssert.Null(uri);
+            Assert.Null(uri);
 
             uri = BinanceWebSocketStream.CreateUri(_streamName);
 
-            ClassicAssert.Equal($"{BinanceWebSocketStream.BaseUri}/ws/{_streamName}", uri.AbsoluteUri);
+            Assert.Equal($"{BinanceWebSocketStream.BaseUri}/ws/{_streamName}", uri.AbsoluteUri);
 
             // Duplicates are ignored.
             var uri2 = BinanceWebSocketStream.CreateUri(_streamName, _streamName);
-            ClassicAssert.Equal(uri, uri2);
+            Assert.Equal(uri, uri2);
 
             const string streamName = "combined";
             uri = BinanceWebSocketStream.CreateUri(_streamName, streamName);
 
-            ClassicAssert.Equal($"{BinanceWebSocketStream.BaseUri}/stream?streams={_streamName}/{streamName}", uri.AbsoluteUri);
+            Assert.Equal($"{BinanceWebSocketStream.BaseUri}/stream?streams={_streamName}/{streamName}", uri.AbsoluteUri);
         }
 
         [Fact]
         public void IsCombined()
         {
-            ClassicAssert.False(_stream.IsCombined);
+            Assert.False(_stream.IsCombined);
 
             _stream.Uri = BinanceWebSocketStream.CreateUri(_streamName);
 
-            ClassicAssert.False(_stream.IsCombined);
+            Assert.False(_stream.IsCombined);
 
             _stream.Uri = BinanceWebSocketStream.CreateUri(_streamName, "combined");
 
-            ClassicAssert.True(_stream.IsCombined);
+            Assert.True(_stream.IsCombined);
         }
 
         [Fact]
@@ -97,17 +97,17 @@ namespace Binance.Tests.WebSocket
         {
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
             {
-                ClassicAssert.Null(_stream.Uri);
+                Assert.Null(_stream.Uri);
 
-                await ClassicAssert.ThrowsAsync<InvalidOperationException>(() => _stream.StreamAsync(cts.Token));
+                await Assert.ThrowsAsync<InvalidOperationException>(() => _stream.StreamAsync(cts.Token));
 
                 _stream.Uri = _uri;
 
-                ClassicAssert.NotNull(_stream.Uri);
+                Assert.NotNull(_stream.Uri);
 
                 var task = _stream.StreamAsync(cts.Token);
 
-                await ClassicAssert.ThrowsAsync<InvalidOperationException>(() => _stream.StreamAsync(cts.Token));
+                await Assert.ThrowsAsync<InvalidOperationException>(() => _stream.StreamAsync(cts.Token));
 
                 await task;
             }
@@ -127,11 +127,11 @@ namespace Binance.Tests.WebSocket
                     isMessageEventReceived = e.Subject == _streamName && e.Json == _message;
                 };
 
-                ClassicAssert.False(isMessageEventReceived);
+                Assert.False(isMessageEventReceived);
 
                 await _stream.StreamAsync(cts.Token);
 
-                ClassicAssert.True(isMessageEventReceived);
+                Assert.True(isMessageEventReceived);
             }
         }
 
@@ -142,25 +142,25 @@ namespace Binance.Tests.WebSocket
 
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
             {
-                ClassicAssert.False(_stream.WebSocket.IsOpen);
+                Assert.False(_stream.WebSocket.IsOpen);
 
                 var task = _stream.StreamAsync(cts.Token);
 
-                ClassicAssert.False(_stream.WebSocket.IsOpen);
+                Assert.False(_stream.WebSocket.IsOpen);
 
                 // Wait when web socket is not open.
                 await _stream.WaitUntilWebSocketOpenAsync(cts.Token);
 
-                ClassicAssert.True(_stream.WebSocket.IsOpen);
+                Assert.True(_stream.WebSocket.IsOpen);
 
                 // Wait when web socket is open.
                 await _stream.WaitUntilWebSocketOpenAsync(cts.Token);
 
-                ClassicAssert.False(cts.IsCancellationRequested);
+                Assert.False(cts.IsCancellationRequested);
 
                 await task;
 
-                ClassicAssert.True(cts.IsCancellationRequested);
+                Assert.True(cts.IsCancellationRequested);
             }
         }
 
@@ -183,11 +183,11 @@ namespace Binance.Tests.WebSocket
                     isMessageEventReceived = e.Subject == _streamName && e.Json == _message;
                 };
 
-                ClassicAssert.False(isMessageEventReceived);
+                Assert.False(isMessageEventReceived);
 
                 await stream.StreamAsync(cts.Token);
 
-                ClassicAssert.True(isMessageEventReceived);
+                Assert.True(isMessageEventReceived);
             }
         }
     }

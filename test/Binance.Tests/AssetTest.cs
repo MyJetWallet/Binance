@@ -10,8 +10,8 @@ namespace Binance.Tests
         {
             const int precision = 8;
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new Asset(null, precision));
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new Asset(string.Empty, precision));
+            Assert.Throws<ArgumentNullException>("symbol", () => new Asset(null, precision));
+            Assert.Throws<ArgumentNullException>("symbol", () => new Asset(string.Empty, precision));
         }
 
         [Fact]
@@ -21,11 +21,11 @@ namespace Binance.Tests
             var btc2 = new Asset(btc1.Symbol, btc1.Precision);
             var xrp = Asset.XRP;
 
-            ClassicAssert.True(btc1 == btc2);
-            ClassicAssert.True(btc1 != xrp);
+            Assert.True(btc1 == btc2);
+            Assert.True(btc1 != xrp);
 
-            ClassicAssert.True(btc1 == btc1.Symbol);
-            ClassicAssert.True(btc1 != xrp.Symbol);
+            Assert.True(btc1 == btc1.Symbol);
+            Assert.True(btc1 != xrp.Symbol);
         }
 
         [Fact]
@@ -36,8 +36,8 @@ namespace Binance.Tests
 
             var btc = new Asset(symbol, precision);
 
-            ClassicAssert.Equal(symbol, btc.Symbol);
-            ClassicAssert.Equal(precision, btc.Precision);
+            Assert.Equal(symbol, btc.Symbol);
+            Assert.Equal(precision, btc.Precision);
         }
 
         [Fact]
@@ -46,8 +46,8 @@ namespace Binance.Tests
             var validAsset = Asset.BTC;
             var invalidAsset = new Asset("...", 0);
 
-            ClassicAssert.True(Asset.IsValid(validAsset));
-            ClassicAssert.False(Asset.IsValid(invalidAsset));
+            Assert.True(Asset.IsValid(validAsset));
+            Assert.False(Asset.IsValid(invalidAsset));
         }
 
         [Fact]
@@ -55,28 +55,28 @@ namespace Binance.Tests
         {
             var asset = Asset.BTC;
 
-            ClassicAssert.Equal(8, asset.Precision);
+            Assert.Equal(8, asset.Precision);
 
-            ClassicAssert.True(asset.IsAmountValid(100.000000000000m));
-            ClassicAssert.True(asset.IsAmountValid(010.000000000000m));
-            ClassicAssert.True(asset.IsAmountValid(001.000000000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.100000000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.010000000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.001000000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.000100000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.000010000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.000001000000m));
-            ClassicAssert.True(asset.IsAmountValid(000.000000100000m));
-            ClassicAssert.True(asset.IsAmountValid(000.000000010000m));
+            Assert.True(asset.IsAmountValid(100.000000000000m));
+            Assert.True(asset.IsAmountValid(010.000000000000m));
+            Assert.True(asset.IsAmountValid(001.000000000000m));
+            Assert.True(asset.IsAmountValid(000.100000000000m));
+            Assert.True(asset.IsAmountValid(000.010000000000m));
+            Assert.True(asset.IsAmountValid(000.001000000000m));
+            Assert.True(asset.IsAmountValid(000.000100000000m));
+            Assert.True(asset.IsAmountValid(000.000010000000m));
+            Assert.True(asset.IsAmountValid(000.000001000000m));
+            Assert.True(asset.IsAmountValid(000.000000100000m));
+            Assert.True(asset.IsAmountValid(000.000000010000m));
 
-            ClassicAssert.False(asset.IsAmountValid(000.000000001000m));
-            ClassicAssert.False(asset.IsAmountValid(000.000000000100m));
-            ClassicAssert.False(asset.IsAmountValid(000.000000000010m));
-            ClassicAssert.False(asset.IsAmountValid(000.000000000001m));
+            Assert.False(asset.IsAmountValid(000.000000001000m));
+            Assert.False(asset.IsAmountValid(000.000000000100m));
+            Assert.False(asset.IsAmountValid(000.000000000010m));
+            Assert.False(asset.IsAmountValid(000.000000000001m));
 
-            ClassicAssert.True(asset.IsAmountValid(000.000000000000m));
+            Assert.True(asset.IsAmountValid(000.000000000000m));
 
-            ClassicAssert.False(asset.IsAmountValid(-000.000000010000m));
+            Assert.False(asset.IsAmountValid(-000.000000010000m));
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace Binance.Tests
         {
             var asset = Asset.BTC;
 
-            ClassicAssert.Equal(8, asset.Precision);
+            Assert.Equal(8, asset.Precision);
 
             asset.ValidateAmount(100.000000000000m);
             asset.ValidateAmount(010.000000000000m);
@@ -98,14 +98,14 @@ namespace Binance.Tests
             asset.ValidateAmount(000.000000100000m);
             asset.ValidateAmount(000.000000010000m);
 
-            ClassicAssert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000001000m));
-            ClassicAssert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000000100m));
-            ClassicAssert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000000010m));
-            ClassicAssert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000000001m));
+            Assert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000001000m));
+            Assert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000000100m));
+            Assert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000000010m));
+            Assert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(000.000000000001m));
 
             asset.ValidateAmount(000.000000000000m);
 
-            ClassicAssert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(-000.000000010000m));
+            Assert.Throws<ArgumentOutOfRangeException>("amount", () => asset.ValidateAmount(-000.000000010000m));
         }
     }
 }

@@ -18,12 +18,12 @@ namespace Binance.Tests.Cache
 
             var cache = new OrderBookCache(api, client);
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(null));
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(string.Empty));
+            Assert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(null));
+            Assert.Throws<ArgumentNullException>("symbol", () => cache.Subscribe(string.Empty));
 
             cache.Subscribe(symbol);
 
-            ClassicAssert.Throws<InvalidOperationException>(() => cache.Subscribe(symbol));
+            Assert.Throws<InvalidOperationException>(() => cache.Subscribe(symbol));
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Binance.Tests.Cache
             client2.Subscribe(symbol1);
 
             var clientSubscribeStreams = client2.SubscribedStreams.ToArray();
-            ClassicAssert.Equal(DepthClient.GetStreamName(symbol1), clientSubscribeStreams.Single());
+            Assert.Equal(DepthClient.GetStreamName(symbol1), clientSubscribeStreams.Single());
 
             var cache = new OrderBookCache(api, client1)
             {
@@ -59,7 +59,7 @@ namespace Binance.Tests.Cache
             };
 
             // Client subscribed streams are unchanged after link to unsubscribed cache.
-            ClassicAssert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
+            Assert.Equal(clientSubscribeStreams, client2.SubscribedStreams);
 
             cache.Client = client1; // unlink client.
 
@@ -67,13 +67,13 @@ namespace Binance.Tests.Cache
             cache.Subscribe(symbol2);
 
             // Cache is subscribed to symbol.
-            ClassicAssert.Equal(DepthClient.GetStreamName(symbol2), cache.SubscribedStreams.Single());
+            Assert.Equal(DepthClient.GetStreamName(symbol2), cache.SubscribedStreams.Single());
 
             cache.Client = client2; // link to client.
 
             // Client has second subscribed stream from cache.
-            ClassicAssert.True(client2.SubscribedStreams.Count() == 2);
-            ClassicAssert.Contains(DepthClient.GetStreamName(symbol2), client2.SubscribedStreams);
+            Assert.True(client2.SubscribedStreams.Count() == 2);
+            Assert.Contains(DepthClient.GetStreamName(symbol2), client2.SubscribedStreams);
         }
     }
 }

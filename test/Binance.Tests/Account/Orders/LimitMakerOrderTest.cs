@@ -13,7 +13,7 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new LimitMakerOrder(user);
 
-            ClassicAssert.Throws<ArgumentException>("TimeInForce", () => clientOrder.TimeInForce = TimeInForce.IOC);
+            Assert.Throws<ArgumentException>("TimeInForce", () => clientOrder.TimeInForce = TimeInForce.IOC);
         }
 
         [Fact]
@@ -23,8 +23,8 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new LimitMakerOrder(user);
 
-            ClassicAssert.Equal(OrderType.LimitMaker, clientOrder.Type);
-            ClassicAssert.Equal(TimeInForce.GTC, clientOrder.TimeInForce);
+            Assert.Equal(OrderType.LimitMaker, clientOrder.Type);
+            Assert.Equal(TimeInForce.GTC, clientOrder.TimeInForce);
         }
     }
 }

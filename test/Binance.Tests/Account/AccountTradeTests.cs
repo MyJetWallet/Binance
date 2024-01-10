@@ -22,15 +22,15 @@ namespace Binance.Tests.Account
             const bool isMaker = true;
             const bool isBestPriceMatch = true;
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new AccountTrade(null, id, orderId, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentNullException>("symbol", () => new AccountTrade(null, id, orderId, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("id", () => new AccountTrade(symbol, -1, orderId, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
-            ClassicAssert.Throws<ArgumentException>("orderId", () => new AccountTrade(symbol, id, -1, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("id", () => new AccountTrade(symbol, -1, orderId, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("orderId", () => new AccountTrade(symbol, id, -1, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("price", () => new AccountTrade(symbol, id, orderId, -1, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("price", () => new AccountTrade(symbol, id, orderId, -1, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("quantity", () => new AccountTrade(symbol, id, orderId, price, -1, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
-            ClassicAssert.Throws<ArgumentException>("quantity", () => new AccountTrade(symbol, id, orderId, price, 0, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("quantity", () => new AccountTrade(symbol, id, orderId, price, -1, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("quantity", () => new AccountTrade(symbol, id, orderId, price, 0, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch));
         }
 
         [Fact]
@@ -51,18 +51,18 @@ namespace Binance.Tests.Account
 
             var trade = new AccountTrade(symbol, id, orderId, price, quantity, quoteQuantity, commission, commissionAsset, time, isBuyer, isMaker, isBestPriceMatch);
 
-            ClassicAssert.Equal(symbol, trade.Symbol);
-            ClassicAssert.Equal(id, trade.Id);
-            ClassicAssert.Equal(orderId, trade.OrderId);
-            ClassicAssert.Equal(price, trade.Price);
-            ClassicAssert.Equal(quantity, trade.Quantity);
-            ClassicAssert.Equal(quoteQuantity, trade.QuoteQuantity);
-            ClassicAssert.Equal(commission, trade.Commission);
-            ClassicAssert.Equal(commissionAsset, trade.CommissionAsset);
-            ClassicAssert.Equal(time, trade.Time);
-            ClassicAssert.Equal(isBuyer, trade.IsBuyer);
-            ClassicAssert.Equal(isMaker, trade.IsMaker);
-            ClassicAssert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
+            Assert.Equal(symbol, trade.Symbol);
+            Assert.Equal(id, trade.Id);
+            Assert.Equal(orderId, trade.OrderId);
+            Assert.Equal(price, trade.Price);
+            Assert.Equal(quantity, trade.Quantity);
+            Assert.Equal(quoteQuantity, trade.QuoteQuantity);
+            Assert.Equal(commission, trade.Commission);
+            Assert.Equal(commissionAsset, trade.CommissionAsset);
+            Assert.Equal(time, trade.Time);
+            Assert.Equal(isBuyer, trade.IsBuyer);
+            Assert.Equal(isMaker, trade.IsMaker);
+            Assert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
         }
 
         [Fact]
@@ -87,18 +87,18 @@ namespace Binance.Tests.Account
 
             trade = JsonConvert.DeserializeObject<AccountTrade>(json);
 
-            ClassicAssert.Equal(symbol, trade.Symbol);
-            ClassicAssert.Equal(id, trade.Id);
-            ClassicAssert.Equal(orderId, trade.OrderId);
-            ClassicAssert.Equal(price, trade.Price);
-            ClassicAssert.Equal(quantity, trade.Quantity);
-            ClassicAssert.Equal(quoteQuantity, trade.QuoteQuantity);
-            ClassicAssert.Equal(commission, trade.Commission);
-            ClassicAssert.Equal(commissionAsset, trade.CommissionAsset);
-            ClassicAssert.Equal(time, trade.Time);
-            ClassicAssert.Equal(isBuyer, trade.IsBuyer);
-            ClassicAssert.Equal(isMaker, trade.IsMaker);
-            ClassicAssert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
+            Assert.Equal(symbol, trade.Symbol);
+            Assert.Equal(id, trade.Id);
+            Assert.Equal(orderId, trade.OrderId);
+            Assert.Equal(price, trade.Price);
+            Assert.Equal(quantity, trade.Quantity);
+            Assert.Equal(quoteQuantity, trade.QuoteQuantity);
+            Assert.Equal(commission, trade.Commission);
+            Assert.Equal(commissionAsset, trade.CommissionAsset);
+            Assert.Equal(time, trade.Time);
+            Assert.Equal(isBuyer, trade.IsBuyer);
+            Assert.Equal(isMaker, trade.IsMaker);
+            Assert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
         }
     }
 }

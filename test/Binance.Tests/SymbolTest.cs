@@ -19,11 +19,11 @@ namespace Binance.Tests
             const bool isIcebergAllowed = true;
             var orderTypes = new [] { OrderType.Limit, OrderType.Market };
 
-            ClassicAssert.Throws<ArgumentNullException>("baseAsset", () => new Symbol(status, null, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
-            ClassicAssert.Throws<ArgumentNullException>("quoteAsset", () => new Symbol(status, baseAsset, null, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
-            ClassicAssert.Throws<ArgumentNullException>("quantity", () => new Symbol(status, baseAsset, quoteAsset, null, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
-            ClassicAssert.Throws<ArgumentNullException>("price", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, null, minNotionalValue, isIcebergAllowed, orderTypes));
-            ClassicAssert.Throws<ArgumentNullException>("orderTypes", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, null));
+            Assert.Throws<ArgumentNullException>("baseAsset", () => new Symbol(status, null, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
+            Assert.Throws<ArgumentNullException>("quoteAsset", () => new Symbol(status, baseAsset, null, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
+            Assert.Throws<ArgumentNullException>("quantity", () => new Symbol(status, baseAsset, quoteAsset, null, priceRange, minNotionalValue, isIcebergAllowed, orderTypes));
+            Assert.Throws<ArgumentNullException>("price", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, null, minNotionalValue, isIcebergAllowed, orderTypes));
+            Assert.Throws<ArgumentNullException>("orderTypes", () => new Symbol(status, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, null));
         }
 
         [Fact]
@@ -33,12 +33,12 @@ namespace Binance.Tests
             var symbol2 = new Symbol(symbol1.Status, symbol1.BaseAsset, symbol1.QuoteAsset, symbol1.Quantity, symbol1.Price, symbol1.NotionalMinimumValue, symbol1.IsIcebergAllowed, symbol1.OrderTypes);
             var symbol3 = Symbol.XRP_USDT;
 
-            ClassicAssert.True(symbol1 == symbol2);
-            ClassicAssert.True(symbol1 != symbol3);
+            Assert.True(symbol1 == symbol2);
+            Assert.True(symbol1 != symbol3);
 
-            ClassicAssert.True(symbol1 == symbol1.ToString());
-            ClassicAssert.True(symbol1 == symbol2.ToString());
-            ClassicAssert.True(symbol1 != symbol3.ToString());
+            Assert.True(symbol1 == symbol1.ToString());
+            Assert.True(symbol1 == symbol2.ToString());
+            Assert.True(symbol1 != symbol3.ToString());
 
             var baseAsset = new Asset("TEST", 8);
             var quoteAsset = Asset.BTC;
@@ -50,7 +50,7 @@ namespace Binance.Tests
 
             var newSymbol = new Symbol(SymbolStatus.Trading, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes);
 
-            ClassicAssert.True(newSymbol == baseAsset.Symbol + quoteAsset.Symbol);
+            Assert.True(newSymbol == baseAsset.Symbol + quoteAsset.Symbol);
         }
 
         [Fact]
@@ -67,13 +67,13 @@ namespace Binance.Tests
 
             var symbol = new Symbol(status, baseAsset, quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes);
 
-            ClassicAssert.Equal(status, symbol.Status);
-            ClassicAssert.Equal(baseAsset, symbol.BaseAsset);
-            ClassicAssert.Equal(quoteAsset, symbol.QuoteAsset);
-            ClassicAssert.Equal(quantityRange, symbol.Quantity);
-            ClassicAssert.Equal(priceRange, symbol.Price);
-            ClassicAssert.Equal(minNotionalValue, symbol.NotionalMinimumValue);
-            ClassicAssert.Equal(orderTypes, symbol.OrderTypes);
+            Assert.Equal(status, symbol.Status);
+            Assert.Equal(baseAsset, symbol.BaseAsset);
+            Assert.Equal(quoteAsset, symbol.QuoteAsset);
+            Assert.Equal(quantityRange, symbol.Quantity);
+            Assert.Equal(priceRange, symbol.Price);
+            Assert.Equal(minNotionalValue, symbol.NotionalMinimumValue);
+            Assert.Equal(orderTypes, symbol.OrderTypes);
         }
 
         [Fact]
@@ -90,8 +90,8 @@ namespace Binance.Tests
             var validSymbol = Symbol.BTC_USDT;
             var invalidSymbol = new Symbol(status, new Asset("...", 0), quoteAsset, quantityRange, priceRange, minNotionalValue, isIcebergAllowed, orderTypes);
 
-            ClassicAssert.True(Symbol.IsValid(validSymbol));
-            ClassicAssert.False(Symbol.IsValid(invalidSymbol));
+            Assert.True(Symbol.IsValid(validSymbol));
+            Assert.False(Symbol.IsValid(invalidSymbol));
         }
 
         [Fact]
@@ -99,9 +99,9 @@ namespace Binance.Tests
         {
             var symbol = Symbol.BTC_USDT;
 
-            ClassicAssert.Contains(OrderType.Limit, symbol.OrderTypes);
+            Assert.Contains(OrderType.Limit, symbol.OrderTypes);
 
-            ClassicAssert.True(symbol.IsSupported(OrderType.Limit));
+            Assert.True(symbol.IsSupported(OrderType.Limit));
         }
 
         [Fact]
@@ -110,9 +110,9 @@ namespace Binance.Tests
             var symbol = Symbol.BTC_USDT;
             var order = new LimitOrder(new Mock<IBinanceApiUser>().Object);
 
-            ClassicAssert.Contains(OrderType.Limit, symbol.OrderTypes);
+            Assert.Contains(OrderType.Limit, symbol.OrderTypes);
 
-            ClassicAssert.True(symbol.IsOrderTypeSupported(order));
+            Assert.True(symbol.IsOrderTypeSupported(order));
         }
 
         [Fact]
@@ -123,8 +123,8 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
-            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
+            Assert.Equal(8, symbol.BaseAsset.Precision);
+            Assert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             ClassicAssert.True(symbol.IsPriceQuantityValid(price, quantity));
@@ -180,8 +180,8 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
-            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
+            Assert.Equal(8, symbol.BaseAsset.Precision);
+            Assert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             var order = new LimitOrder(user);
@@ -245,7 +245,7 @@ namespace Binance.Tests
             var symbol = Symbol.BTC_USDT;
             var user = new Mock<IBinanceApiUser>().Object;
 
-            ClassicAssert.Contains(OrderType.Limit, symbol.OrderTypes);
+            Assert.Contains(OrderType.Limit, symbol.OrderTypes);
 
             symbol.Validate(OrderType.Limit);
 
@@ -261,7 +261,7 @@ namespace Binance.Tests
             }
             else
             {
-                ClassicAssert.Throws<ArgumentException>(nameof(takeProfitLimitOrder.Type), () => symbol.ValidateOrderType(takeProfitLimitOrder));
+                Assert.Throws<ArgumentException>(nameof(takeProfitLimitOrder.Type), () => symbol.ValidateOrderType(takeProfitLimitOrder));
             }
         }
 
@@ -273,8 +273,8 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
-            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
+            Assert.Equal(8, symbol.BaseAsset.Precision);
+            Assert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             symbol.ValidatePriceQuantity(price, quantity);
@@ -330,8 +330,8 @@ namespace Binance.Tests
             //const decimal price = 10000;
             //const decimal quantity = 1;
 
-            ClassicAssert.Equal(8, symbol.BaseAsset.Precision);
-            ClassicAssert.Equal(8, symbol.QuoteAsset.Precision);
+            Assert.Equal(8, symbol.BaseAsset.Precision);
+            Assert.Equal(8, symbol.QuoteAsset.Precision);
 
             /* TODO
             var order = new LimitOrder(user);

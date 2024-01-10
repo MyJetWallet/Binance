@@ -9,7 +9,7 @@ namespace Binance.Tests.Cache.Events
         [Fact]
         public void Throws()
         {
-            ClassicAssert.Throws<ArgumentNullException>("candlesticks", () => new CandlestickCacheEventArgs(null));
+            Assert.Throws<ArgumentNullException>("candlesticks", () => new CandlestickCacheEventArgs(null));
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace Binance.Tests.Cache.Events
 
             var args = new CandlestickCacheEventArgs(candlesticks);
 
-            ClassicAssert.Equal(candlesticks, args.Candlesticks);
+            Assert.Equal(candlesticks, args.Candlesticks);
         }
     }
 }

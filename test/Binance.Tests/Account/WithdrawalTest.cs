@@ -16,12 +16,12 @@ namespace Binance.Tests.Account
             const WithdrawalStatus status = WithdrawalStatus.Completed;
             const string address = "0x12345678901234567890";
 
-            ClassicAssert.Throws<ArgumentNullException>("id", () => new Withdrawal(null, asset, amount, time, status, address));
-            ClassicAssert.Throws<ArgumentNullException>("asset", () => new Withdrawal(id, null, amount, time, status, address));
-            ClassicAssert.Throws<ArgumentException>("amount", () => new Withdrawal(id, asset, -1, time, status, address));
-            ClassicAssert.Throws<ArgumentException>("amount", () => new Withdrawal(id, asset, 0, time, status, address));
-            ClassicAssert.Throws<ArgumentNullException>("address", () => new Withdrawal(id, asset, amount, time, status, null));
-            ClassicAssert.Throws<ArgumentNullException>("address", () => new Withdrawal(id, asset, amount, time, status, string.Empty));
+            Assert.Throws<ArgumentNullException>("id", () => new Withdrawal(null, asset, amount, time, status, address));
+            Assert.Throws<ArgumentNullException>("asset", () => new Withdrawal(id, null, amount, time, status, address));
+            Assert.Throws<ArgumentException>("amount", () => new Withdrawal(id, asset, -1, time, status, address));
+            Assert.Throws<ArgumentException>("amount", () => new Withdrawal(id, asset, 0, time, status, address));
+            Assert.Throws<ArgumentNullException>("address", () => new Withdrawal(id, asset, amount, time, status, null));
+            Assert.Throws<ArgumentNullException>("address", () => new Withdrawal(id, asset, amount, time, status, string.Empty));
         }
 
         [Fact]
@@ -38,14 +38,14 @@ namespace Binance.Tests.Account
 
             var withdrawal = new Withdrawal(id, asset, amount, time, status, address, addressTag, txId);
 
-            ClassicAssert.Equal(id, withdrawal.Id);
-            ClassicAssert.Equal(asset, withdrawal.Asset);
-            ClassicAssert.Equal(amount, withdrawal.Amount);
-            ClassicAssert.Equal(time, withdrawal.Time);
-            ClassicAssert.Equal(status, withdrawal.Status);
-            ClassicAssert.Equal(address, withdrawal.Address);
-            ClassicAssert.Equal(addressTag, withdrawal.AddressTag);
-            ClassicAssert.Equal(txId, withdrawal.TxId);
+            Assert.Equal(id, withdrawal.Id);
+            Assert.Equal(asset, withdrawal.Asset);
+            Assert.Equal(amount, withdrawal.Amount);
+            Assert.Equal(time, withdrawal.Time);
+            Assert.Equal(status, withdrawal.Status);
+            Assert.Equal(address, withdrawal.Address);
+            Assert.Equal(addressTag, withdrawal.AddressTag);
+            Assert.Equal(txId, withdrawal.TxId);
         }
 
         [Fact]
@@ -66,14 +66,14 @@ namespace Binance.Tests.Account
 
             withdrawal = JsonConvert.DeserializeObject<Withdrawal>(json);
 
-            ClassicAssert.Equal(id, withdrawal.Id);
-            ClassicAssert.Equal(asset, withdrawal.Asset);
-            ClassicAssert.Equal(amount, withdrawal.Amount);
-            ClassicAssert.Equal(time, withdrawal.Time);
-            ClassicAssert.Equal(status, withdrawal.Status);
-            ClassicAssert.Equal(address, withdrawal.Address);
-            ClassicAssert.Equal(addressTag, withdrawal.AddressTag);
-            ClassicAssert.Equal(txId, withdrawal.TxId);
+            Assert.Equal(id, withdrawal.Id);
+            Assert.Equal(asset, withdrawal.Asset);
+            Assert.Equal(amount, withdrawal.Amount);
+            Assert.Equal(time, withdrawal.Time);
+            Assert.Equal(status, withdrawal.Status);
+            Assert.Equal(address, withdrawal.Address);
+            Assert.Equal(addressTag, withdrawal.AddressTag);
+            Assert.Equal(txId, withdrawal.TxId);
         }
     }
 }

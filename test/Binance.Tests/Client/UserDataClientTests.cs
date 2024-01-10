@@ -20,11 +20,11 @@ namespace Binance.Tests.Client
         {
             var user = new Mock<IBinanceApiUser>().Object;
 
-            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => _client.Subscribe(null, user));
-            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => _client.Subscribe(string.Empty, user));
+            Assert.Throws<ArgumentNullException>("listenKey", () => _client.Subscribe(null, user));
+            Assert.Throws<ArgumentNullException>("listenKey", () => _client.Subscribe(string.Empty, user));
 
-            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => _client.Unsubscribe(null));
-            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => _client.Unsubscribe(string.Empty));
+            Assert.Throws<ArgumentNullException>("listenKey", () => _client.Unsubscribe(null));
+            Assert.Throws<ArgumentNullException>("listenKey", () => _client.Unsubscribe(string.Empty));
         }
 
         [Fact]
@@ -36,19 +36,19 @@ namespace Binance.Tests.Client
             var listenKey2 = "<listen key 2>";
             var user2 = new Mock<IBinanceApiUser>().Object;
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
 
             // Subscribe to listen key.
             _client.Subscribe(listenKey1, user1);
-            ClassicAssert.True(_client.SubscribedStreams.Count() == 1);
+            Assert.True(_client.SubscribedStreams.Count() == 1);
 
             // Re-Subscribe to same listen key doesn't fail.
             _client.Subscribe(listenKey1, user1);
-            ClassicAssert.True(_client.SubscribedStreams.Count() == 1);
+            Assert.True(_client.SubscribedStreams.Count() == 1);
 
             // Subscribe to a different listen key.
             _client.Subscribe(listenKey2, user2);
-            ClassicAssert.True(_client.SubscribedStreams.Count() == 2);
+            Assert.True(_client.SubscribedStreams.Count() == 2);
         }
 
         [Fact]
@@ -57,16 +57,16 @@ namespace Binance.Tests.Client
             var listenKey = "<listen key>";
             var user = new Mock<IBinanceApiUser>().Object;
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
 
             // Unsubscribe non-subscribed listen key doesn't fail.
             _client.Unsubscribe(listenKey);
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
 
             // Subscribe and unsubscribe listen key.
             _client.Subscribe(listenKey, user).Unsubscribe(listenKey);
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
         }
 
         [Fact]
@@ -83,12 +83,12 @@ namespace Binance.Tests.Client
 
             // Subscribe to multiple listen keys.
             _client.Subscribe(listenKey1, user1).Subscribe(listenKey2, user2);
-            ClassicAssert.True(_client.SubscribedStreams.Count() == 2);
+            Assert.True(_client.SubscribedStreams.Count() == 2);
 
             // Unsubscribe all.
             _client.Unsubscribe();
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
         }
     }
 }

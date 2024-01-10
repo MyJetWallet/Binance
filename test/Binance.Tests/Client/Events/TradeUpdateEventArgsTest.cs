@@ -31,7 +31,7 @@ namespace Binance.Tests.Client.Events
 
             decimal quantityOfLastFilledTrade = 1;
 
-            ClassicAssert.Throws<ArgumentNullException>("order", () => new AccountTradeUpdateEventArgs(time, null, orderRejectedReason, newClientOrderId, trade, quantityOfLastFilledTrade));
+            Assert.Throws<ArgumentNullException>("order", () => new AccountTradeUpdateEventArgs(time, null, orderRejectedReason, newClientOrderId, trade, quantityOfLastFilledTrade));
         }
 
         [Fact]
@@ -76,13 +76,13 @@ namespace Binance.Tests.Client.Events
 
             var args = new AccountTradeUpdateEventArgs(time, order, orderRejectedReason, newClientOrderId, trade, quantityOfLastFilledTrade);
 
-            ClassicAssert.Equal(time, args.Time);
-            ClassicAssert.Equal(order, args.Order);
-            ClassicAssert.Equal(OrderExecutionType.Trade, args.OrderExecutionType);
-            ClassicAssert.Equal(orderRejectedReason, args.OrderRejectedReason);
-            ClassicAssert.Equal(newClientOrderId, args.NewClientOrderId);
-            ClassicAssert.Equal(trade, args.Trade);
-            ClassicAssert.Equal(quantityOfLastFilledTrade, args.QuantityOfLastFilledTrade);
+            Assert.Equal(time, args.Time);
+            Assert.Equal(order, args.Order);
+            Assert.Equal(OrderExecutionType.Trade, args.OrderExecutionType);
+            Assert.Equal(orderRejectedReason, args.OrderRejectedReason);
+            Assert.Equal(newClientOrderId, args.NewClientOrderId);
+            Assert.Equal(trade, args.Trade);
+            Assert.Equal(quantityOfLastFilledTrade, args.QuantityOfLastFilledTrade);
         }
     }
 }

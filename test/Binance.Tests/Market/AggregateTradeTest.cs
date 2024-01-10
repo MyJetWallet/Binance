@@ -19,19 +19,19 @@ namespace Binance.Tests.Market
             const bool isBuyerMaker = true;
             const bool isBestPriceMatch = true;
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new AggregateTrade(null, id, price, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentNullException>("symbol", () => new AggregateTrade(null, id, price, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("id", () => new AggregateTrade(symbol, -1, price, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("id", () => new AggregateTrade(symbol, -1, price, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("price", () => new AggregateTrade(symbol, id, -1, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("price", () => new AggregateTrade(symbol, id, -1, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("quantity", () => new AggregateTrade(symbol, id, price, -1, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
-            ClassicAssert.Throws<ArgumentException>("quantity", () => new AggregateTrade(symbol, id, price, 0, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("quantity", () => new AggregateTrade(symbol, id, price, -1, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("quantity", () => new AggregateTrade(symbol, id, price, 0, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("firstTradeId", () => new AggregateTrade(symbol, id, price, quantity, -1, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("firstTradeId", () => new AggregateTrade(symbol, id, price, quantity, -1, lastTradeId, time, isBuyerMaker, isBestPriceMatch));
 
-            ClassicAssert.Throws<ArgumentException>("lastTradeId", () => new AggregateTrade(symbol, id, price, quantity, firstTradeId, -1, time, isBuyerMaker, isBestPriceMatch));
-            ClassicAssert.Throws<ArgumentException>("lastTradeId", () => new AggregateTrade(symbol, id, price, quantity, lastTradeId, firstTradeId, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("lastTradeId", () => new AggregateTrade(symbol, id, price, quantity, firstTradeId, -1, time, isBuyerMaker, isBestPriceMatch));
+            Assert.Throws<ArgumentException>("lastTradeId", () => new AggregateTrade(symbol, id, price, quantity, lastTradeId, firstTradeId, time, isBuyerMaker, isBestPriceMatch));
         }
 
         [Fact]
@@ -49,15 +49,15 @@ namespace Binance.Tests.Market
 
             var trade = new AggregateTrade(symbol, id, price, quantity, firstTradeId, lastTradeId, time, isBuyerMaker, isBestPriceMatch);
 
-            ClassicAssert.Equal(symbol, trade.Symbol);
-            ClassicAssert.Equal(id, trade.Id);
-            ClassicAssert.Equal(price, trade.Price);
-            ClassicAssert.Equal(quantity, trade.Quantity);
-            ClassicAssert.Equal(firstTradeId, trade.FirstTradeId);
-            ClassicAssert.Equal(lastTradeId, trade.LastTradeId);
-            ClassicAssert.Equal(time, trade.Time);
-            ClassicAssert.Equal(isBuyerMaker, trade.IsBuyerMaker);
-            ClassicAssert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
+            Assert.Equal(symbol, trade.Symbol);
+            Assert.Equal(id, trade.Id);
+            Assert.Equal(price, trade.Price);
+            Assert.Equal(quantity, trade.Quantity);
+            Assert.Equal(firstTradeId, trade.FirstTradeId);
+            Assert.Equal(lastTradeId, trade.LastTradeId);
+            Assert.Equal(time, trade.Time);
+            Assert.Equal(isBuyerMaker, trade.IsBuyerMaker);
+            Assert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
         }
 
         [Fact]
@@ -79,15 +79,15 @@ namespace Binance.Tests.Market
 
             trade = JsonConvert.DeserializeObject<AggregateTrade>(json);
 
-            ClassicAssert.Equal(symbol, trade.Symbol);
-            ClassicAssert.Equal(id, trade.Id);
-            ClassicAssert.Equal(price, trade.Price);
-            ClassicAssert.Equal(quantity, trade.Quantity);
-            ClassicAssert.Equal(firstTradeId, trade.FirstTradeId);
-            ClassicAssert.Equal(lastTradeId, trade.LastTradeId);
-            ClassicAssert.Equal(time, trade.Time);
-            ClassicAssert.Equal(isBuyerMaker, trade.IsBuyerMaker);
-            ClassicAssert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
+            Assert.Equal(symbol, trade.Symbol);
+            Assert.Equal(id, trade.Id);
+            Assert.Equal(price, trade.Price);
+            Assert.Equal(quantity, trade.Quantity);
+            Assert.Equal(firstTradeId, trade.FirstTradeId);
+            Assert.Equal(lastTradeId, trade.LastTradeId);
+            Assert.Equal(time, trade.Time);
+            Assert.Equal(isBuyerMaker, trade.IsBuyerMaker);
+            Assert.Equal(isBestPriceMatch, trade.IsBestPriceMatch);
         }
     }
 }

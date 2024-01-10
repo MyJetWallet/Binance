@@ -15,11 +15,11 @@ namespace Binance.Tests.Account
 
             var fill = new Fill(price, quantity, commission, commissionAsset, tradeId);
 
-            ClassicAssert.Equal(price, fill.Price);
-            ClassicAssert.Equal(quantity, fill.Quantity);
-            ClassicAssert.Equal(commission, fill.Commission);
-            ClassicAssert.Equal(commissionAsset, fill.CommissionAsset);
-            ClassicAssert.Equal(tradeId, fill.TradeId);
+            Assert.Equal(price, fill.Price);
+            Assert.Equal(quantity, fill.Quantity);
+            Assert.Equal(commission, fill.Commission);
+            Assert.Equal(commissionAsset, fill.CommissionAsset);
+            Assert.Equal(tradeId, fill.TradeId);
         }
     }
 }

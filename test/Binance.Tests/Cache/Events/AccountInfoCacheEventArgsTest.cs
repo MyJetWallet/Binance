@@ -9,7 +9,7 @@ namespace Binance.Tests.Cache.Events
         [Fact]
         public void Throws()
         {
-            ClassicAssert.Throws<ArgumentNullException>("accountInfo", () => new AccountInfoCacheEventArgs(null));
+            Assert.Throws<ArgumentNullException>("accountInfo", () => new AccountInfoCacheEventArgs(null));
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace Binance.Tests.Cache.Events
 
             var args = new AccountInfoCacheEventArgs(accountInfo);
 
-            ClassicAssert.Equal(accountInfo, args.AccountInfo);
+            Assert.Equal(accountInfo, args.AccountInfo);
         }
     }
 }

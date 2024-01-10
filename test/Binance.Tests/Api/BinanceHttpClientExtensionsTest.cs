@@ -26,19 +26,19 @@ namespace Binance.Tests.Api
         [Fact]
         public Task GetOrderBookThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetOrderBookAsync(null));
+            return Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetOrderBookAsync(null));
         }
 
         [Fact]
         public async Task GetAggregateTradesThrows()
         {
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetAggregateTradesAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetAggregateTradesAsync(null));
         }
 
         [Fact]
         public Task GetCandlesticksThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetCandlesticksAsync(null, CandlestickInterval.Day));
+            return Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetCandlesticksAsync(null, CandlestickInterval.Day));
         }
 
         #endregion Market Data
@@ -55,9 +55,9 @@ namespace Binance.Tests.Api
             decimal quantity = 1;
             decimal price = 0;
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.PlaceOrderAsync(null, symbol, orderSide, orderType, quantity, price));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.PlaceOrderAsync(user, null, orderSide, orderType, quantity, price));
-            await ClassicAssert.ThrowsAsync<ArgumentException>("quantity", () => _client.PlaceOrderAsync(user, symbol, orderSide, orderType, -1, price));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.PlaceOrderAsync(null, symbol, orderSide, orderType, quantity, price));
+            await Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.PlaceOrderAsync(user, null, orderSide, orderType, quantity, price));
+            await Assert.ThrowsAsync<ArgumentException>("quantity", () => _client.PlaceOrderAsync(user, symbol, orderSide, orderType, -1, price));
         }
 
         [Fact]
@@ -66,9 +66,9 @@ namespace Binance.Tests.Api
             var user = new BinanceApiUser("api-key");
             var symbol = Symbol.BTC_USDT;
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetOrderAsync(null, symbol));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetOrderAsync(user, null));
-            await ClassicAssert.ThrowsAsync<ArgumentException>(() => _client.GetOrderAsync(user, symbol));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetOrderAsync(null, symbol));
+            await Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetOrderAsync(user, null));
+            await Assert.ThrowsAsync<ArgumentException>(() => _client.GetOrderAsync(user, symbol));
         }
 
         [Fact]
@@ -77,9 +77,9 @@ namespace Binance.Tests.Api
             var user = new BinanceApiUser("api-key");
             var symbol = Symbol.BTC_USDT;
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.CancelOrderAsync(null, symbol));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.CancelOrderAsync(user, null));
-            await ClassicAssert.ThrowsAsync<ArgumentException>(() => _client.GetOrderAsync(user, symbol));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.CancelOrderAsync(null, symbol));
+            await Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.CancelOrderAsync(user, null));
+            await Assert.ThrowsAsync<ArgumentException>(() => _client.GetOrderAsync(user, symbol));
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace Binance.Tests.Api
         {
             var symbol = Symbol.BTC_USDT;
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetOpenOrdersAsync(null, symbol));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetOpenOrdersAsync(null, symbol));
         }
 
         [Fact]
@@ -96,14 +96,14 @@ namespace Binance.Tests.Api
             var user = new BinanceApiUser("api-key");
             var symbol = Symbol.BTC_USDT;
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetOrdersAsync(null, symbol));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetOrdersAsync(user, null));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetOrdersAsync(null, symbol));
+            await Assert.ThrowsAsync<ArgumentNullException>("symbol", () => _client.GetOrdersAsync(user, null));
         }
 
         [Fact]
         public Task GetAccountThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetAccountInfoAsync(null));
+            return Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetAccountInfoAsync(null));
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace Binance.Tests.Api
         {
             var symbol = Symbol.BTC_USDT;
 
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetAccountTradesAsync(null, symbol));
+            return Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetAccountTradesAsync(null, symbol));
         }
 
         [Fact]
@@ -123,24 +123,24 @@ namespace Binance.Tests.Api
             const string addressTag = "ABCDEF";
             const decimal amount = 1;
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.WithdrawAsync(null, asset, address, addressTag, amount));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("asset", () => _client.WithdrawAsync(user, null, address, addressTag, amount));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("address", () => _client.WithdrawAsync(user, asset, null, addressTag, amount));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("address", () => _client.WithdrawAsync(user, asset, string.Empty, addressTag, amount));
-            await ClassicAssert.ThrowsAsync<ArgumentException>("amount", () => _client.WithdrawAsync(user, asset, address, addressTag, -1));
-            await ClassicAssert.ThrowsAsync<ArgumentException>("amount", () => _client.WithdrawAsync(user, asset, address, addressTag, 0));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.WithdrawAsync(null, asset, address, addressTag, amount));
+            await Assert.ThrowsAsync<ArgumentNullException>("asset", () => _client.WithdrawAsync(user, null, address, addressTag, amount));
+            await Assert.ThrowsAsync<ArgumentNullException>("address", () => _client.WithdrawAsync(user, asset, null, addressTag, amount));
+            await Assert.ThrowsAsync<ArgumentNullException>("address", () => _client.WithdrawAsync(user, asset, string.Empty, addressTag, amount));
+            await Assert.ThrowsAsync<ArgumentException>("amount", () => _client.WithdrawAsync(user, asset, address, addressTag, -1));
+            await Assert.ThrowsAsync<ArgumentException>("amount", () => _client.WithdrawAsync(user, asset, address, addressTag, 0));
         }
 
         [Fact]
         public Task GetDepositsThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetDepositsAsync(null));
+            return Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetDepositsAsync(null));
         }
 
         [Fact]
         public Task GetWithdrawalsThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetWithdrawalsAsync(null));
+            return Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.GetWithdrawalsAsync(null));
         }
 
         #endregion Account
@@ -150,8 +150,8 @@ namespace Binance.Tests.Api
         [Fact]
         public async Task UserStreamStartThrows()
         {
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.UserStreamStartAsync((IBinanceApiUser)null));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("apiKey", () => _client.UserStreamStartAsync((string)null));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.UserStreamStartAsync((IBinanceApiUser)null));
+            await Assert.ThrowsAsync<ArgumentNullException>("apiKey", () => _client.UserStreamStartAsync((string)null));
         }
 
         [Fact]
@@ -160,10 +160,10 @@ namespace Binance.Tests.Api
             var user = new BinanceApiUser("api-key");
             const string listenKey = "listen-key";
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.UserStreamKeepAliveAsync((IBinanceApiUser)null, listenKey));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("apiKey", () => _client.UserStreamKeepAliveAsync((string)null, listenKey));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamKeepAliveAsync(user, null));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamKeepAliveAsync(user, string.Empty));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.UserStreamKeepAliveAsync((IBinanceApiUser)null, listenKey));
+            await Assert.ThrowsAsync<ArgumentNullException>("apiKey", () => _client.UserStreamKeepAliveAsync((string)null, listenKey));
+            await Assert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamKeepAliveAsync(user, null));
+            await Assert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamKeepAliveAsync(user, string.Empty));
         }
 
         [Fact]
@@ -172,10 +172,10 @@ namespace Binance.Tests.Api
             var user = new BinanceApiUser("api-key");
             const string listenKey = "listen-key";
 
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("user", () => _client.UserStreamCloseAsync((IBinanceApiUser)null, listenKey));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("apiKey", () => _client.UserStreamCloseAsync((string)null, listenKey));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamCloseAsync(user, null));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamCloseAsync(user, string.Empty));
+            await Assert.ThrowsAsync<ArgumentNullException>("user", () => _client.UserStreamCloseAsync((IBinanceApiUser)null, listenKey));
+            await Assert.ThrowsAsync<ArgumentNullException>("apiKey", () => _client.UserStreamCloseAsync((string)null, listenKey));
+            await Assert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamCloseAsync(user, null));
+            await Assert.ThrowsAsync<ArgumentNullException>("listenKey", () => _client.UserStreamCloseAsync(user, string.Empty));
         }
 
         #endregion User Stream

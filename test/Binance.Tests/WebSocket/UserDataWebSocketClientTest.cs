@@ -16,8 +16,8 @@ namespace Binance.Tests.WebSocket
 
             var client = new UserDataWebSocketClient();
 
-            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => client.Subscribe(null, user));
-            ClassicAssert.Throws<ArgumentNullException>("listenKey", () => client.Subscribe(string.Empty, user));
+            Assert.Throws<ArgumentNullException>("listenKey", () => client.Subscribe(null, user));
+            Assert.Throws<ArgumentNullException>("listenKey", () => client.Subscribe(string.Empty, user));
         }
 
         [Fact]
@@ -27,13 +27,13 @@ namespace Binance.Tests.WebSocket
             var user = new Mock<IBinanceApiUser>().Object;
             var client = new UserDataWebSocketClient();
 
-            ClassicAssert.Empty(client.SubscribedStreams);
-            ClassicAssert.Empty(client.Publisher.PublishedStreams);
+            Assert.Empty(client.SubscribedStreams);
+            Assert.Empty(client.Publisher.PublishedStreams);
 
             client.Subscribe(listenKey, user);
 
-            ClassicAssert.True(client.SubscribedStreams.Count() == 1);
-            ClassicAssert.True(client.Publisher.PublishedStreams.Count() == 1);
+            Assert.True(client.SubscribedStreams.Count() == 1);
+            Assert.True(client.Publisher.PublishedStreams.Count() == 1);
         }
     }
 }

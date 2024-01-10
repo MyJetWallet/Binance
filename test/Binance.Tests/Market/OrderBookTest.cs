@@ -15,14 +15,14 @@ namespace Binance.Tests.Market
             var bids = new(decimal, decimal)[] { (2, 20), (1, 10), (3, 30) };
             var asks = new(decimal, decimal)[] { (6, 60), (4, 40), (5, 50) };
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new OrderBook(null, lastUpdateId, bids, asks, DateTime.UtcNow));
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => new OrderBook("", lastUpdateId, bids, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentNullException>("symbol", () => new OrderBook(null, lastUpdateId, bids, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentNullException>("symbol", () => new OrderBook("", lastUpdateId, bids, asks, DateTime.UtcNow));
 
-            ClassicAssert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, -1, bids, asks, DateTime.UtcNow));
-            ClassicAssert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, 0, bids, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, -1, bids, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentException>("lastUpdateId", () => new OrderBook(symbol, 0, bids, asks, DateTime.UtcNow));
 
-            ClassicAssert.Throws<ArgumentNullException>("bids", () => new OrderBook(symbol, lastUpdateId, null, asks, DateTime.UtcNow));
-            ClassicAssert.Throws<ArgumentNullException>("asks", () => new OrderBook(symbol, lastUpdateId, bids, null, DateTime.UtcNow));
+            Assert.Throws<ArgumentNullException>("bids", () => new OrderBook(symbol, lastUpdateId, null, asks, DateTime.UtcNow));
+            Assert.Throws<ArgumentNullException>("asks", () => new OrderBook(symbol, lastUpdateId, bids, null, DateTime.UtcNow));
         }
 
         [Fact]
@@ -35,17 +35,17 @@ namespace Binance.Tests.Market
 
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
-            ClassicAssert.Equal(symbol, orderBook.Symbol);
-            ClassicAssert.Equal(lastUpdateId, orderBook.LastUpdateId);
+            Assert.Equal(symbol, orderBook.Symbol);
+            Assert.Equal(lastUpdateId, orderBook.LastUpdateId);
 
-            ClassicAssert.NotEmpty(orderBook.Bids);
-            ClassicAssert.NotEmpty(orderBook.Asks);
+            Assert.NotEmpty(orderBook.Bids);
+            Assert.NotEmpty(orderBook.Asks);
 
-            ClassicAssert.Equal(3, orderBook.Top.Bid.Price);
-            ClassicAssert.Equal(30, orderBook.Top.Bid.Quantity);
+            Assert.Equal(3, orderBook.Top.Bid.Price);
+            Assert.Equal(30, orderBook.Top.Bid.Quantity);
 
-            ClassicAssert.Equal(4, orderBook.Top.Ask.Price);
-            ClassicAssert.Equal(40, orderBook.Top.Ask.Quantity);
+            Assert.Equal(4, orderBook.Top.Ask.Price);
+            Assert.Equal(40, orderBook.Top.Ask.Quantity);
         }
 
         [Fact]
@@ -65,17 +65,17 @@ namespace Binance.Tests.Market
 
             orderBook = JsonConvert.DeserializeObject<OrderBook>(json, settings);
 
-            ClassicAssert.Equal(symbol, orderBook.Symbol);
-            ClassicAssert.Equal(lastUpdateId, orderBook.LastUpdateId);
+            Assert.Equal(symbol, orderBook.Symbol);
+            Assert.Equal(lastUpdateId, orderBook.LastUpdateId);
 
-            ClassicAssert.NotEmpty(orderBook.Bids);
-            ClassicAssert.NotEmpty(orderBook.Asks);
+            Assert.NotEmpty(orderBook.Bids);
+            Assert.NotEmpty(orderBook.Asks);
 
-            ClassicAssert.Equal(3, orderBook.Top.Bid.Price);
-            ClassicAssert.Equal(30, orderBook.Top.Bid.Quantity);
+            Assert.Equal(3, orderBook.Top.Bid.Price);
+            Assert.Equal(30, orderBook.Top.Bid.Quantity);
 
-            ClassicAssert.Equal(4, orderBook.Top.Ask.Price);
-            ClassicAssert.Equal(40, orderBook.Top.Ask.Quantity);
+            Assert.Equal(4, orderBook.Top.Ask.Price);
+            Assert.Equal(40, orderBook.Top.Ask.Quantity);
         }
 
         [Fact]
@@ -90,22 +90,22 @@ namespace Binance.Tests.Market
 
             var clone = orderBook.Clone();
 
-            ClassicAssert.Equal(symbol, clone.Symbol);
-            ClassicAssert.Equal(lastUpdateId, clone.LastUpdateId);
+            Assert.Equal(symbol, clone.Symbol);
+            Assert.Equal(lastUpdateId, clone.LastUpdateId);
 
             foreach (var level in bids)
-                ClassicAssert.Equal(level.Item2, clone.Quantity(level.Item1));
+                Assert.Equal(level.Item2, clone.Quantity(level.Item1));
 
             foreach (var level in asks)
-                ClassicAssert.Equal(level.Item2, clone.Quantity(level.Item1));
+                Assert.Equal(level.Item2, clone.Quantity(level.Item1));
 
-            ClassicAssert.Equal(3, orderBook.Top.Bid.Price);
-            ClassicAssert.Equal(30, orderBook.Top.Bid.Quantity);
+            Assert.Equal(3, orderBook.Top.Bid.Price);
+            Assert.Equal(30, orderBook.Top.Bid.Quantity);
 
-            ClassicAssert.Equal(4, orderBook.Top.Ask.Price);
-            ClassicAssert.Equal(40, orderBook.Top.Ask.Quantity);
+            Assert.Equal(4, orderBook.Top.Ask.Price);
+            Assert.Equal(40, orderBook.Top.Ask.Quantity);
 
-            ClassicAssert.Equal(orderBook, clone);
+            Assert.Equal(orderBook, clone);
         }
 
         [Fact]
@@ -119,13 +119,13 @@ namespace Binance.Tests.Market
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
             foreach (var level in bids)
-                ClassicAssert.Equal(level.Item2, orderBook.Quantity(level.Item1));
+                Assert.Equal(level.Item2, orderBook.Quantity(level.Item1));
 
             foreach (var level in asks)
-                ClassicAssert.Equal(level.Item2, orderBook.Quantity(level.Item1));
+                Assert.Equal(level.Item2, orderBook.Quantity(level.Item1));
 
-            ClassicAssert.Equal(0, orderBook.Quantity(0.5m));
-            ClassicAssert.Equal(0, orderBook.Quantity(10.0m));
+            Assert.Equal(0, orderBook.Quantity(0.5m));
+            Assert.Equal(0, orderBook.Quantity(10.0m));
         }
 
         [Fact]
@@ -138,7 +138,7 @@ namespace Binance.Tests.Market
 
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
-            ClassicAssert.Equal(3.5m, orderBook.MidMarketPrice());
+            Assert.Equal(3.5m, orderBook.MidMarketPrice());
         }
 
         [Fact]
@@ -151,9 +151,9 @@ namespace Binance.Tests.Market
 
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
-            ClassicAssert.Equal(0, orderBook.Depth(3.5m));
-            ClassicAssert.Equal(50, orderBook.Depth(1.5m));
-            ClassicAssert.Equal(90, orderBook.Depth(5.5m));
+            Assert.Equal(0, orderBook.Depth(3.5m));
+            Assert.Equal(50, orderBook.Depth(1.5m));
+            Assert.Equal(90, orderBook.Depth(5.5m));
         }
 
         [Fact]
@@ -166,9 +166,9 @@ namespace Binance.Tests.Market
 
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
-            ClassicAssert.Equal(0, orderBook.Volume(3.5m));
-            ClassicAssert.Equal(130, orderBook.Volume(1.5m)); // 3 * 30 + 2 * 20
-            ClassicAssert.Equal(410, orderBook.Volume(5.5m)); // 4 * 40 + 5 * 50
+            Assert.Equal(0, orderBook.Volume(3.5m));
+            Assert.Equal(130, orderBook.Volume(1.5m)); // 3 * 30 + 2 * 20
+            Assert.Equal(410, orderBook.Volume(5.5m)); // 4 * 40 + 5 * 50
         }
 
         [Fact]
@@ -181,10 +181,10 @@ namespace Binance.Tests.Market
 
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
-            ClassicAssert.Equal(3, orderBook.Bids.PriceAt(15));
-            ClassicAssert.Equal(2, orderBook.Bids.PriceAt(40));
-            ClassicAssert.Equal(1, orderBook.Bids.PriceAt(55));
-            ClassicAssert.Equal(1, orderBook.Bids.PriceAt(80));
+            Assert.Equal(3, orderBook.Bids.PriceAt(15));
+            Assert.Equal(2, orderBook.Bids.PriceAt(40));
+            Assert.Equal(1, orderBook.Bids.PriceAt(55));
+            Assert.Equal(1, orderBook.Bids.PriceAt(80));
         }
 
         [Fact]
@@ -197,10 +197,10 @@ namespace Binance.Tests.Market
 
             var orderBook = new OrderBook(symbol, lastUpdateId, bids, asks, DateTime.UtcNow);
 
-            ClassicAssert.Equal(4, orderBook.Asks.PriceAt(20));
-            ClassicAssert.Equal(5, orderBook.Asks.PriceAt(65));
-            ClassicAssert.Equal(6, orderBook.Asks.PriceAt(120));
-            ClassicAssert.Equal(6, orderBook.Asks.PriceAt(200));
+            Assert.Equal(4, orderBook.Asks.PriceAt(20));
+            Assert.Equal(5, orderBook.Asks.PriceAt(65));
+            Assert.Equal(6, orderBook.Asks.PriceAt(120));
+            Assert.Equal(6, orderBook.Asks.PriceAt(200));
         }
     }
 }

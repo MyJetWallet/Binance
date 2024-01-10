@@ -13,9 +13,9 @@ namespace Binance.Tests.Account
             const decimal free = 0.123m;
             const decimal locked = 0.456m;
 
-            ClassicAssert.Throws<ArgumentNullException>("asset", () => new AccountBalance(null, free, locked));
-            ClassicAssert.Throws<ArgumentException>("free", () => new AccountBalance(asset, -1, locked));
-            ClassicAssert.Throws<ArgumentException>("locked", () => new AccountBalance(asset, free, -1));
+            Assert.Throws<ArgumentNullException>("asset", () => new AccountBalance(null, free, locked));
+            Assert.Throws<ArgumentException>("free", () => new AccountBalance(asset, -1, locked));
+            Assert.Throws<ArgumentException>("locked", () => new AccountBalance(asset, free, -1));
         }
 
         [Fact]
@@ -27,9 +27,9 @@ namespace Binance.Tests.Account
 
             var balance = new AccountBalance(asset, free, locked);
 
-            ClassicAssert.Equal(asset, balance.Asset);
-            ClassicAssert.Equal(free, balance.Free);
-            ClassicAssert.Equal(locked, balance.Locked);
+            Assert.Equal(asset, balance.Asset);
+            Assert.Equal(free, balance.Free);
+            Assert.Equal(locked, balance.Locked);
         }
 
         [Fact]
@@ -45,9 +45,9 @@ namespace Binance.Tests.Account
 
             balance = JsonConvert.DeserializeObject<AccountBalance>(json);
 
-            ClassicAssert.Equal(asset, balance.Asset);
-            ClassicAssert.Equal(free, balance.Free);
-            ClassicAssert.Equal(locked, balance.Locked);
+            Assert.Equal(asset, balance.Asset);
+            Assert.Equal(free, balance.Free);
+            Assert.Equal(locked, balance.Locked);
         }
     }
 }

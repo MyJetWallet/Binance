@@ -40,7 +40,7 @@ namespace Binance.Tests.Serialization
 
             var other = serializer.Deserialize(json);
 
-            ClassicAssert.True(stats.Equals(other));
+            Assert.True(stats.Equals(other));
         }
     }
 }

@@ -19,11 +19,11 @@ namespace Binance.Tests.Client
         {
             const CandlestickInterval interval = CandlestickInterval.Hour;
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe((string)null, interval));
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe(string.Empty, interval));
+            Assert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe((string)null, interval));
+            Assert.Throws<ArgumentNullException>("symbol", () => _client.Subscribe(string.Empty, interval));
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe((string)null, interval));
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe(string.Empty, interval));
+            Assert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe((string)null, interval));
+            Assert.Throws<ArgumentNullException>("symbol", () => _client.Unsubscribe(string.Empty, interval));
         }
 
         [Fact]
@@ -33,21 +33,21 @@ namespace Binance.Tests.Client
             var symbol2 = Symbol.LTC_BTC;
             const CandlestickInterval interval = CandlestickInterval.Hour;
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
 
             // Subscribe to symbol.
             _client.Subscribe(symbol1, interval);
-            ClassicAssert.Equal(CandlestickClient.GetStreamName(symbol1, interval), _client.SubscribedStreams.Single());
+            Assert.Equal(CandlestickClient.GetStreamName(symbol1, interval), _client.SubscribedStreams.Single());
 
             // Re-Subscribe to same symbol doesn't fail.
             _client.Subscribe(symbol1, interval);
-            ClassicAssert.Equal(CandlestickClient.GetStreamName(symbol1, interval), _client.SubscribedStreams.Single());
+            Assert.Equal(CandlestickClient.GetStreamName(symbol1, interval), _client.SubscribedStreams.Single());
 
             // Subscribe to a different symbol.
             _client.Subscribe(symbol2, interval);
-            ClassicAssert.True(_client.SubscribedStreams.Count() == 2);
-            ClassicAssert.Contains(CandlestickClient.GetStreamName(symbol1, interval), _client.SubscribedStreams);
-            ClassicAssert.Contains(CandlestickClient.GetStreamName(symbol2, interval), _client.SubscribedStreams);
+            Assert.True(_client.SubscribedStreams.Count() == 2);
+            Assert.Contains(CandlestickClient.GetStreamName(symbol1, interval), _client.SubscribedStreams);
+            Assert.Contains(CandlestickClient.GetStreamName(symbol2, interval), _client.SubscribedStreams);
         }
 
         [Fact]
@@ -56,16 +56,16 @@ namespace Binance.Tests.Client
             var symbol = Symbol.BTC_USDT;
             const CandlestickInterval interval = CandlestickInterval.Hour;
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
 
             // Unsubscribe non-subscribed symbol doesn't fail.
             _client.Unsubscribe(symbol, interval);
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
 
             // Subscribe and unsubscribe symbol.
             _client.Subscribe(symbol, interval).Unsubscribe(symbol, interval);
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
         }
 
         [Fact]
@@ -79,12 +79,12 @@ namespace Binance.Tests.Client
 
             // Subscribe to multiple symbols.
             _client.Subscribe(interval, symbols);
-            ClassicAssert.True(_client.SubscribedStreams.Count() == symbols.Length);
+            Assert.True(_client.SubscribedStreams.Count() == symbols.Length);
 
             // Unsubscribe all.
             _client.Unsubscribe();
 
-            ClassicAssert.Empty(_client.SubscribedStreams);
+            Assert.Empty(_client.SubscribedStreams);
         }
     }
 }

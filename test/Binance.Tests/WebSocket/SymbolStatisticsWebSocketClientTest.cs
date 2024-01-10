@@ -13,7 +13,7 @@ namespace Binance.Tests.WebSocket
         {
             var client = new SymbolStatisticsWebSocketClient();
 
-            ClassicAssert.Throws<ArgumentException>("symbols", () => client.Subscribe(null));
+            Assert.Throws<ArgumentException>("symbols", () => client.Subscribe(null));
         }
 
         [Fact]
@@ -21,13 +21,13 @@ namespace Binance.Tests.WebSocket
         {
             var client = new SymbolStatisticsWebSocketClient();
 
-            ClassicAssert.Empty(client.SubscribedStreams);
-            ClassicAssert.Empty(client.Publisher.PublishedStreams);
+            Assert.Empty(client.SubscribedStreams);
+            Assert.Empty(client.Publisher.PublishedStreams);
 
             client.Subscribe(Symbol.BTC_USDT);
 
-            ClassicAssert.True(client.SubscribedStreams.Count() == 1);
-            ClassicAssert.True(client.Publisher.PublishedStreams.Count() == 1);
+            Assert.True(client.SubscribedStreams.Count() == 1);
+            Assert.True(client.Publisher.PublishedStreams.Count() == 1);
         }
     }
 }

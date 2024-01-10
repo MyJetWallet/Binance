@@ -13,8 +13,8 @@ namespace Binance.Tests.WebSocket
         {
             var client = new CandlestickWebSocketClient();
 
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => client.Subscribe((string)null, CandlestickInterval.Hour));
-            ClassicAssert.Throws<ArgumentNullException>("symbol", () => client.Subscribe(string.Empty, CandlestickInterval.Hour));
+            Assert.Throws<ArgumentNullException>("symbol", () => client.Subscribe((string)null, CandlestickInterval.Hour));
+            Assert.Throws<ArgumentNullException>("symbol", () => client.Subscribe(string.Empty, CandlestickInterval.Hour));
         }
 
         [Fact]
@@ -22,13 +22,13 @@ namespace Binance.Tests.WebSocket
         {
             var client = new CandlestickWebSocketClient();
 
-            ClassicAssert.Empty(client.SubscribedStreams);
-            ClassicAssert.Empty(client.Publisher.PublishedStreams);
+            Assert.Empty(client.SubscribedStreams);
+            Assert.Empty(client.Publisher.PublishedStreams);
 
             client.Subscribe(Symbol.BTC_USDT, CandlestickInterval.Hour);
 
-            ClassicAssert.True(client.SubscribedStreams.Count() == 1);
-            ClassicAssert.True(client.Publisher.PublishedStreams.Count() == 1);
+            Assert.True(client.SubscribedStreams.Count() == 1);
+            Assert.True(client.Publisher.PublishedStreams.Count() == 1);
         }
     }
 }

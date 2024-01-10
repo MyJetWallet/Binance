@@ -27,7 +27,7 @@ namespace Binance.Tests.Api
         [Fact]
         public Task GetAggregateTradeFromThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentException>("fromId", () => _api.GetAggregateTradesFromAsync(Symbol.BTC_USDT, -1));
+            return Assert.ThrowsAsync<ArgumentException>("fromId", () => _api.GetAggregateTradesFromAsync(Symbol.BTC_USDT, -1));
         }
 
         [Fact]
@@ -37,9 +37,9 @@ namespace Binance.Tests.Api
             var endTime = DateTime.UtcNow;
             var localTime = DateTime.Now;
 
-            await ClassicAssert.ThrowsAsync<ArgumentException>("startTime", () => _api.GetAggregateTradesAsync(Symbol.BTC_USDT, localTime, endTime));
-            await ClassicAssert.ThrowsAsync<ArgumentException>("endTime", () => _api.GetAggregateTradesAsync(Symbol.BTC_USDT, startTime, localTime));
-            await ClassicAssert.ThrowsAsync<ArgumentException>("endTime", () => _api.GetAggregateTradesAsync(Symbol.BTC_USDT, endTime, startTime));
+            await Assert.ThrowsAsync<ArgumentException>("startTime", () => _api.GetAggregateTradesAsync(Symbol.BTC_USDT, localTime, endTime));
+            await Assert.ThrowsAsync<ArgumentException>("endTime", () => _api.GetAggregateTradesAsync(Symbol.BTC_USDT, startTime, localTime));
+            await Assert.ThrowsAsync<ArgumentException>("endTime", () => _api.GetAggregateTradesAsync(Symbol.BTC_USDT, endTime, startTime));
         }
 
         #endregion Market Data
@@ -49,19 +49,19 @@ namespace Binance.Tests.Api
         [Fact]
         public async Task PlaceThrows()
         {
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("clientOrder", () => _api.PlaceAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>("clientOrder", () => _api.PlaceAsync(null));
         }
 
         [Fact]
         public async Task TestPlaceThrows()
         {
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("clientOrder", () => _api.TestPlaceAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>("clientOrder", () => _api.TestPlaceAsync(null));
         }
 
         [Fact]
         public Task GetOrderThrows()
         {
-            return ClassicAssert.ThrowsAsync<ArgumentNullException>("order", () => _api.GetAsync(null));
+            return Assert.ThrowsAsync<ArgumentNullException>("order", () => _api.GetAsync(null));
         }
 
         [Fact]
@@ -69,10 +69,10 @@ namespace Binance.Tests.Api
         {
             var user = new BinanceApiUser("api-key");
 
-            await ClassicAssert.ThrowsAsync<ArgumentException>("orderId", () => _api.CancelOrderAsync(user, Symbol.BTC_USDT, BinanceApi.NullId));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("origClientOrderId", () => _api.CancelOrderAsync(user, Symbol.BTC_USDT, null));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("origClientOrderId", () => _api.CancelOrderAsync(user, Symbol.BTC_USDT, string.Empty));
-            await ClassicAssert.ThrowsAsync<ArgumentNullException>("order", () => _api.CancelAsync(null));
+            await Assert.ThrowsAsync<ArgumentException>("orderId", () => _api.CancelOrderAsync(user, Symbol.BTC_USDT, BinanceApi.NullId));
+            await Assert.ThrowsAsync<ArgumentNullException>("origClientOrderId", () => _api.CancelOrderAsync(user, Symbol.BTC_USDT, null));
+            await Assert.ThrowsAsync<ArgumentNullException>("origClientOrderId", () => _api.CancelOrderAsync(user, Symbol.BTC_USDT, string.Empty));
+            await Assert.ThrowsAsync<ArgumentNullException>("order", () => _api.CancelAsync(null));
         }
 
         #endregion Account

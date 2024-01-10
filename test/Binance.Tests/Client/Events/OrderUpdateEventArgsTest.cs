@@ -15,7 +15,7 @@ namespace Binance.Tests.Client.Events
             const string orderRejectedReason = OrderRejectedReason.None;
             const string newClientOrderId = "new-test-order";
 
-            ClassicAssert.Throws<ArgumentNullException>("order", () => new OrderUpdateEventArgs(time, null, orderExecutionType, orderRejectedReason, newClientOrderId));
+            Assert.Throws<ArgumentNullException>("order", () => new OrderUpdateEventArgs(time, null, orderExecutionType, orderRejectedReason, newClientOrderId));
         }
 
         [Fact]
@@ -47,11 +47,11 @@ namespace Binance.Tests.Client.Events
 
             var args = new OrderUpdateEventArgs(time, order, orderExecutionType, orderRejectedReason, newClientOrderId);
 
-            ClassicAssert.Equal(time, args.Time);
-            ClassicAssert.Equal(order, args.Order);
-            ClassicAssert.Equal(orderExecutionType, args.OrderExecutionType);
-            ClassicAssert.Equal(orderRejectedReason, args.OrderRejectedReason);
-            ClassicAssert.Equal(newClientOrderId, args.NewClientOrderId);
+            Assert.Equal(time, args.Time);
+            Assert.Equal(order, args.Order);
+            Assert.Equal(orderExecutionType, args.OrderExecutionType);
+            Assert.Equal(orderRejectedReason, args.OrderRejectedReason);
+            Assert.Equal(newClientOrderId, args.NewClientOrderId);
         }
     }
 }

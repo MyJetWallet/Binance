@@ -31,10 +31,10 @@ namespace Binance.Tests.Stream
         [Fact]
         public void Properties()
         {
-            ClassicAssert.Equal(_webSocketStream, _publisher.Stream);
-            ClassicAssert.NotNull(_publisher.PublishedStreams);
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Equal(_webSocketStream, _publisher.Stream);
+            Assert.NotNull(_publisher.PublishedStreams);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Empty(_publisher.GetSubscribers());
         }
 
         #region Subscribe
@@ -47,25 +47,25 @@ namespace Binance.Tests.Stream
             // Subscribe to single stream name.
             _publisher.Subscribe(streamName);
 
-            ClassicAssert.Single(_publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Single(_publisher.PublishedStreams);
+            Assert.Contains(streamName, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Subscribe to same stream doesn't fail or change published streams.
             _publisher.Subscribe(streamName);
 
-            ClassicAssert.Single(_publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Single(_publisher.PublishedStreams);
+            Assert.Contains(streamName, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -77,27 +77,27 @@ namespace Binance.Tests.Stream
             // Subscribe to multiple stream names.
             _publisher.Subscribe(streamName1, streamName2);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName1, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName1, _publisher.PublishedStreams);
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Subscribe to same multiple stream names doesn't fail or change published streams.
             _publisher.Subscribe(streamName1, streamName2);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName1, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName1, _publisher.PublishedStreams);
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -108,27 +108,27 @@ namespace Binance.Tests.Stream
             // Subscribe to enumerable list of stream names.
             _publisher.Subscribe(streamNames);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamNames[0], _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamNames[1], _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamNames[0], _publisher.PublishedStreams);
+            Assert.Contains(streamNames[1], _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Subscribe to same enumerable list of stream names doesn't fail or change published streams.
             _publisher.Subscribe(streamNames);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamNames[0], _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamNames[1], _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamNames[0], _publisher.PublishedStreams);
+            Assert.Contains(streamNames[1], _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -141,16 +141,16 @@ namespace Binance.Tests.Stream
             _publisher.Subscribe(streamName1);
             _publisher.Subscribe(streamName2);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName1, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName1, _publisher.PublishedStreams);
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -158,7 +158,7 @@ namespace Binance.Tests.Stream
         {
             var subscriber = new Mock<IJsonSubscriber>().Object;
 
-            ClassicAssert.Throws<ArgumentException>(() => _publisher.Subscribe(subscriber));
+            Assert.Throws<ArgumentException>(() => _publisher.Subscribe(subscriber));
         }
 
         [Fact]
@@ -170,29 +170,29 @@ namespace Binance.Tests.Stream
             // Subscribe subscriber to single stream name.
             _publisher.Subscribe(subscriber, streamName);
 
-            ClassicAssert.Single(_publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Single(_publisher.PublishedStreams);
+            Assert.Contains(streamName, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Single(_publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamName));
+            Assert.Single(_publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamName));
 
             // Subscribe same subscriber to same stream doesn't fail or change published streams.
             _publisher.Subscribe(subscriber, streamName);
 
-            ClassicAssert.Single(_publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Single(_publisher.PublishedStreams);
+            Assert.Contains(streamName, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Single(_publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamName));
+            Assert.Single(_publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamName));
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -205,33 +205,33 @@ namespace Binance.Tests.Stream
             // Subscribe subscriber to multiple stream names.
             _publisher.Subscribe(subscriber, streamName1, streamName2);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName1, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName1, _publisher.PublishedStreams);
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Equal(2, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamName1));
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamName2));
+            Assert.Equal(2, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber, _publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamName1));
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamName2));
 
             // Subscribe same subscriber to same stream names doesn't fail or change published streams.
             _publisher.Subscribe(subscriber, streamName1, streamName2);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName1, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName1, _publisher.PublishedStreams);
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Equal(2, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamName1));
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamName2));
+            Assert.Equal(2, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber, _publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamName1));
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamName2));
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -243,33 +243,33 @@ namespace Binance.Tests.Stream
             // Subscribe subscriber to enumerable list of stream names.
             _publisher.Subscribe(subscriber, streamNames);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamNames[0], _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamNames[1], _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamNames[0], _publisher.PublishedStreams);
+            Assert.Contains(streamNames[1], _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify unique subscriber/stream name combinations.
-            ClassicAssert.Equal(2, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamNames[0]));
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamNames[1]));
+            Assert.Equal(2, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber, _publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamNames[0]));
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamNames[1]));
 
             // Subscribe same subscriber to same stream names doesn't fail or change published streams.
             _publisher.Subscribe(subscriber, streamNames);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamNames[0], _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamNames[1], _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamNames[0], _publisher.PublishedStreams);
+            Assert.Contains(streamNames[1], _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Equal(2, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamNames[0]));
-            ClassicAssert.Contains(subscriber, _publisher.GetSubscribers(streamNames[1]));
+            Assert.Equal(2, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber, _publisher.GetSubscribers());
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamNames[0]));
+            Assert.Contains(subscriber, _publisher.GetSubscribers(streamNames[1]));
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -283,19 +283,19 @@ namespace Binance.Tests.Stream
             _publisher.Subscribe(subscriber1, streamName);
             _publisher.Subscribe(subscriber2, streamName);
 
-            ClassicAssert.Single(_publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Single(_publisher.PublishedStreams);
+            Assert.Contains(streamName, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Equal(2, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber1, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber1, _publisher.GetSubscribers(streamName));
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers(streamName));
+            Assert.Equal(2, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber1, _publisher.GetSubscribers());
+            Assert.Contains(subscriber2, _publisher.GetSubscribers());
+            Assert.Contains(subscriber1, _publisher.GetSubscribers(streamName));
+            Assert.Contains(subscriber2, _publisher.GetSubscribers(streamName));
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -311,23 +311,23 @@ namespace Binance.Tests.Stream
             _publisher.Subscribe(subscriber1, streamName1, streamName2);
             _publisher.Subscribe(subscriber2, streamName2, streamName3);
 
-            ClassicAssert.Equal(3, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName1, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName3, _publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(3, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName1, _publisher.PublishedStreams);
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Contains(streamName3, _publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Equal(4, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber1, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber1, _publisher.GetSubscribers(streamName1));
-            ClassicAssert.Contains(subscriber1, _publisher.GetSubscribers(streamName2));
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers(streamName2));
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers(streamName3));
+            Assert.Equal(4, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber1, _publisher.GetSubscribers());
+            Assert.Contains(subscriber2, _publisher.GetSubscribers());
+            Assert.Contains(subscriber1, _publisher.GetSubscribers(streamName1));
+            Assert.Contains(subscriber1, _publisher.GetSubscribers(streamName2));
+            Assert.Contains(subscriber2, _publisher.GetSubscribers(streamName2));
+            Assert.Contains(subscriber2, _publisher.GetSubscribers(streamName3));
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         #endregion Subscribe
@@ -341,29 +341,29 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe from single stream name doesn't fail before subscribe.
             _publisher.Unsubscribe(streamName);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             // Unsubscribe from single stream name.
             _publisher.Subscribe(streamName);
             _publisher.Unsubscribe(streamName);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Unsubscribe from same stream doesn't fail or change published streams.
             _publisher.Unsubscribe(streamName);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -374,29 +374,29 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe from multiple stream names doesn't fail before subscribe.
             _publisher.Unsubscribe(streamName1, streamName2);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             // Unsubsribe from multiple stream names.
             _publisher.Subscribe(streamName1, streamName2);
             _publisher.Unsubscribe(streamName1, streamName2);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Unsubscribe from same stream names doesn't fail or change published streams.
             _publisher.Unsubscribe(streamName1, streamName2);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -406,29 +406,29 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe from enumerable list of stream names doesn't fail before subscribe.
             _publisher.Unsubscribe(streamNames);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             // Unsubsribe from enumerable list of stream names.
             _publisher.Subscribe(streamNames);
             _publisher.Unsubscribe(streamNames);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Unsubsribe from same enumerable list of stream names doesn't fail or change published streams.
             _publisher.Unsubscribe(streamNames);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -442,14 +442,14 @@ namespace Binance.Tests.Stream
             _publisher.Unsubscribe(streamName1);
             _publisher.Unsubscribe(streamName2);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(3, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(3, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -460,29 +460,29 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe subscriber from stream name doesn't fail before subscribe.
             _publisher.Unsubscribe(subscriber, streamName);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             // Unsubscribe subscriber from stream name.
             _publisher.Subscribe(subscriber, streamName);
             _publisher.Unsubscribe(subscriber, streamName);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Unsubscribe same subscriber from stream name doesn't fail or change published streams.
             _publisher.Unsubscribe(subscriber, streamName);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -494,29 +494,29 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe subscriber from multiple stream names doesn't fail before subscribe.
             _publisher.Unsubscribe(subscriber, streamName1, streamName2);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             // Unsubscribe subscriber from multiple stream names.
             _publisher.Subscribe(subscriber, streamName1, streamName2);
             _publisher.Unsubscribe(subscriber, streamName1, streamName2);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Unsubscribe subscriber from same stream names doesn't fail or change published streams.
             _publisher.Unsubscribe(subscriber, streamName1, streamName2);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -527,29 +527,29 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe subscriber from enumerable list of stream names doesn't fail before subscribe.
             _publisher.Unsubscribe(subscriber, streamNames);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             // Unsubscribe subscriber from enumerable list of stream names.
             _publisher.Subscribe(subscriber, streamNames);
             _publisher.Unsubscribe(subscriber, streamNames);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Unsubscribe subscriber from same stream names doesn't fail or change published streams.
             _publisher.Unsubscribe(subscriber, streamNames);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -561,7 +561,7 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe subscriber from single stream names doesn't fail before subscribe.
             _publisher.Unsubscribe(subscriber1, streamName);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             _publisher.Subscribe(subscriber1, streamName);
             _publisher.Subscribe(subscriber2, streamName);
@@ -569,26 +569,26 @@ namespace Binance.Tests.Stream
             // Unsubscribe first subscriber from single stream name.
             _publisher.Unsubscribe(subscriber1, streamName);
 
-            ClassicAssert.Single(_publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName, _publisher.PublishedStreams);
-            ClassicAssert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Single(_publisher.PublishedStreams);
+            Assert.Contains(streamName, _publisher.PublishedStreams);
+            Assert.Equal(1, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Single(_publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers(streamName));
+            Assert.Single(_publisher.GetSubscribers());
+            Assert.Contains(subscriber2, _publisher.GetSubscribers());
+            Assert.Contains(subscriber2, _publisher.GetSubscribers(streamName));
 
             // Unsubscribe second subscriber from single stream name.
             _publisher.Unsubscribe(subscriber2, streamName);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(2, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -602,7 +602,7 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe subscriber from multiple stream names doesn't fail before subscribe.
             _publisher.Unsubscribe(subscriber1);
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             _publisher.Subscribe(subscriber1, streamName1, streamName2);
             _publisher.Subscribe(subscriber2, streamName2, streamName3);
@@ -610,28 +610,28 @@ namespace Binance.Tests.Stream
             // Unsubscribe first subscriber from multiple stream names.
             _publisher.Unsubscribe(subscriber1);
 
-            ClassicAssert.Equal(2, _publisher.PublishedStreams.Count());
-            ClassicAssert.Contains(streamName2, _publisher.PublishedStreams);
-            ClassicAssert.Contains(streamName3, _publisher.PublishedStreams);
-            ClassicAssert.Equal(3, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(2, _publisher.PublishedStreams.Count());
+            Assert.Contains(streamName2, _publisher.PublishedStreams);
+            Assert.Contains(streamName3, _publisher.PublishedStreams);
+            Assert.Equal(3, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Equal(2, _publisher.GetSubscribers().Count());
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers());
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers(streamName2));
-            ClassicAssert.Contains(subscriber2, _publisher.GetSubscribers(streamName3));
+            Assert.Equal(2, _publisher.GetSubscribers().Count());
+            Assert.Contains(subscriber2, _publisher.GetSubscribers());
+            Assert.Contains(subscriber2, _publisher.GetSubscribers(streamName2));
+            Assert.Contains(subscriber2, _publisher.GetSubscribers(streamName3));
 
             // Unsubscribe second subscriber from multiple stream names.
             _publisher.Unsubscribe(subscriber2);
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(4, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(4, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         [Fact]
@@ -645,7 +645,7 @@ namespace Binance.Tests.Stream
 
             // Unsubscribe all doesn't fail before subscribe.
             _publisher.Unsubscribe();
-            ClassicAssert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Equal(0, _publisher.OnPublishedStreamsChangedCount);
 
             _publisher.Subscribe(subscriber1, streamName1, streamName2);
             _publisher.Subscribe(subscriber2, streamName2, streamName3);
@@ -653,14 +653,14 @@ namespace Binance.Tests.Stream
             // Unsubscribe all subscribers from all stream names.
             _publisher.Unsubscribe();
 
-            ClassicAssert.Empty(_publisher.PublishedStreams);
-            ClassicAssert.Equal(3, _publisher.OnPublishedStreamsChangedCount);
+            Assert.Empty(_publisher.PublishedStreams);
+            Assert.Equal(3, _publisher.OnPublishedStreamsChangedCount);
 
             // Verify subscriber/stream name associations.
-            ClassicAssert.Empty(_publisher.GetSubscribers());
+            Assert.Empty(_publisher.GetSubscribers());
 
             // Verify if message was recieved.
-            ClassicAssert.Null(_publisher.JsonMessageEventArgsReceived);
+            Assert.Null(_publisher.JsonMessageEventArgsReceived);
         }
 
         #endregion Unsubscribe
@@ -683,9 +683,9 @@ namespace Binance.Tests.Stream
             }
 
             // Verify if message was recieved.
-            ClassicAssert.NotNull(_publisher.JsonMessageEventArgsReceived);
-            ClassicAssert.Equal(_streamName, subscriber.StreamName);
-            ClassicAssert.Equal(_json, subscriber.Json);
+            Assert.NotNull(_publisher.JsonMessageEventArgsReceived);
+            Assert.Equal(_streamName, subscriber.StreamName);
+            Assert.Equal(_json, subscriber.Json);
         }
 
         #region Private Classes

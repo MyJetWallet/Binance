@@ -12,8 +12,8 @@ namespace Binance.Tests.Account.Orders
 
             var clientOrder = new TakeProfitOrder(user);
 
-            ClassicAssert.Equal(OrderType.TakeProfit, clientOrder.Type);
-            ClassicAssert.Equal(0, clientOrder.StopPrice);
+            Assert.Equal(OrderType.TakeProfit, clientOrder.Type);
+            Assert.Equal(0, clientOrder.StopPrice);
         }
     }
 }
