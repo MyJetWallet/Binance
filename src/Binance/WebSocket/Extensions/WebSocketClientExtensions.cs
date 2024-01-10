@@ -34,7 +34,7 @@ namespace Binance.WebSocket
 
                 if (token.CanBeCanceled)
                 {
-                    using (token.Register(() => tcs.SetCanceled()))
+                    using (token.Register(() => tcs.SetCanceled(token)))
                     {
                         await tcs.Task.ConfigureAwait(false);
                     }
