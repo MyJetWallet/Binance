@@ -386,8 +386,7 @@ namespace MyJetWallet.Binance
         Task<IEnumerable<Deposit>> GetDepositsViaSapiAsync(IBinanceApiUser user,
             bool includeSource = false, string coin = null, DepositStatus? status = null,
             int offset = default, int limit = default, DateTime startTime = default,
-            DateTime endTime = default, long recvWindow = default, long timestamp = default,
-            CancellationToken token = default);
+            DateTime endTime = default, long recvWindow = default, CancellationToken token = default);
         
         /// <summary>
         /// Get the withdrawal history for an asset (coin) or all assets
@@ -408,8 +407,7 @@ namespace MyJetWallet.Binance
         Task<IEnumerable<Withdrawal>> GetWithdrawalsViaSapiAsync(IBinanceApiUser user,
             string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null,
             int offset = default, int limit = default, DateTime startTime = default,
-            DateTime endTime = default, long recvWindow = default, long timestamp = default,
-            CancellationToken token = default);
+            DateTime endTime = default, long recvWindow = default, CancellationToken token = default);
         
         /// <summary>
         /// Get the deposit address for an asset.

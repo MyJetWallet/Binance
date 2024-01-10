@@ -983,10 +983,9 @@ namespace MyJetWallet.Binance
         public async Task<IEnumerable<Deposit>> GetDepositsViaSapiAsync(IBinanceApiUser user,
             bool includeSource = false, string coin = null, DepositStatus? status = null,
             int offset = default, int limit = default, DateTime startTime = default,
-            DateTime endTime = default, long recvWindow = default, long timestamp = default,
-            CancellationToken token = default)
+            DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetDepositsViaSapiAsync(user, includeSource, coin, status, offset, limit, startTime, endTime, recvWindow, timestamp, token)
+            var json = await HttpClient.GetDepositsViaSapiAsync(user, includeSource, coin, status, offset, limit, startTime, endTime, recvWindow, token)
                 .ConfigureAwait(false);
 
             bool success;
@@ -1033,10 +1032,9 @@ namespace MyJetWallet.Binance
         public virtual async Task<IEnumerable<Withdrawal>> GetWithdrawalsViaSapiAsync(IBinanceApiUser user,
             string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null,
             int offset = default, int limit = default, DateTime startTime = default,
-            DateTime endTime = default, long recvWindow = default, long timestamp = default,
-            CancellationToken token = default)
+            DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetWithdrawalsViaSapiAsync(user, coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow, timestamp, token)
+            var json = await HttpClient.GetWithdrawalsViaSapiAsync(user, coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow, token)
                 .ConfigureAwait(false);
 
             bool success;

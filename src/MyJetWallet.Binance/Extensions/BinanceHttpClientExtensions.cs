@@ -1269,10 +1269,9 @@ namespace MyJetWallet.Binance
         /// <param name="startTime"></param>
         /// <param name="endTime"></param>
         /// <param name="recvWindow"></param>
-        /// <param name="timestamp"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetDepositsViaSapiAsync(this IBinanceHttpClient client, IBinanceApiUser user, bool includeSource = false, string coin = null, DepositStatus? status = null, int offset = default, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, long timestamp = default, CancellationToken token = default)
+        public static async Task<string> GetDepositsViaSapiAsync(this IBinanceHttpClient client, IBinanceApiUser user, bool includeSource = false, string coin = null, DepositStatus? status = null, int offset = default, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -1337,13 +1336,6 @@ namespace MyJetWallet.Binance
             if (recvWindow > 0)
                 request.AddParameter("recvWindow", recvWindow);
 
-            if (timestamp == default)
-            {
-                timestamp = DateTime.Now.ToTimestamp();
-            }
-            
-            request.AddParameter("timestamp", timestamp);
-
             await client.SignAsync(request, user, token)
                 .ConfigureAwait(false);
 
@@ -1364,10 +1356,9 @@ namespace MyJetWallet.Binance
         /// <param name="startTime"></param>
         /// <param name="endTime"></param>
         /// <param name="recvWindow"></param>
-        /// <param name="timestamp"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetWithdrawalsViaSapiAsync(this IBinanceHttpClient client, IBinanceApiUser user, string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null, int offset = default, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, long timestamp = default, CancellationToken token = default)
+        public static async Task<string> GetWithdrawalsViaSapiAsync(this IBinanceHttpClient client, IBinanceApiUser user, string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null, int offset = default, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -1431,13 +1422,6 @@ namespace MyJetWallet.Binance
 
             if (recvWindow > 0)
                 request.AddParameter("recvWindow", recvWindow);
-
-            if (timestamp == default)
-            {
-                timestamp = DateTime.Now.ToTimestamp();
-            }
-            
-            request.AddParameter("timestamp", timestamp);
 
             await client.SignAsync(request, user, token)
                 .ConfigureAwait(false);
