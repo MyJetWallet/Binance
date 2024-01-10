@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Binance\Binance.csproj" />
+    <ProjectReference Include="..\..\src\MyJetWallet.Binance\MyJetWallet.Binance.csproj" />
   </ItemGroup>
 
 </Project>

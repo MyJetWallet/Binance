@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Binance;
+using MyJetWallet.Binance;
 using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +11,7 @@ namespace BinanceConsoleApp
         public static async Task ExampleMain(string[] args)
         {
             var services = new ServiceCollection()
-                .AddBinance() // add default Binance services.
+                .AddBinance() // add default MyJetWallet.Binance services.
                 .BuildServiceProvider();
 
             var api = services.GetService<IBinanceApi>();

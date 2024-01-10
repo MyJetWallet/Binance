@@ -1,10 +1,10 @@
 ﻿using System;
-using Binance.Application.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MyJetWallet.Binance.Application.Logging;
 
 // ReSharper disable once CheckNamespace
-namespace Binance.Application
+namespace MyJetWallet.Binance.Application
 {
     public static class LoggingBuilderExtensions
     {

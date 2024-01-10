@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Binance;
+using MyJetWallet.Binance;
 
 namespace BinanceConsoleApp.Controllers
 {

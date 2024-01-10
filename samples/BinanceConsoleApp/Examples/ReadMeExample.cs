@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Binance;
-using Binance.Cache;
-using Binance.WebSocket;
+using MyJetWallet.Binance;
+using MyJetWallet.Binance.Cache;
+using MyJetWallet.Binance.WebSocket;
 
 // ReSharper disable once CheckNamespace
 namespace BinanceConsoleApp

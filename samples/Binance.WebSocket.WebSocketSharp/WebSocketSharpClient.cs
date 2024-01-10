@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using WebSocketSharp;
 
 // ReSharper disable once CheckNamespace
-namespace Binance.WebSocket
+namespace MyJetWallet.Binance.WebSocket
 {
     public class WebSocketSharpClient : WebSocketClient
     {

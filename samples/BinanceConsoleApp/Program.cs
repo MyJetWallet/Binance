@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Binance;
-using Binance.Application;
-using Binance.WebSocket;
+using MyJetWallet.Binance;
+using MyJetWallet.Binance.Application;
+using MyJetWallet.Binance.WebSocket;
 using BinanceConsoleApp.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging.Configuration;
 namespace BinanceConsoleApp
 {
     /// <summary>
-    /// .NET Core console application used for Binance integration testing.
+    /// .NET Core console application used for MyJetWallet.Binance integration testing.
     /// </summary>
     internal class Program
     {
@@ -63,7 +63,7 @@ namespace BinanceConsoleApp
                 // Configure services.
                 ServiceProvider = new ServiceCollection()
                     // ReSharper disable once ArgumentsStyleLiteral
-                    .AddBinance(useSingleCombinedStream: true) // add default Binance services.
+                    .AddBinance(useSingleCombinedStream: true) // add default MyJetWallet.Binance services.
 
                     // Use alternative, low-level, web socket client implementation.
                     //.AddTransient<IWebSocketClient, WebSocket4NetClient>()
@@ -99,7 +99,7 @@ namespace BinanceConsoleApp
                         .CreateUser(apiKey, apiSecret);
                 }
 
-                // Instantiate the Binance API service (singleton).
+                // Instantiate the MyJetWallet.Binance API service (singleton).
                 Api = ServiceProvider.GetService<IBinanceApi>();
 
                 // Instantiate the web socket client manager service.
@@ -237,7 +237,7 @@ namespace BinanceConsoleApp
         {
             lock (ConsoleSync)
             {
-                Console.WriteLine("* NOTICE: To access some Binance endpoint features, your API Key and Secret may be required.");
+                Console.WriteLine("* NOTICE: To access some MyJetWallet.Binance endpoint features, your API Key and Secret may be required.");
                 Console.WriteLine();
                 Console.WriteLine("  You can either modify the 'ApiKey' and 'ApiSecret' configuration values in appsettings.json.");
                 Console.WriteLine();

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Binance;
-using Binance.Api;
-using Binance.Cache;
-using Binance.WebSocket;
+using MyJetWallet.Binance;
+using MyJetWallet.Binance.Api;
+using MyJetWallet.Binance.Cache;
+using MyJetWallet.Binance.WebSocket;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

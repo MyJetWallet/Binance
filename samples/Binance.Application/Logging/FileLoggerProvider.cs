@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Binance.Application.Logging
+namespace MyJetWallet.Binance.Application.Logging
 {
     public sealed class FileLoggerProvider : ILoggerProvider
     {

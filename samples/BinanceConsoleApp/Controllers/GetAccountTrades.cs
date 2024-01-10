@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Binance;
+using MyJetWallet.Binance;
 
 // ReSharper disable PossibleMultipleEnumeration
 

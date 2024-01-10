@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Binance;
-using Binance.Application;
-using Binance.Client;
-using Binance.WebSocket;
+using MyJetWallet.Binance;
+using MyJetWallet.Binance.Application;
+using MyJetWallet.Binance.Client;
+using MyJetWallet.Binance.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -44,7 +44,7 @@ namespace BinanceConsoleApp
 
                 // Configure services.
                 var services = new ServiceCollection()
-                    .AddBinance() // add default Binance services.
+                    .AddBinance() // add default MyJetWallet.Binance services.
                     .AddLogging(builder => builder // configure logging.
                         .SetMinimumLevel(LogLevel.Trace)
                         .AddFile(configuration.GetSection("Logging:File")))
@@ -94,7 +94,7 @@ namespace BinanceConsoleApp
 
                 // Configure services.
                 var services = new ServiceCollection()
-                    .AddBinance() // add default Binance services.
+                    .AddBinance() // add default MyJetWallet.Binance services.
                     .AddLogging(builder => builder // configure logging.
                         .SetMinimumLevel(LogLevel.Trace)
                         .AddFile(configuration.GetSection("Logging:File")))

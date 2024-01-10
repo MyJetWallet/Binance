@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Binance;
+using MyJetWallet.Binance;
 
 namespace BinanceCodeGenerator
 {
@@ -75,7 +75,7 @@ namespace BinanceCodeGenerator
             }
 
             // Save the generated source code (replacing original).
-            await File.WriteAllLinesAsync("../../../../../src/Binance/Symbol.cs", lines);
+            await File.WriteAllLinesAsync("../../../../../src/MyJetWallet.Binance/Symbol.cs", lines);
 
             // Read the asset template file.
             lines = (await File.ReadAllLinesAsync("Asset.template.cs")).ToList();
@@ -109,7 +109,7 @@ namespace BinanceCodeGenerator
             }
 
             // Save the generated source code (replacing original).
-            await File.WriteAllLinesAsync("../../../../../src/Binance/Asset.cs", lines);
+            await File.WriteAllLinesAsync("../../../../../src/MyJetWallet.Binance/Asset.cs", lines);
 
             Console.WriteLine("Successfully generated new Symbol.cs and Asset.cs files.");
             Console.WriteLine();

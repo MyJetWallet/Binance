@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Binance;
+using MyJetWallet.Binance;
 
 // ReSharper disable once CheckNamespace
 namespace BinanceConsoleApp
