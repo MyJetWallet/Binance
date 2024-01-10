@@ -365,7 +365,52 @@ namespace Binance
         /// <param name="token"></param>
         /// <returns></returns>
         Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IBinanceApiUser user, string asset = null, WithdrawalStatus? status = null, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, CancellationToken token = default);
-
+        
+        /// <summary>
+        /// Get the deposit history for an asset (coin) or all assets
+        /// within a specified time interval or not.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="user"></param>
+        /// <param name="includeSource"></param>
+        /// <param name="coin"></param>
+        /// <param name="status"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="recvWindow"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="token"></param>
+        /// <returns>IEnumerable of Deposit</returns>
+        Task<IEnumerable<Deposit>> GetDepositsViaSapiAsync(IBinanceApiUser user,
+            bool includeSource = false, string coin = null, DepositStatus? status = null,
+            int offset = default, int limit = default, DateTime startTime = default,
+            DateTime endTime = default, long recvWindow = default, long timestamp = default,
+            CancellationToken token = default);
+        
+        /// <summary>
+        /// Get the withdrawal history for an asset (coin) or all assets
+        /// within a specified time interval or not.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="coin"></param>
+        /// <param name="withdrawOrderId"></param>
+        /// <param name="status"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="recvWindow"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="token"></param>
+        /// <returns>IEnumerable of Withdrawal</returns>
+        Task<IEnumerable<Withdrawal>> GetWithdrawalsViaSapiAsync(IBinanceApiUser user,
+            string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null,
+            int offset = default, int limit = default, DateTime startTime = default,
+            DateTime endTime = default, long recvWindow = default, long timestamp = default,
+            CancellationToken token = default);
+        
         /// <summary>
         /// Get the deposit address for an asset.
         /// </summary>

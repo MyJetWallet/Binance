@@ -980,6 +980,107 @@ namespace Binance
             return withdrawals;
         }
 
+        public async Task<IEnumerable<Deposit>> GetDepositsViaSapiAsync(IBinanceApiUser user,
+            bool includeSource = false, string coin = null, DepositStatus? status = null,
+            int offset = default, int limit = default, DateTime startTime = default,
+            DateTime endTime = default, long recvWindow = default, long timestamp = default,
+            CancellationToken token = default)
+        {
+            var json = await HttpClient.GetDepositsViaSapiAsync(user, includeSource, coin, status, offset, limit, startTime, endTime, recvWindow, timestamp, token)
+                .ConfigureAwait(false);
+
+            bool success;
+            var deposits = new List<Deposit>();
+
+            try
+            {
+                var jObject = JObject.Parse(json);
+
+                success = jObject["success"].Value<bool>();
+
+                if (success)
+                {
+                    var depositList = jObject["depositList"];
+
+                    if (depositList != null)
+                    {
+                        deposits.AddRange(
+                            depositList.Select(jToken => new Deposit(
+                                jToken["coin"].Value<string>(),
+                                jToken["amount"].Value<decimal>(),
+                                jToken["insertTime"].Value<long>().ToDateTime(),
+                                (DepositStatus) jToken["status"].Value<int>(),
+                                jToken["address"]?.Value<string>(),
+                                jToken["addressTag"]?.Value<string>(),
+                                jToken["txId"]?.Value<string>())));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw NewFailedToParseJsonException(nameof(GetDepositsAsync), json, e);
+            }
+
+            // ReSharper disable once InvertIf
+            if (!success)
+            {
+                throw NewBinanceWApiException(nameof(GetDepositsAsync), json, coin);
+            }
+
+            return deposits;
+        }
+        
+        public virtual async Task<IEnumerable<Withdrawal>> GetWithdrawalsViaSapiAsync(IBinanceApiUser user,
+            string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null,
+            int offset = default, int limit = default, DateTime startTime = default,
+            DateTime endTime = default, long recvWindow = default, long timestamp = default,
+            CancellationToken token = default)
+        {
+            var json = await HttpClient.GetWithdrawalsViaSapiAsync(user, coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow, timestamp, token)
+                .ConfigureAwait(false);
+
+            bool success;
+            var withdrawals = new List<Withdrawal>();
+
+            try
+            {
+                var jObject = JObject.Parse(json);
+
+                success = jObject["success"].Value<bool>();
+
+                if (success)
+                {
+                    var withdrawList = jObject["withdrawList"];
+
+                    if (withdrawList != null)
+                    {
+                        withdrawals.AddRange(
+                            withdrawList.Select(jToken => new Withdrawal(
+                                jToken["id"].Value<string>(),
+                                jToken["coin"].Value<string>(),
+                                jToken["amount"].Value<decimal>(),
+                                jToken["applyTime"].Value<long>().ToDateTime(),
+                                (WithdrawalStatus) jToken["status"].Value<int>(),
+                                jToken["address"].Value<string>(),
+                                jToken["addressTag"]?.Value<string>(),
+                                jToken["txId"]?.Value<string>())));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw NewFailedToParseJsonException(nameof(GetWithdrawalsAsync), json, e);
+            }
+
+            // ReSharper disable once InvertIf
+            if (!success)
+            {
+                throw NewBinanceWApiException(nameof(GetWithdrawalsAsync), json, coin);
+            }
+
+            return withdrawals;
+        }
+        
         public virtual async Task<DepositAddress> GetDepositAddressAsync(IBinanceApiUser user, string asset,
             long recvWindow = default, CancellationToken token = default)
         {

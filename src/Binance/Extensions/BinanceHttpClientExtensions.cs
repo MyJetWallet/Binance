@@ -1255,7 +1255,197 @@ namespace Binance
             return await client.GetAsync(request, token)
                 .ConfigureAwait(false);
         }
+        
+        /// <summary>
+        /// Get the deposit history via sapi.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="user"></param>
+        /// <param name="includeSource"></param>
+        /// <param name="coin"></param>
+        /// <param name="status"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="recvWindow"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task<string> GetDepositsViaSapiAsync(this IBinanceHttpClient client, IBinanceApiUser user, bool includeSource = false, string coin = null, DepositStatus? status = null, int offset = default, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, long timestamp = default, CancellationToken token = default)
+        {
+            Throw.IfNull(client, nameof(client));
+            Throw.IfNull(user, nameof(user));
 
+            if (recvWindow == default)
+                recvWindow = client.DefaultRecvWindow;
+
+            if (client.RateLimiter != null)
+            {
+                await client.RateLimiter.DelayAsync(token: token)
+                    .ConfigureAwait(false);
+            }
+
+            var request = new BinanceHttpRequest("/sapi/v1/capital/deposit/hisrec")
+            {
+                ApiKey = user.ApiKey
+            };
+            
+            if (includeSource)
+                request.AddParameter("includeSource", includeSource);
+
+            if (!string.IsNullOrWhiteSpace(coin))
+                request.AddParameter("coin", coin.FormatSymbol());
+
+            if (status.HasValue)
+                request.AddParameter("status", (int)status);
+            
+            if (offset > 0)
+            {
+                request.AddParameter("offset", offset);
+            }
+
+            if (startTime != default)
+            {
+                if (startTime.Kind != DateTimeKind.Utc)
+                    throw new ArgumentException("Date/Time must be UTC.", nameof(startTime));
+
+                request.AddParameter("startTime", startTime.ToTimestamp());
+            }
+
+            if (endTime != default)
+            {
+                if (endTime.Kind != DateTimeKind.Utc)
+                    throw new ArgumentException("Date/Time must be UTC.", nameof(endTime));
+
+                request.AddParameter("endTime", endTime.ToTimestamp());
+            }
+
+            if (startTime == default || endTime == default)
+            {
+                if (limit > 0)
+                {
+                    request.AddParameter("limit", limit);
+                }
+            }
+            else
+            {
+                if (endTime < startTime)
+                    throw new ArgumentException($"Time ({nameof(endTime)}) must not be less than {nameof(startTime)} ({startTime}).", nameof(endTime));
+            }
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            if (timestamp == default)
+            {
+                timestamp = DateTime.Now.ToTimestamp();
+            }
+            
+            request.AddParameter("timestamp", timestamp);
+
+            await client.SignAsync(request, user, token)
+                .ConfigureAwait(false);
+
+            return await client.GetAsync(request, token)
+                .ConfigureAwait(false);
+        }
+                
+        /// <summary>
+        /// Get the withdrawal history via sapi.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="user"></param>
+        /// <param name="coin"></param>
+        /// <param name="withdrawOrderId"></param>
+        /// <param name="status"></param>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="recvWindow"></param>
+        /// <param name="timestamp"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task<string> GetWithdrawalsViaSapiAsync(this IBinanceHttpClient client, IBinanceApiUser user, string coin = null, string withdrawOrderId = null, WithdrawalStatus? status = null, int offset = default, int limit = default, DateTime startTime = default, DateTime endTime = default, long recvWindow = default, long timestamp = default, CancellationToken token = default)
+        {
+            Throw.IfNull(client, nameof(client));
+            Throw.IfNull(user, nameof(user));
+
+            if (recvWindow == default)
+                recvWindow = client.DefaultRecvWindow;
+
+            if (client.RateLimiter != null)
+            {
+                await client.RateLimiter.DelayAsync(token: token)
+                    .ConfigureAwait(false);
+            }
+
+            var request = new BinanceHttpRequest("/sapi/v1/capital/withdraw/history")
+            {
+                ApiKey = user.ApiKey
+            };
+
+            if (!string.IsNullOrWhiteSpace(coin))
+                request.AddParameter("coin", coin.FormatSymbol());
+            
+            if (!string.IsNullOrWhiteSpace(withdrawOrderId))
+                request.AddParameter("withdrawOrderId", withdrawOrderId);
+
+            if (status.HasValue)
+                request.AddParameter("status", (int)status);
+            
+            if (offset > 0)
+            {
+                request.AddParameter("offset", offset);
+            }
+
+            if (startTime != default)
+            {
+                if (startTime.Kind != DateTimeKind.Utc)
+                    throw new ArgumentException("Date/Time must be UTC.", nameof(startTime));
+
+                request.AddParameter("startTime", startTime.ToTimestamp());
+            }
+
+            if (endTime != default)
+            {
+                if (endTime.Kind != DateTimeKind.Utc)
+                    throw new ArgumentException("Date/Time must be UTC.", nameof(endTime));
+
+                request.AddParameter("endTime", endTime.ToTimestamp());
+            }
+            
+            if (startTime == default || endTime == default)
+            {
+                if (limit > 0)
+                {
+                    request.AddParameter("limit", limit);
+                }
+            }
+            else
+            {
+                if (endTime < startTime)
+                    throw new ArgumentException($"Time ({nameof(endTime)}) must not be less than {nameof(startTime)} ({startTime}).", nameof(endTime));
+            }
+
+            if (recvWindow > 0)
+                request.AddParameter("recvWindow", recvWindow);
+
+            if (timestamp == default)
+            {
+                timestamp = DateTime.Now.ToTimestamp();
+            }
+            
+            request.AddParameter("timestamp", timestamp);
+
+            await client.SignAsync(request, user, token)
+                .ConfigureAwait(false);
+
+            return await client.GetAsync(request, token)
+                .ConfigureAwait(false);
+        }
+        
         /// <summary>
         /// Get the deposit address for an asset.
         /// </summary>
