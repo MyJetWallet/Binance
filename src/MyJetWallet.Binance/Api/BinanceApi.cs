@@ -1058,7 +1058,7 @@ namespace MyJetWallet.Binance
                             jToken["id"].Value<string>(),
                             jToken["coin"].Value<string>(),
                             jToken["amount"].Value<decimal>(),
-                            jToken["applyTime"].Value<long>().ToDateTime(),
+                            DateTime.Parse(jToken["applyTime"].Value<string>()),
                             (WithdrawalStatus) jToken["status"].Value<int>(),
                             jToken["address"].Value<string>(),
                             jToken["addressTag"]?.Value<string>(),
