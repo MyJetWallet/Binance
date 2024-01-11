@@ -22,7 +22,7 @@ namespace MyJetWallet.Binance.WebSocket
             // ReSharper disable once ConvertToLocalFunction
             EventHandler<EventArgs> handler = (s, e) =>
             {
-                tcs.SetResult(true);
+                tcs.TrySetResult(true);
             };
 
             webSocket.Open += handler;
@@ -34,7 +34,7 @@ namespace MyJetWallet.Binance.WebSocket
 
                 if (token.CanBeCanceled)
                 {
-                    using (token.Register(() => tcs.SetCanceled(token)))
+                    using (token.Register(() => tcs.TrySetCanceled(token)))
                     {
                         await tcs.Task.ConfigureAwait(false);
                     }
