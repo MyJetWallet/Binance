@@ -46,6 +46,16 @@ namespace MyJetWallet.Binance
         /// Get the transaction ID.
         /// </summary>
         public string TxId { get; }
+        
+        /// <summary>
+        /// Get the transaction fee.
+        /// </summary>
+        public decimal? TransactionFee { get; }
+        
+        /// <summary>
+        /// Get the network.
+        /// </summary>
+        public string Network { get; }
 
         #endregion Public Properties
 
@@ -62,7 +72,19 @@ namespace MyJetWallet.Binance
         /// <param name="address">The address.</param>
         /// <param name="addressTag">The address tag.</param>
         /// <param name="txId">The transaction ID.</param>
-        public Withdrawal(string id, string asset, decimal amount, DateTime time, WithdrawalStatus status, string address, string addressTag = null, string txId = null)
+        /// <param name="transactionFee">The transaction fee.</param>
+        /// <param name="network">The coin network.</param>
+
+        public Withdrawal(string id,
+            string asset,
+            decimal amount,
+            DateTime time,
+            WithdrawalStatus status,
+            string address,
+            string addressTag = null,
+            string txId = null,
+            decimal? transactionFee = null,
+            string network = null)
         {
             Throw.IfNullOrWhiteSpace(id, nameof(id));
             Throw.IfNullOrWhiteSpace(asset, nameof(asset));
@@ -79,6 +101,8 @@ namespace MyJetWallet.Binance
             Address = address;
             AddressTag = addressTag;
             TxId = txId;
+            TransactionFee = transactionFee;
+            Network = network;
         }
 
         #endregion Constructors

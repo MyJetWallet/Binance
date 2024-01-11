@@ -985,45 +985,44 @@ namespace MyJetWallet.Binance
             int offset = default, int limit = default, DateTime startTime = default,
             DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetDepositsViaSapiAsync(user, includeSource, coin, status, offset, limit, startTime, endTime, recvWindow, token)
-                .ConfigureAwait(false);
+            string json = null;
+            
+            try
+            {
+                json = await HttpClient.GetDepositsViaSapiAsync(user, includeSource, coin, status, offset, limit, startTime, endTime, recvWindow, token)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, $"GetDepositsViaSapiAsync has failed. Check API call to Binance. {e.Message}");
+                throw NewBinanceWApiException(nameof(GetDepositsViaSapiAsync), json, coin);
+            }
 
-            bool success;
             var deposits = new List<Deposit>();
 
             try
             {
-                var jObject = JObject.Parse(json);
-
-                success = jObject["success"].Value<bool>();
-
-                if (success)
+                var jArray = JArray.Parse(json);
+                
+                foreach (var jToken in jArray)
                 {
-                    var depositList = jObject["depositList"];
+                    var deposit = new Deposit(
+                        jToken["coin"].Value<string>(),
+                        jToken["amount"].Value<decimal>(),
+                        jToken["insertTime"].Value<long>().ToDateTime(),
+                        (DepositStatus)jToken["status"].Value<int>(),
+                        jToken["address"]?.Value<string>(),
+                        jToken["addressTag"]?.Value<string>(),
+                        jToken["txId"]?.Value<string>(),
+                        jToken["id"]?.Value<ulong?>(),
+                        jToken["network"]?.Value<string>());
 
-                    if (depositList != null)
-                    {
-                        deposits.AddRange(
-                            depositList.Select(jToken => new Deposit(
-                                jToken["coin"].Value<string>(),
-                                jToken["amount"].Value<decimal>(),
-                                jToken["insertTime"].Value<long>().ToDateTime(),
-                                (DepositStatus) jToken["status"].Value<int>(),
-                                jToken["address"]?.Value<string>(),
-                                jToken["addressTag"]?.Value<string>(),
-                                jToken["txId"]?.Value<string>())));
-                    }
+                    deposits.Add(deposit);
                 }
             }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetDepositsAsync), json, e);
-            }
-
-            // ReSharper disable once InvertIf
-            if (!success)
-            {
-                throw NewBinanceWApiException(nameof(GetDepositsAsync), json, coin);
             }
 
             return deposits;
@@ -1034,46 +1033,45 @@ namespace MyJetWallet.Binance
             int offset = default, int limit = default, DateTime startTime = default,
             DateTime endTime = default, long recvWindow = default, CancellationToken token = default)
         {
-            var json = await HttpClient.GetWithdrawalsViaSapiAsync(user, coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow, token)
-                .ConfigureAwait(false);
-
-            bool success;
+            string json = null;
+            
+            try
+            {
+                json = await HttpClient.GetWithdrawalsViaSapiAsync(user, coin, withdrawOrderId, status, offset, limit, startTime, endTime, recvWindow, token)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError(e, $"GetWithdrawalsViaSapiAsync has failed. Check API call to Binance. {e.Message}");
+                throw NewBinanceWApiException(nameof(GetWithdrawalsViaSapiAsync), json, coin);
+            }
+            
             var withdrawals = new List<Withdrawal>();
 
             try
             {
-                var jObject = JObject.Parse(json);
-
-                success = jObject["success"].Value<bool>();
-
-                if (success)
+                var jArray = JArray.Parse(json);
+                
+                foreach (var jToken in jArray)
                 {
-                    var withdrawList = jObject["withdrawList"];
-
-                    if (withdrawList != null)
-                    {
-                        withdrawals.AddRange(
-                            withdrawList.Select(jToken => new Withdrawal(
-                                jToken["id"].Value<string>(),
-                                jToken["coin"].Value<string>(),
-                                jToken["amount"].Value<decimal>(),
-                                jToken["applyTime"].Value<long>().ToDateTime(),
-                                (WithdrawalStatus) jToken["status"].Value<int>(),
-                                jToken["address"].Value<string>(),
-                                jToken["addressTag"]?.Value<string>(),
-                                jToken["txId"]?.Value<string>())));
-                    }
+                    var withdrawal = new Withdrawal(
+                            jToken["id"].Value<string>(),
+                            jToken["coin"].Value<string>(),
+                            jToken["amount"].Value<decimal>(),
+                            jToken["applyTime"].Value<long>().ToDateTime(),
+                            (WithdrawalStatus) jToken["status"].Value<int>(),
+                            jToken["address"].Value<string>(),
+                            jToken["addressTag"]?.Value<string>(),
+                            jToken["txId"]?.Value<string>(),
+                            jToken["transactionFee"]?.Value<decimal?>(),
+                            jToken["network"]?.Value<string>());
+                    
+                    withdrawals.Add(withdrawal);
                 }
             }
             catch (Exception e)
             {
                 throw NewFailedToParseJsonException(nameof(GetWithdrawalsAsync), json, e);
-            }
-
-            // ReSharper disable once InvertIf
-            if (!success)
-            {
-                throw NewBinanceWApiException(nameof(GetWithdrawalsAsync), json, coin);
             }
 
             return withdrawals;

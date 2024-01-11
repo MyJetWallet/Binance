@@ -41,6 +41,16 @@ namespace MyJetWallet.Binance
         /// Get the status.
         /// </summary>
         public DepositStatus Status { get; }
+        
+        /// <summary>
+        /// Get the deposit ID.
+        /// </summary>
+        public ulong? Id { get; }
+        
+        /// <summary>
+        /// Get the network.
+        /// </summary>
+        public string Network { get; }
 
         #endregion Public Properties
 
@@ -49,14 +59,25 @@ namespace MyJetWallet.Binance
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="asset">The asset.</param>
+        /// <param name="asset">The asset/coin.</param>
         /// <param name="amount">The amount.</param>
         /// <param name="time">The time.</param>
         /// <param name="status">The status.</param>
         /// <param name="address">The address.</param>
         /// <param name="addressTag">The address tag.</param>
+        /// <param name="id">The deposit id.</param>
+        /// <param name="network">The coin network.</param>
         /// <param name="txId">The transaction ID.</param>
-        public Deposit(string asset, decimal amount, DateTime time, DepositStatus status, string address, string addressTag = null, string txId = null)
+        public Deposit(
+            string asset,
+            decimal amount,
+            DateTime time,
+            DepositStatus status,
+            string address,
+            string addressTag = null,
+            string txId = null,
+            ulong? id = null,
+            string network = null)
         {
             Throw.IfNullOrWhiteSpace(asset, nameof(asset));
             Throw.IfNullOrWhiteSpace(address, nameof(address));
@@ -71,6 +92,8 @@ namespace MyJetWallet.Binance
             Address = address;
             AddressTag = addressTag;
             TxId = txId;
+            Id = id;
+            Network = network;
         }
 
         #endregion Constructors
