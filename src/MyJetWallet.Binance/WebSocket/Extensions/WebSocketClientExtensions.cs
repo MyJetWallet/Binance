@@ -34,7 +34,7 @@ namespace MyJetWallet.Binance.WebSocket
 
                 if (token.CanBeCanceled)
                 {
-                    using (token.Register(() => tcs.TrySetCanceled(token)))
+                    using (token.Register(() => tcs.TrySetCanceled()))
                     {
                         await tcs.Task.ConfigureAwait(false);
                     }
@@ -43,6 +43,11 @@ namespace MyJetWallet.Binance.WebSocket
                 {
                     await tcs.Task.ConfigureAwait(false);
                 }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + '\n' + e.StackTrace + '\n');
+                throw;
             }
             finally { webSocket.Open -= handler; }
         }

@@ -140,28 +140,26 @@ namespace MyJetWallet.Binance.Tests.WebSocket
         {
             _stream.Uri = _uri;
 
-            using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
-            {
-                Assert.False(_stream.WebSocket.IsOpen);
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+            Assert.False(_stream.WebSocket.IsOpen);
 
-                var task = _stream.StreamAsync(cts.Token);
+            var task = _stream.StreamAsync(cts.Token);
 
-                Assert.False(_stream.WebSocket.IsOpen);
+            Assert.False(_stream.WebSocket.IsOpen);
 
-                // Wait when web socket is not open.
-                await _stream.WaitUntilWebSocketOpenAsync(cts.Token);
+            // Wait when web socket is not open.
+            await _stream.WaitUntilWebSocketOpenAsync(cts.Token);
 
-                Assert.True(_stream.WebSocket.IsOpen);
+            Assert.True(_stream.WebSocket.IsOpen);
 
-                // Wait when web socket is open.
-                await _stream.WaitUntilWebSocketOpenAsync(cts.Token);
+            // Wait when web socket is open.
+            await _stream.WaitUntilWebSocketOpenAsync(cts.Token);
 
-                Assert.False(cts.IsCancellationRequested);
+            Assert.False(cts.IsCancellationRequested);
 
-                await task;
+            await task;
 
-                Assert.True(cts.IsCancellationRequested);
-            }
+            Assert.True(cts.IsCancellationRequested);
         }
 
         [Fact]
