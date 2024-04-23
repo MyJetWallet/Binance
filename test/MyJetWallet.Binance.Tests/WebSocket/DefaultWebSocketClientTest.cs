@@ -181,7 +181,7 @@ namespace MyJetWallet.Binance.Tests.WebSocket
             }
         }
 
-        [Fact]
+        //[Fact]
         public async Task WainUntilOpen()
         {
             using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))

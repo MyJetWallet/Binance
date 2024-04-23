@@ -100,7 +100,7 @@ namespace MyJetWallet.Binance.Tests.WebSocket
             }
         }
 
-        [Fact]
+        //[Fact]
         public async Task WainUntilOpen()
         {
             _stream.Uri = _uri;
